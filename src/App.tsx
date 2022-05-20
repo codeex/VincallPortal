@@ -1,4 +1,4 @@
-import { Admin, Resource, ListGuesser } from "react-admin";
+import { Admin, Resource, ListGuesser, CustomRoutes } from "react-admin";
 import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
 import { lightTheme } from "./Layout/themes";
@@ -6,6 +6,8 @@ import { dataProviderFactory } from "./DataProvider";
 import { Login } from "./Pages/Login/Login";
 import { UserList } from "./Pages/UserManage/UserList";
 import { CreateAgentForm } from "./Pages/Agents/CreateAgent/CreateAgentForm";
+import { SettingsPage } from "./Pages/Settings/SettingsPage";
+import { Route } from "react-router-dom";
 
 export const App = function () {
   return (
@@ -27,6 +29,9 @@ export const App = function () {
         options={{ label: "User Manage" }}
         list={UserList}
       />
+      <CustomRoutes>
+        <Route path="/settings" element={<SettingsPage />} />
+      </CustomRoutes>
     </Admin>
   );
 };
