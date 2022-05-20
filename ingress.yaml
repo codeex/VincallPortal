@@ -18,7 +18,7 @@ spec:
     - host: NAMESPACEportal.comm100dev.io
       http:
         paths:
-          - path: /vincall(/|$)(.*)
+          - path: /frontend/vincall(/|$)(.*)
             backend:
               serviceName: APP_NAME
               servicePort: 80
