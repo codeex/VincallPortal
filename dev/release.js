@@ -11,7 +11,7 @@ const shelljs = require("shelljs");
 
 const release = () => {
   const buildDir = path.resolve(__dirname, "../build/*");
-  const distDir = path.resolve(__dirname, "../dist/vincall");
+  const distDir = path.resolve(__dirname, "../dist/");
   shelljs.rm("-rf", distDir);
   shelljs.mkdir("-p", distDir);
   shelljs.mv(buildDir, distDir);
