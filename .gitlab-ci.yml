@@ -28,7 +28,7 @@ include:
 # set global variables
 variables:
   BUILD_COMMAND: "npm run build"
-
+  CI_PROJECT_NAME: "vincallportal"
   PARTNER_DOMAIN: "partner.comm100.io"
   # do not change the following viariables
   IMAGE_REPOSITORY: "x2"
