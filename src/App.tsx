@@ -1,9 +1,10 @@
-import { Admin, Resource } from "react-admin";
+import { Admin, Resource, ListGuesser } from "react-admin";
 import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
 import { lightTheme } from "./Layout/themes";
 import { dataProviderFactory } from "./DataProvider";
 import { Login } from "./Pages/Login/Login";
+import { UserList } from "./Pages/UserManage/UserList";
 
 export const App = function () {
   return (
@@ -14,7 +15,12 @@ export const App = function () {
       layout={Layout}
       theme={lightTheme}
     >
-      <Resource name="agents" list={AgentList} />
+      <Resource name="agents" options={{ label: "Agents" }} list={AgentList} />
+      <Resource
+        name="users"
+        options={{ label: "User Manage" }}
+        list={UserList}
+      />
     </Admin>
   );
 };

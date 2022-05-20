@@ -1,12 +1,12 @@
 import { useMediaQuery } from "@mui/material";
 import { SimpleList, List, Datagrid, TextField } from "react-admin";
-import { AgentOperation } from "./AgentOperation/AgentOperation";
+import { UserManageOperation } from "./UserManageOperation/UserManageOperation";
 
-export const AgentList = (props: any) => {
+export const UserList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
 
   return (
-    <List title="All Agents">
+    <List title="All Users">
       {isSmall ? (
         <SimpleList
           primaryText={(record) => record.name}
@@ -16,11 +16,11 @@ export const AgentList = (props: any) => {
       ) : (
         <Datagrid bulkActionButtons={<></>}>
           <TextField source="id" />
-          <TextField source="extensionNumber" />
           <TextField source="userAccount" />
+          <TextField source="name" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <AgentOperation />
+          <UserManageOperation />
         </Datagrid>
       )}
     </List>
