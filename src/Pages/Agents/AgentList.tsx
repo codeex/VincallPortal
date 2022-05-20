@@ -1,5 +1,6 @@
 import { useMediaQuery } from "@mui/material";
-import { SimpleList, List, Datagrid, EmailField, TextField } from "react-admin";
+import { SimpleList, List, Datagrid, TextField } from "react-admin";
+import { AgentOperation } from "./AgentOperation/AgentOperation";
 
 export const AgentList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
@@ -19,6 +20,7 @@ export const AgentList = (props: any) => {
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
+          <AgentOperation />
         </Datagrid>
       )}
     </List>
