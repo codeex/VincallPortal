@@ -1,5 +1,5 @@
 import { Admin, Resource } from "react-admin";
-import { UserList } from "./Pages/Users/List";
+import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
 import { lightTheme } from "./Layout/themes";
 import { dataProviderFactory } from "./DataProvider";
@@ -14,7 +14,7 @@ export const App = function () {
       layout={Layout}
       theme={lightTheme}
     >
-      <Resource name="users" list={UserList} />
+      <Resource name="agents" list={AgentList} />
     </Admin>
   );
 };

@@ -1,10 +1,11 @@
 export const mockdata = {
-  users: [
+  agents: [
     {
       id: "1",
-      name: "ray",
-      username: "raymond",
-      email: "ray@test.com",
+      extensionNumber: "001",
+      userAccount: "raymond",
+      remark: "Remark",
+      createDate: "2022-01-01",
     },
   ],
 };
