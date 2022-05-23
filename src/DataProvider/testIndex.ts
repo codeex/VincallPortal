@@ -53,19 +53,20 @@ export const dataProvider = (
       // filter: JSON.stringify(params.filter),
     };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
+
     const options =
       countHeader === "Content-Range"
         ? {
             // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
             headers: new Headers({
               Range: `${resource}=${rangeStart}-${rangeEnd}`,
-              "Access-Control-Allow-Origin": "*",
             }),
           }
         : {};
 
     return httpClient(url, options).then(({ headers, json }) => {
-      if (!headers.has(countHeader)) {
+      console.log("headers >>", headers.get("content-type"));
+      if (!headers.get(countHeader)) {
         throw new Error(
           `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
         );

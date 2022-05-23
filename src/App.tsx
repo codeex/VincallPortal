@@ -15,9 +15,7 @@ export const App = function () {
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProvider(
-        "https://voipapi.comm100dev.io/vincallservice"
-      )}
+      dataProvider={dataProviderFactory("http://localhost:3000/")}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
