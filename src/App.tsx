@@ -9,12 +9,15 @@ import { CreateAgentForm } from "./Pages/Agents/CreateAgent/CreateAgentForm";
 import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { Route } from "react-router-dom";
 import { ReportPage } from "./Pages/Report/ReportPage";
+import { dataProvider } from "./DataProvider/testIndex";
 
 export const App = function () {
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProviderFactory("https://voipapi.comm100dev.io")}
+      dataProvider={dataProvider(
+        "https://voipapi.comm100dev.io/vincallservice"
+      )}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
