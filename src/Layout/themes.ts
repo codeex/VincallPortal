@@ -57,6 +57,7 @@ export const lightTheme = {
   },
   sidebar: {
     width: 200,
+    closedWidth: 0,
   },
   components: {
     ...defaultTheme.components,
@@ -78,6 +79,10 @@ export const lightTheme = {
         root: {
           border: "1px solid #e0e0e3",
           backgroundClip: "padding-box",
+
+          "& [class*=MuiTableCell-root]": {
+            textAlign: "center",
+          },
         },
       },
     },
