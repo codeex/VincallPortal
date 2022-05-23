@@ -7,7 +7,9 @@ import {
   CreateButton,
   TopToolbar,
 } from "react-admin";
-import { AgentOperation } from "./AgentOperation/AgentOperation";
+import { BindUserButton } from "./AgentOperation/BindUserButton";
+import { DeleteAgentButton } from "./AgentOperation/DeleteAgentButton";
+import { TwoOperationsField } from "../TwoOperationsField";
 
 export const AgentList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
@@ -34,7 +36,11 @@ export const AgentList = (props: any) => {
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <AgentOperation />
+          <TwoOperationsField
+            label="Operations"
+            op1={<BindUserButton />}
+            op2={<DeleteAgentButton />}
+          />
         </Datagrid>
       )}
     </List>

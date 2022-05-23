@@ -1,6 +1,8 @@
 import { useMediaQuery } from "@mui/material";
 import { SimpleList, List, Datagrid, TextField, TopToolbar } from "react-admin";
-import { UserManageOperation } from "./UserManageOperation/UserManageOperation";
+import { TwoOperationsField } from "../TwoOperationsField";
+import { DeleteUserButton } from "./UserManageOperation/DeleteUserButton";
+import { UpdatePasswordButton } from "./UserManageOperation/UpdatePasswordButton";
 
 export const UserList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
@@ -20,7 +22,11 @@ export const UserList = (props: any) => {
           <TextField source="name" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <UserManageOperation />
+          <TwoOperationsField
+            label="Operations"
+            op1={<UpdatePasswordButton />}
+            op2={<DeleteUserButton />}
+          />
         </Datagrid>
       )}
     </List>

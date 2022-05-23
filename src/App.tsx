@@ -13,7 +13,7 @@ export const App = function () {
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProviderFactory("http://voipapi.comm100dev.io")}
+      dataProvider={dataProviderFactory("https://voipapi.comm100dev.io")}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
