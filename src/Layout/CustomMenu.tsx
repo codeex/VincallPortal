@@ -2,6 +2,7 @@ import { MenuItemLink } from "react-admin";
 
 const menuItems = [
   { name: "agents", text: "Agents", path: "/agents" },
+  { name: "callPanel", text: "Call Panel", path: "/callPanel" },
   { name: "settings", text: "Settings", path: "/settings" },
   { name: "users", text: "User Manage", path: "/users" },
 ];

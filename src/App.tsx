@@ -8,6 +8,7 @@ import { UserList } from "./Pages/UserManage/UserList";
 import { CreateAgentForm } from "./Pages/Agents/CreateAgent/CreateAgentForm";
 import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { Route } from "react-router-dom";
+import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 
 export const App = function () {
   return (
@@ -24,6 +25,9 @@ export const App = function () {
         list={AgentList}
         create={CreateAgentForm}
       />
+      <CustomRoutes>
+        <Route path="/callPanel" element={<CallPanelPage />} />
+      </CustomRoutes>
       <Resource
         name="users"
         options={{ label: "User Manage" }}
