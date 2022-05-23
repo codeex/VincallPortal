@@ -8,6 +8,7 @@ import { UserList } from "./Pages/UserManage/UserList";
 import { CreateAgentForm } from "./Pages/Agents/CreateAgent/CreateAgentForm";
 import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { Route } from "react-router-dom";
+import { ReportPage } from "./Pages/Report/ReportPage";
 
 export const App = function () {
   return (
@@ -30,6 +31,7 @@ export const App = function () {
         list={UserList}
       />
       <CustomRoutes>
+        <Route path="/report" element={<ReportPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </CustomRoutes>
     </Admin>

@@ -1,8 +1,5 @@
 import { DataProvider } from "react-admin";
 import { restDataProviderFactory } from "./rest";
-import { fetchUtils } from "ra-core";
-
-const httpClient = fetchUtils.fetchJson;
 
 export const dataProviderFactory = (serverURL: string) => {
   // The fake servers require to generate data, which can take some time.
@@ -44,13 +41,7 @@ const defaultDataProvider: DataProvider = {
   delete: () => Promise.resolve({ data: {} }),
   deleteMany: () => Promise.resolve({}),
   getList: () => Promise.resolve({ data: [], total: 0 }),
-  getMany: (resource, params) => {
-    return httpClient("https://voipapi.comm100dev.io", {
-      headers: new Headers({
-        "Access-Control-Allow-Origin": "https://voipdash.comm100dev.io",
-      }),
-    }).then(({ json }) => ({ data: json }));
-  },
+  getMany: () => Promise.resolve({ data: [] }),
   getManyReference: () => Promise.resolve({ data: [], total: 0 }),
   // @ts-ignore
   getOne: () => Promise.resolve({ data: {} }),
