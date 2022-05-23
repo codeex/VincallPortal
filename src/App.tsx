@@ -16,7 +16,7 @@ const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     return "http://localhost:3000/";
   }
-  return "https://voipapi.comm100dev.io/vincallservice/";
+  return "https://voipapi.comm100dev.io/vincallservice";
 };
 
 export const App = function () {
