@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "@twilio/voice-sdk": "^2.1.1",
     "@types/jest": "^27.5.1",
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
@@ -22,7 +23,9 @@
     "@types/fetch-mock": "^7.3.2",
     "fakerest": "^3.3.0",
     "fetch-mock": "~9.11.0",
-    "shelljs": "^0.8.5"
+    "react-app-rewired": "^2.2.1",
+    "shelljs": "^0.8.5",
+    "util": "^0.12.4"
   },
   "scripts": {
     "start": "react-scripts start",

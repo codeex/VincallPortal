@@ -5,3 +5,10 @@ declare global {
     restServer: any;
   }
 }
+
+export interface ChangeEvent<T = string> {
+  target: {
+    value: T;
+    name?: string;
+  };
+}
