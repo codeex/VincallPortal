@@ -20,9 +20,11 @@ export const CreateAgentForm = (props: any) => {
         toolbar={
           <Toolbar>
             <SaveButton icon={<></>} />
-            <Button variant="outlined" onClick={handleClick}>
-              Cancel
-            </Button>
+            <div style={{ marginLeft: 12 }}>
+              <Button variant="outlined" onClick={handleClick}>
+                Cancel
+              </Button>
+            </div>
           </Toolbar>
         }
       >
