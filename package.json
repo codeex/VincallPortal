@@ -23,7 +23,9 @@
     "@types/fetch-mock": "^7.3.2",
     "fakerest": "^3.3.0",
     "fetch-mock": "~9.11.0",
-    "shelljs": "^0.8.5"
+    "react-app-rewired": "^2.2.1",
+    "shelljs": "^0.8.5",
+    "util": "^0.12.4"
   },
   "scripts": {
     "start": "react-scripts start",
