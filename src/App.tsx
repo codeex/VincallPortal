@@ -14,9 +14,9 @@ import { dataProvider } from "./DataProvider/dataProvider";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
-    return "http://localhost:3000";
+    return `http://${location.host}/vincallservice`;
   }
-  return "https://voipapi.comm100dev.io";
+  return "https://voipapi.comm100dev.io/vincallservice";
 };
 
 export const App = function () {
@@ -35,7 +35,7 @@ export const App = function () {
         create={CreateAgentForm}
       />
       <CustomRoutes>
-        <Route path="/callPanel" element={<CallPanelPage />} />
+        <Route path="/agentConsole" element={<CallPanelPage />} />
       </CustomRoutes>
       <Resource
         name="users"

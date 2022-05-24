@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEventCallback, useGetList } from "react-admin";
+import { useGetList, useGetOne } from "react-admin";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
@@ -8,20 +8,30 @@ import { DeviceState } from "./types";
 
 export const callPanelPageApp = () => {
   const { data: agentList = [], isLoading: isAgentLoading } =
-    useGetList<AgentBo>("agents");
+    useGetList<AgentBo>(
+      "agents",
+      {},
+      {
+        refetchInterval: -1,
+      }
+    );
 
-  const { data: token, isLoading: isTokenLoading } = useGetList("token");
-
+  const { data: tokenResponse, isLoading: isTokenLoading } = useGetOne(
+    "token",
+    {
+      id: undefined,
+    },
+    {
+      refetchInterval: -1,
+    }
+  );
   const [deviceState, setDeviceState] = useState<DeviceState>({
     status: "initializing",
   });
 
-  const handleUpdateDeviceState = useEventCallback(
-    (state: Partial<DeviceState>) => {
-      setDeviceState(state as any);
-    },
-    []
-  );
+  const handleUpdateDeviceState = (state: Partial<DeviceState>) => {
+    setDeviceState(state as any);
+  };
 
   const [currentAgent, setCurrentAgent] = useState<string>("");
 
@@ -43,7 +53,7 @@ export const callPanelPageApp = () => {
   return {
     agentList,
     isAgentLoading,
-    token,
+    token: (tokenResponse && tokenResponse.token) || "",
     isTokenLoading,
     deviceState,
     currentAgent,

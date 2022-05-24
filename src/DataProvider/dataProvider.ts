@@ -77,7 +77,7 @@ export const dataProvider = (
       // }
       console.log("json >>", json);
       return {
-        data: json.agents,
+        data: json[resource],
         total: json.count,
         // countHeader === "Content-Range"
         //   ? parseInt(headers.get("content-range")?.split("/").pop() || "", 10)
@@ -89,7 +89,10 @@ export const dataProvider = (
   getOne: (resource, params) => {
     if (!params.id) {
       return httpClient(`${apiUrl}/${resource}`).then(({ json }) => ({
-        data: json,
+        data: {
+          id: "unknown",
+          ...json,
+        },
       }));
     }
     return httpClient(`${apiUrl}/${resource}/${params.id}`).then(

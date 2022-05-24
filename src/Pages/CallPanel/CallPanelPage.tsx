@@ -14,6 +14,7 @@ import { callPanelPageApp } from "./CallPanelPageApp";
 import { CallScreen } from "../../Components/CallScreen";
 import { useEffect, useRef } from "react";
 import { DeviceManager } from "./DeviceManager";
+import { log } from "../../Helpers/Index";
 
 export const CallPanelPage = () => {
   const {
@@ -28,9 +29,10 @@ export const CallPanelPage = () => {
   let deviceManager = useRef<DeviceManager>();
   useEffect(() => {
     if (token) {
-      deviceManager.current = initDevice(token as unknown as string);
+      deviceManager.current = initDevice(token);
     }
   }, [token]);
+  log("Ray:deviceState", deviceState, token);
   return (
     <Card>
       <Title title="Call Panel" />
@@ -52,7 +54,9 @@ export const CallPanelPage = () => {
               variant="standard"
             >
               {isAgentLoading ? (
-                <CircularProgress />
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress size={24} />
+                </Box>
               ) : (
                 agentList.map(({ deviceNumber }) => (
                   <MenuItem key={deviceNumber} value={deviceNumber}>

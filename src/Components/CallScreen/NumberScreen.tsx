@@ -41,6 +41,7 @@ export const NumberScreen = ({
           value={value}
           onChange={onChange}
           variant="outlined"
+          sx={{ width: "100%" }}
         />
       </Box>
       <Box sx={{ paddingTop: 1 }}>
