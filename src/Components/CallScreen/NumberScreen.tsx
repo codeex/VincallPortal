@@ -59,7 +59,12 @@ export const NumberScreen = ({
             </NumberButton>
           </Grid>
           <Grid item xs={4} key="Call" sx={{ padding: 1 }}>
-            <NumberButton onClick={handleCall} character="call">
+            <NumberButton
+              onClick={handleCall}
+              character="call"
+              color="success"
+              variant="contained"
+            >
               <CallIcon />
             </NumberButton>
           </Grid>

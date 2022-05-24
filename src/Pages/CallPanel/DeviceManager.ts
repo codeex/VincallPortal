@@ -4,19 +4,24 @@ import { CallEventName, DeviceEventName, DeviceState } from "./types";
 
 export interface DeviceManagerProps {
   token: string;
+  identity: string;
   updateState: (state: Partial<DeviceState>) => void;
 }
 
 export class DeviceManager {
+  identity: string;
   token: string;
   updateState: (state: Partial<DeviceState>) => void;
   device: Device;
   call?: Call;
   onError: (error: any) => void;
-  constructor({ token, updateState }: DeviceManagerProps) {
+  tokenGetter: () => Promise<string>;
+  constructor({ token, identity, updateState }: DeviceManagerProps) {
     this.token = token;
+    this.identity = identity;
     this.updateState = updateState;
     this.onError = () => {};
+    this.tokenGetter = () => Promise.resolve("");
     this.device = this.createDevice(token);
     this.setup(this.device, updateState);
   }
@@ -48,10 +53,12 @@ export class DeviceManager {
 
     call.on(CallEventName.Cancel, () => {
       updateState({ status: "end" });
+      this.clearCall();
     });
 
     call.on(CallEventName.Disconnect, () => {
       updateState({ status: "end" });
+      this.clearCall();
     });
 
     call.on(CallEventName.Reject, () => {
@@ -63,9 +70,52 @@ export class DeviceManager {
     });
   }
 
+  public disconnectCall() {
+    if (this.call) {
+      this.call.disconnect();
+    }
+  }
+
+  public acceptIncoming() {
+    if (this.call) {
+      this.call.accept();
+    }
+  }
+
+  public rejectIncoming() {
+    if (this.call) {
+      this.call.reject();
+    }
+  }
+
+  public toggleMute() {
+    if (this.call) {
+      this.call.mute(!this.call.isMuted);
+    }
+  }
+
+  public clear() {
+    if (this.call) {
+      this.call.removeAllListeners();
+    }
+    if (this.device) {
+      this.device.removeAllListeners();
+    }
+  }
+
+  private clearCall() {
+    if (this.call) {
+      this.call.removeAllListeners();
+      this.call = null as any;
+    }
+  }
+
   private setup(
     device: Device,
-    updateState: (state: Partial<DeviceState>) => void
+    updateState: (
+      state: Partial<DeviceState>,
+      shouldUseAssign?: boolean
+    ) => void
   ) {
     device.on(DeviceEventName.Registered, () => {
       updateState({ status: "ready" });
@@ -86,10 +136,12 @@ export class DeviceManager {
 
       call.on(CallEventName.Cancel, () => {
         updateState({ status: "end" });
+        this.clearCall();
       });
 
       call.on(CallEventName.Disconnect, () => {
         updateState({ status: "end" });
+        this.clearCall();
       });
 
       call.on(CallEventName.Reject, () => {
@@ -97,19 +149,14 @@ export class DeviceManager {
       });
 
       call.on(CallEventName.Mute, (isMuted: boolean) => {
-        updateState({ isMuted });
+        updateState({ isMuted }, true);
       });
     });
 
-    device.on(DeviceEventName.TokenWillExpire, () => {
-      device.updateToken("" /** TODO: newToken */);
+    device.on(DeviceEventName.TokenWillExpire, async () => {
+      const token = await this.tokenGetter();
+      device.updateToken(token);
     });
-
-    // TODO: TEST:
-    setTimeout(() => {
-      log("Ray:TEST");
-      updateState({ status: "ready" });
-    }, 0);
   }
 
   private createDevice(token: string) {
