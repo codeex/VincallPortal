@@ -52,7 +52,7 @@ export const dataProvider = (
       // range: JSON.stringify([rangeStart, rangeEnd]),
       // filter: JSON.stringify(params.filter),
     };
-    const url = `${apiUrl}/vincallservice/${resource}?${stringify(query)}`;
+    const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
     // const options =
     //   countHeader === "Content-Range"
@@ -175,15 +175,12 @@ export const dataProvider = (
     })),
 
   delete: (resource, params) =>
-    httpClient(
-      `${apiUrl}/vincallservice/${resource.slice(0, -1)}/${params.id}`,
-      {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "text/plain",
-        }),
-      }
-    ).then(({ json }) => ({ data: json })),
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "text/plain",
+      }),
+    }).then(({ json }) => ({ data: json })),
 
   // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
   deleteMany: (resource, params) =>
