@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: APP_NAME
+  name: vincalportal
   namespace: NAMESPACE
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -18,7 +18,7 @@ spec:
     - host: wwwtest.vincall.net
       http:
         paths:
-          - path: (/)(.*)
+          - path: (.*)
             backend:
-              serviceName: APP_NAME
+              serviceName: vincalportal
               servicePort: 80
