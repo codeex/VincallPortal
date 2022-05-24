@@ -52,7 +52,7 @@ export const dataProvider = (
       // range: JSON.stringify([rangeStart, rangeEnd]),
       // filter: JSON.stringify(params.filter),
     };
-    const url = `${apiUrl}/vincallservice/${resource}?${stringify(query)}`;
+    const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
     // const options =
     //   countHeader === "Content-Range"
@@ -72,7 +72,7 @@ export const dataProvider = (
       //   );
       // }
       return {
-        data: json,
+        data: json[resource],
         total: 10,
         // countHeader === "Content-Range"
         //   ? parseInt(headers.get("content-range")?.split("/").pop() || "", 10)
