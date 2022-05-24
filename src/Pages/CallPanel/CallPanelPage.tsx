@@ -13,9 +13,11 @@ import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { CallScreen } from "../../Components/CallScreen";
 import { useEffect } from "react";
+import { AgentConsolePanel } from "./AgentConsolePanel";
 
 export const CallPanelPage = () => {
   const {
+    tab,
     deviceState,
     currentAgentId,
     currentAgentObject,
@@ -24,6 +26,7 @@ export const CallPanelPage = () => {
     deviceManager,
     handleCurrentAgentChange,
     updateDevice,
+    handleTabChange,
   } = callPanelPageApp();
 
   useEffect(() => {
@@ -32,55 +35,58 @@ export const CallPanelPage = () => {
     }
   }, [currentAgentId]);
   return (
-    <Card>
+    <Card sx={{ p: 3, mt: 3 }}>
       <Title title="Agent Console" />
-      <Paper>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs value={0} aria-label="choose an agent">
-            <Tab label="Agent Console" />
-          </Tabs>
+
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={tab} onChange={handleTabChange}>
+          <Tab label="Agent Console" />
+          <Tab label="Comm100 agent console" />
+        </Tabs>
+      </Box>
+      <CTabPanel value={tab} index={0}>
+        <Box>
+          <TextField
+            label="Current Agent"
+            select
+            value={currentAgentId}
+            placeholder="Select an Agent"
+            onChange={handleCurrentAgentChange}
+            style={{ width: 200 }}
+            variant="standard"
+            disabled={!getIfCanChangeAgentWhenCalling()}
+          >
+            {isAgentLoading ? (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress size={24} />
+              </Box>
+            ) : (
+              agentList.map(({ id, deviceNumber, userAccount }) => (
+                <MenuItem key={id} value={id}>
+                  {userAccount} {deviceNumber}
+                </MenuItem>
+              ))
+            )}
+          </TextField>
         </Box>
-        <CTabPanel value={0} index={0}>
-          <Box>
-            <TextField
-              label="Current Agent"
-              select
-              value={currentAgentId}
-              placeholder="Select an Agent"
-              onChange={handleCurrentAgentChange}
-              style={{ width: 200 }}
-              variant="standard"
-              disabled={!getIfCanChangeAgentWhenCalling()}
-            >
-              {isAgentLoading ? (
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress size={24} />
-                </Box>
-              ) : (
-                agentList.map(({ id, deviceNumber, userAccount }) => (
-                  <MenuItem key={id} value={id}>
-                    {userAccount} {deviceNumber}
-                  </MenuItem>
-                ))
-              )}
-            </TextField>
+        {deviceState.status === "initializing" ? (
+          <Box sx={{ display: "flex", justifyContent: "center", pt: 4 }}>
+            <CircularProgress />
           </Box>
-          {deviceState.status === "initializing" ? (
-            <Box sx={{ display: "flex", justifyContent: "center", pt: 4 }}>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Box sx={{ pt: 2 }}>
-              <CallScreen
-                currentAgent={currentAgentId}
-                currentAgentNumber={currentAgentObject.deviceNumber}
-                deviceManager={deviceManager!}
-                deviceState={deviceState}
-              />
-            </Box>
-          )}
-        </CTabPanel>
-      </Paper>
+        ) : (
+          <Box sx={{ pt: 2 }}>
+            <CallScreen
+              currentAgent={currentAgentId}
+              currentAgentNumber={currentAgentObject.deviceNumber}
+              deviceManager={deviceManager!}
+              deviceState={deviceState}
+            />
+          </Box>
+        )}
+      </CTabPanel>
+      <CTabPanel value={tab} index={1}>
+        {tab === 1 && <AgentConsolePanel />}
+      </CTabPanel>
     </Card>
   );
 };

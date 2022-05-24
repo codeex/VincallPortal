@@ -13,6 +13,7 @@ import { DeviceState } from "./types";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
+  const [tab, setTab] = useState<number>(0);
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
 
@@ -70,7 +71,12 @@ export const callPanelPageApp = () => {
     }
   };
 
+  const handleTabChange = (e: any, newValue: any) => {
+    setTab(newValue);
+  };
+
   return {
+    tab,
     agentList,
     isAgentLoading,
     deviceState,
@@ -79,6 +85,7 @@ export const callPanelPageApp = () => {
     deviceManager: deviceManager.current,
     handleCurrentAgentChange,
     updateDevice,
+    handleTabChange,
   };
 };
 
