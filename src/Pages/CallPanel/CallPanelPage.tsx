@@ -35,11 +35,11 @@ export const CallPanelPage = () => {
   log("Ray:deviceState", deviceState, token);
   return (
     <Card>
-      <Title title="Call Panel" />
+      <Title title="Agent Console" />
       <Paper>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={0} aria-label="choose an agent">
-            <Tab label="Call Console" />
+            <Tab label="Agent Console" />
           </Tabs>
         </Box>
         <CTabPanel value={0} index={0}>
@@ -58,9 +58,9 @@ export const CallPanelPage = () => {
                   <CircularProgress size={24} />
                 </Box>
               ) : (
-                agentList.map(({ deviceNumber }) => (
+                agentList.map(({ id, deviceNumber, userAccount }) => (
                   <MenuItem key={deviceNumber} value={deviceNumber}>
-                    {deviceNumber}
+                    {userAccount} {deviceNumber}
                   </MenuItem>
                 ))
               )}
@@ -73,6 +73,7 @@ export const CallPanelPage = () => {
           ) : (
             <Box sx={{ pt: 2 }}>
               <CallScreen
+                currentAgent={currentAgent}
                 deviceManager={deviceManager.current!}
                 deviceState={deviceState}
               />

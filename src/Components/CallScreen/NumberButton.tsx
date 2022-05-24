@@ -4,11 +4,13 @@ export interface NumberButtonProps {
   onClick: (character?: number | string) => void;
   character?: number | string;
   children: any;
+  active?: boolean;
 }
 
 export const NumberButton = ({
   character,
   children,
+  active,
   onClick,
 }: NumberButtonProps) => {
   return (
@@ -17,6 +19,7 @@ export const NumberButton = ({
       onClick={() => {
         onClick(character);
       }}
+      variant={active ? "contained" : "outlined"}
     >
       {children}
     </Button>

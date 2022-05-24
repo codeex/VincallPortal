@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetList, useGetOne } from "react-admin";
+import { useDataProvider, useGetList, useGetOne } from "react-admin";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
@@ -7,33 +7,36 @@ import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
 
 export const callPanelPageApp = () => {
+  const [currentAgent, setCurrentAgent] = useState<string>("");
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
       {},
       {
         refetchInterval: -1,
+        retry: 1,
       }
     );
 
   const { data: tokenResponse, isLoading: isTokenLoading } = useGetOne(
-    "token",
+    "twilioToken",
     {
       id: undefined,
     },
     {
       refetchInterval: -1,
+      retry: 1,
     }
   );
   const [deviceState, setDeviceState] = useState<DeviceState>({
     status: "initializing",
   });
+  //@ts-ignore
+  window.setDeviceState = setDeviceState;
 
   const handleUpdateDeviceState = (state: Partial<DeviceState>) => {
     setDeviceState(state as any);
   };
-
-  const [currentAgent, setCurrentAgent] = useState<string>("");
 
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
     setCurrentAgent(e.target.value);

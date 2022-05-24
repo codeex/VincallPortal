@@ -48,10 +48,12 @@ export class DeviceManager {
 
     call.on(CallEventName.Cancel, () => {
       updateState({ status: "end" });
+      this.clearCall();
     });
 
     call.on(CallEventName.Disconnect, () => {
       updateState({ status: "end" });
+      this.clearCall();
     });
 
     call.on(CallEventName.Reject, () => {
@@ -61,6 +63,37 @@ export class DeviceManager {
     call.on(CallEventName.Mute, (isMuted: boolean) => {
       updateState({ isMuted });
     });
+  }
+
+  public disconnectCall() {
+    if (this.call) {
+      this.call.disconnect();
+    }
+  }
+
+  public acceptIncoming() {
+    if (this.call) {
+      this.call.accept();
+    }
+  }
+
+  public rejectIncoming() {
+    if (this.call) {
+      this.call.reject();
+    }
+  }
+
+  public toggleMute() {
+    if (this.call) {
+      this.call.mute(!this.call.isMuted);
+    }
+  }
+
+  private clearCall() {
+    if (this.call) {
+      this.call.removeAllListeners();
+      this.call = null as any;
+    }
   }
 
   private setup(
@@ -86,10 +119,12 @@ export class DeviceManager {
 
       call.on(CallEventName.Cancel, () => {
         updateState({ status: "end" });
+        this.clearCall();
       });
 
       call.on(CallEventName.Disconnect, () => {
         updateState({ status: "end" });
+        this.clearCall();
       });
 
       call.on(CallEventName.Reject, () => {
