@@ -4,19 +4,24 @@ import { CallEventName, DeviceEventName, DeviceState } from "./types";
 
 export interface DeviceManagerProps {
   token: string;
+  identity: string;
   updateState: (state: Partial<DeviceState>) => void;
 }
 
 export class DeviceManager {
+  identity: string;
   token: string;
   updateState: (state: Partial<DeviceState>) => void;
   device: Device;
   call?: Call;
   onError: (error: any) => void;
-  constructor({ token, updateState }: DeviceManagerProps) {
+  tokenGetter: () => Promise<string>;
+  constructor({ token, identity, updateState }: DeviceManagerProps) {
     this.token = token;
+    this.identity = identity;
     this.updateState = updateState;
     this.onError = () => {};
+    this.tokenGetter = () => Promise.resolve("");
     this.device = this.createDevice(token);
     this.setup(this.device, updateState);
   }
@@ -89,6 +94,15 @@ export class DeviceManager {
     }
   }
 
+  public clear() {
+    if (this.call) {
+      this.call.removeAllListeners();
+    }
+    if (this.device) {
+      this.device.removeAllListeners();
+    }
+  }
+
   private clearCall() {
     if (this.call) {
       this.call.removeAllListeners();
@@ -136,15 +150,10 @@ export class DeviceManager {
       });
     });
 
-    device.on(DeviceEventName.TokenWillExpire, () => {
-      device.updateToken("" /** TODO: newToken */);
+    device.on(DeviceEventName.TokenWillExpire, async () => {
+      const token = await this.tokenGetter();
+      device.updateToken(token);
     });
-
-    // TODO: TEST:
-    setTimeout(() => {
-      log("Ray:TEST");
-      updateState({ status: "ready" });
-    }, 0);
   }
 
   private createDevice(token: string) {

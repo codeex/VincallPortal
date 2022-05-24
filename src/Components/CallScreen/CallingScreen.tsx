@@ -83,7 +83,12 @@ export const CallingScreen = ({
             key="endCall"
             sx={{ display: "flex", justifyContent: "center", padding: 1 }}
           >
-            <NumberButton character="endCall" onClick={handleActionClick}>
+            <NumberButton
+              character="endCall"
+              onClick={handleActionClick}
+              color="error"
+              variant="contained"
+            >
               <CallIcon sx={{ transform: "rotate(135deg)" }} />
             </NumberButton>
           </Grid>
@@ -99,6 +104,8 @@ export const CallingScreen = ({
               <NumberButton
                 character="acceptIncoming"
                 onClick={handleActionClick}
+                color="success"
+                variant="contained"
               >
                 <CallIcon />
               </NumberButton>
@@ -112,6 +119,8 @@ export const CallingScreen = ({
               <NumberButton
                 character="rejectIncoming"
                 onClick={handleActionClick}
+                color="error"
+                variant="contained"
               >
                 <CallIcon sx={{ transform: "rotate(135deg)" }} />
               </NumberButton>

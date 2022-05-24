@@ -194,4 +194,13 @@ export const dataProvider = (
     ).then((responses) => ({
       data: responses.map(({ json }) => json.id),
     })),
+
+  httpGet(resource: string, params: { [key: string]: string }, options = {}) {
+    const url = `${apiUrl}/${resource}?${stringify(params)}`;
+    return httpClient(url, options).then(({ headers, json }) => {
+      return {
+        data: json,
+      };
+    });
+  },
 });

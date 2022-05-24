@@ -12,27 +12,24 @@ import { Title } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { CallScreen } from "../../Components/CallScreen";
-import { useEffect, useRef } from "react";
-import { DeviceManager } from "./DeviceManager";
-import { log } from "../../Helpers/Index";
+import { useEffect } from "react";
 
 export const CallPanelPage = () => {
   const {
-    token,
     deviceState,
     currentAgent,
     agentList,
     isAgentLoading,
+    deviceManager,
     handleCurrentAgentChange,
-    initDevice,
+    updateDevice,
   } = callPanelPageApp();
-  let deviceManager = useRef<DeviceManager>();
+
   useEffect(() => {
-    if (token) {
-      deviceManager.current = initDevice(token);
+    if (currentAgent) {
+      updateDevice(currentAgent);
     }
-  }, [token]);
-  log("Ray:deviceState", deviceState, token);
+  }, [currentAgent]);
   return (
     <Card>
       <Title title="Agent Console" />
@@ -52,6 +49,7 @@ export const CallPanelPage = () => {
               onChange={handleCurrentAgentChange}
               style={{ width: 200 }}
               variant="standard"
+              disabled={!getIfCanChangeAgentWhenCalling()}
             >
               {isAgentLoading ? (
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -59,7 +57,7 @@ export const CallPanelPage = () => {
                 </Box>
               ) : (
                 agentList.map(({ id, deviceNumber, userAccount }) => (
-                  <MenuItem key={deviceNumber} value={deviceNumber}>
+                  <MenuItem key={id} value={id}>
                     {userAccount} {deviceNumber}
                   </MenuItem>
                 ))
@@ -74,7 +72,7 @@ export const CallPanelPage = () => {
             <Box sx={{ pt: 2 }}>
               <CallScreen
                 currentAgent={currentAgent}
-                deviceManager={deviceManager.current!}
+                deviceManager={deviceManager!}
                 deviceState={deviceState}
               />
             </Box>
@@ -93,3 +91,7 @@ export interface AgentBo {
   state: number;
   createDate: string;
 }
+
+const getIfCanChangeAgentWhenCalling = () => {
+  return true;
+};

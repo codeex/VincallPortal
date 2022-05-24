@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { useDataProvider, useGetList, useGetOne } from "react-admin";
+import { useRef, useState } from "react";
+import {
+  DataProvider,
+  useDataProvider,
+  useGetList,
+  useGetOne,
+} from "react-admin";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
@@ -8,6 +13,9 @@ import { DeviceState } from "./types";
 
 export const callPanelPageApp = () => {
   const [currentAgent, setCurrentAgent] = useState<string>("");
+  const dataProvider = useDataProvider();
+  const deviceManager = useRef<DeviceManager>();
+
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
@@ -18,16 +26,6 @@ export const callPanelPageApp = () => {
       }
     );
 
-  const { data: tokenResponse, isLoading: isTokenLoading } = useGetOne(
-    "twilioToken",
-    {
-      id: undefined,
-    },
-    {
-      refetchInterval: -1,
-      retry: 1,
-    }
-  );
   const [deviceState, setDeviceState] = useState<DeviceState>({
     status: "initializing",
   });
@@ -42,25 +40,41 @@ export const callPanelPageApp = () => {
     setCurrentAgent(e.target.value);
   };
 
-  const initDevice = (token: string) => {
-    if (token) {
-      const deviceManager = new DeviceManager({
-        token: token as string,
+  const updateDevice = async (currentAgentId: string) => {
+    handleUpdateDeviceState({ status: "initializing" });
+    const tokenResponse = await getTwilioToken(dataProvider, currentAgentId);
+    if (tokenResponse.token) {
+      if (deviceManager.current) {
+        deviceManager.current.clear();
+      }
+      deviceManager.current = new DeviceManager({
+        token: tokenResponse.token,
+        identity: tokenResponse.identity,
         updateState: handleUpdateDeviceState,
       });
-      deviceManager.onError((e: any) => {});
-      return deviceManager;
+      deviceManager.current.catch((e: any) => {
+        log("Device error", e);
+      });
+      deviceManager.current.tokenGetter = async () => {
+        const data = await getTwilioToken(dataProvider, currentAgentId);
+        return data.token;
+      };
+      return deviceManager.current;
     }
   };
 
   return {
     agentList,
     isAgentLoading,
-    token: (tokenResponse && tokenResponse.token) || "",
-    isTokenLoading,
     deviceState,
     currentAgent,
+    deviceManager: deviceManager.current,
     handleCurrentAgentChange,
-    initDevice,
+    updateDevice,
   };
+};
+
+const getTwilioToken = async (dataProvider: DataProvider, agentId: string) => {
+  const res = await dataProvider.httpGet("twilioToken", { agentId });
+  return res;
 };
