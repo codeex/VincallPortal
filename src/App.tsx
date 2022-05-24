@@ -14,7 +14,7 @@ import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
-    return "http://localhost:3000/";
+    return "http://localhost:3000";
   }
   return "https://voipapi.comm100dev.io/vincallservice";
 };
@@ -23,7 +23,7 @@ export const App = function () {
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProviderFactory(getServerURL())}
+      dataProvider={dataProvider(getServerURL())}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
