@@ -6,10 +6,15 @@ import {
   TextField,
   CreateButton,
   TopToolbar,
+  FunctionField,
+  EditButton,
+  CustomRoutes,
 } from "react-admin";
 import { BindUserButton } from "./AgentOperation/BindUserButton";
 import { DeleteAgentButton } from "./AgentOperation/DeleteAgentButton";
 import { TwoOperationsField } from "../TwoOperationsField";
+import { Route } from "react-router-dom";
+import { Drawer } from "@mui/material";
 
 export const AgentList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
@@ -36,10 +41,15 @@ export const AgentList = (props: any) => {
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <TwoOperationsField
+          <FunctionField
             label="Operations"
-            op1={<BindUserButton />}
-            op2={<DeleteAgentButton />}
+            render={(record: any) => (
+              <TwoOperationsField
+                op1={<BindUserButton record={record} />}
+                // op1={<EditButton label="Bind User" />}
+                op2={<DeleteAgentButton />}
+              />
+            )}
           />
         </Datagrid>
       )}

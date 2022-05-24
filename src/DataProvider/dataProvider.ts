@@ -75,7 +75,7 @@ export const dataProvider = (
       //     `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
       //   );
       // }
-      console.log("json >>", json);
+
       return {
         data: json[resource],
         total: json.count,
@@ -153,7 +153,7 @@ export const dataProvider = (
   },
 
   update: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
       method: "PUT",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
