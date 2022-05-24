@@ -84,7 +84,10 @@ export const dataProvider = (
   getOne: (resource, params) => {
     if (!params.id) {
       return httpClient(`${apiUrl}/${resource}`).then(({ json }) => ({
-        data: json,
+        data: {
+          id: "unknown",
+          ...json,
+        },
       }));
     }
     return httpClient(`${apiUrl}/${resource}/${params.id}`).then(

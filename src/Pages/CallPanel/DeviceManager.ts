@@ -71,7 +71,7 @@ export class DeviceManager {
       updateState({ status: "ready" });
     });
     device.on(DeviceEventName.Error, (error, call) => {
-      log("An error has occurred: ", error);
+      log("Ray:An error has occurred: ", error);
       this.onError(error);
     });
 
@@ -104,6 +104,12 @@ export class DeviceManager {
     device.on(DeviceEventName.TokenWillExpire, () => {
       device.updateToken("" /** TODO: newToken */);
     });
+
+    // TODO: TEST:
+    setTimeout(() => {
+      log("Ray:TEST");
+      updateState({ status: "ready" });
+    }, 0);
   }
 
   private createDevice(token: string) {
