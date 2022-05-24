@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   DataProvider,
   useDataProvider,
@@ -12,7 +12,7 @@ import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
 
 export const callPanelPageApp = () => {
-  const [currentAgent, setCurrentAgent] = useState<string>("");
+  const [currentAgentId, setCurrentAgentId] = useState<string>("");
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
 
@@ -32,12 +32,19 @@ export const callPanelPageApp = () => {
   //@ts-ignore
   window.setDeviceState = setDeviceState;
 
-  const handleUpdateDeviceState = (state: Partial<DeviceState>) => {
-    setDeviceState(state as any);
+  const handleUpdateDeviceState = (
+    state: Partial<DeviceState>,
+    shouldUseAssign?: boolean
+  ) => {
+    if (shouldUseAssign) {
+      setDeviceState(Object.assign({}, deviceState, state));
+    } else {
+      setDeviceState(state as any);
+    }
   };
 
-  const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
-    setCurrentAgent(e.target.value);
+  const handleCurrentAgentChange: any = (e: ChangeEvent<string>) => {
+    setCurrentAgentId(e.target.value);
   };
 
   const updateDevice = async (currentAgentId: string) => {
@@ -67,7 +74,8 @@ export const callPanelPageApp = () => {
     agentList,
     isAgentLoading,
     deviceState,
-    currentAgent,
+    currentAgentId,
+    currentAgentObject: useGetCurrentAgentObject(currentAgentId, agentList),
     deviceManager: deviceManager.current,
     handleCurrentAgentChange,
     updateDevice,
@@ -77,4 +85,13 @@ export const callPanelPageApp = () => {
 const getTwilioToken = async (dataProvider: DataProvider, agentId: string) => {
   const res = await dataProvider.httpGet("twilioToken", { agentId });
   return res;
+};
+
+const useGetCurrentAgentObject = (currentAgent: string, agentList: any[]) => {
+  return useMemo(() => {
+    if (agentList.length) {
+      return agentList.find((item) => item.id === currentAgent) || {};
+    }
+    return {};
+  }, [currentAgent, agentList.length]);
 };

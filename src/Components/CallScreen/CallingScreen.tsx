@@ -10,6 +10,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { DeviceState } from "../../Pages/CallPanel/types";
 
 export interface CallingScreenProps {
+  currentAgentNumber?: string;
   deviceState: DeviceState;
   onEnd: () => void;
   onAcceptIncoming: () => void;
@@ -18,6 +19,7 @@ export interface CallingScreenProps {
 }
 
 export const CallingScreen = ({
+  currentAgentNumber,
   deviceState,
   onAcceptIncoming,
   onRejectIncoming,
@@ -56,7 +58,10 @@ export const CallingScreen = ({
       </Box>
 
       <div style={{ textAlign: "center" }}>
-        <ContactInfo deviceState={deviceState} />
+        <ContactInfo
+          deviceState={deviceState}
+          currentAgentNumber={currentAgentNumber}
+        />
       </div>
 
       <Grid container>
@@ -132,11 +137,18 @@ export const CallingScreen = ({
   );
 };
 
-const ContactInfo = ({ deviceState }: { deviceState: DeviceState }) => {
+const ContactInfo = ({
+  deviceState,
+  currentAgentNumber,
+}: {
+  deviceState: DeviceState;
+  currentAgentNumber?: string;
+}) => {
   if (deviceState.status === "outingCalling") {
     return (
       <>
         <div>Calling... </div>
+        <div>From: {currentAgentNumber}</div>
         <div>To: {deviceState.to}</div>
       </>
     );
@@ -145,6 +157,7 @@ const ContactInfo = ({ deviceState }: { deviceState: DeviceState }) => {
     return (
       <>
         <div>Connected!</div>
+        <div>From: {currentAgentNumber}</div>
         <div>To: {deviceState.to}</div>
       </>
     );

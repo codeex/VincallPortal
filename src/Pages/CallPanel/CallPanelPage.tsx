@@ -17,7 +17,8 @@ import { useEffect } from "react";
 export const CallPanelPage = () => {
   const {
     deviceState,
-    currentAgent,
+    currentAgentId,
+    currentAgentObject,
     agentList,
     isAgentLoading,
     deviceManager,
@@ -26,10 +27,10 @@ export const CallPanelPage = () => {
   } = callPanelPageApp();
 
   useEffect(() => {
-    if (currentAgent) {
-      updateDevice(currentAgent);
+    if (currentAgentId) {
+      updateDevice(currentAgentId);
     }
-  }, [currentAgent]);
+  }, [currentAgentId]);
   return (
     <Card>
       <Title title="Agent Console" />
@@ -44,7 +45,7 @@ export const CallPanelPage = () => {
             <TextField
               label="Current Agent"
               select
-              value={currentAgent}
+              value={currentAgentId}
               placeholder="Select an Agent"
               onChange={handleCurrentAgentChange}
               style={{ width: 200 }}
@@ -71,7 +72,8 @@ export const CallPanelPage = () => {
           ) : (
             <Box sx={{ pt: 2 }}>
               <CallScreen
-                currentAgent={currentAgent}
+                currentAgent={currentAgentId}
+                currentAgentNumber={currentAgentObject.deviceNumber}
                 deviceManager={deviceManager!}
                 deviceState={deviceState}
               />

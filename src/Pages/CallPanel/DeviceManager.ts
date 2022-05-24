@@ -112,7 +112,10 @@ export class DeviceManager {
 
   private setup(
     device: Device,
-    updateState: (state: Partial<DeviceState>) => void
+    updateState: (
+      state: Partial<DeviceState>,
+      shouldUseAssign?: boolean
+    ) => void
   ) {
     device.on(DeviceEventName.Registered, () => {
       updateState({ status: "ready" });
@@ -146,7 +149,7 @@ export class DeviceManager {
       });
 
       call.on(CallEventName.Mute, (isMuted: boolean) => {
-        updateState({ isMuted });
+        updateState({ isMuted }, true);
       });
     });
 

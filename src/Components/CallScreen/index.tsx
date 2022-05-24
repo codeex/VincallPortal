@@ -7,12 +7,14 @@ import { NumberScreen } from "./NumberScreen";
 
 export interface CallScreenProps {
   currentAgent?: string;
+  currentAgentNumber?: string;
   deviceManager: DeviceManager;
   deviceState: DeviceState;
 }
 
 export const CallScreen = ({
   currentAgent,
+  currentAgentNumber,
   deviceState,
   deviceManager,
 }: CallScreenProps) => {
@@ -51,6 +53,7 @@ export const CallScreen = ({
   }
   return (
     <CallingScreen
+      currentAgentNumber={currentAgentNumber}
       deviceState={deviceState}
       onAcceptIncoming={handleAcceptIncoming}
       onRejectIncoming={handleRejectIncoming}
