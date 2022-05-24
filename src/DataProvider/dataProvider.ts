@@ -54,16 +54,16 @@ export const dataProvider = (
     };
     const url = `${apiUrl}/vincallservice/${resource}?${stringify(query)}`;
 
-    const options =
-      countHeader === "Content-Range"
-        ? {
-            // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
-            headers: new Headers({
-              Range: `${resource}=${rangeStart}-${rangeEnd}`,
-            }),
-          }
-        : {};
-
+    // const options =
+    //   countHeader === "Content-Range"
+    //     ? {
+    //         // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
+    //         headers: new Headers({
+    //           Range: `${resource}=${rangeStart}-${rangeEnd}`,
+    //         }),
+    //       }
+    //     : {};
+    const options = {};
     return httpClient(url, options).then(({ headers, json }) => {
       // console.log("headers >>", headers.get("content-type"));
       // if (!headers.get(countHeader)) {
@@ -81,10 +81,18 @@ export const dataProvider = (
     });
   },
 
-  getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      data: json,
-    })),
+  getOne: (resource, params) => {
+    if (!params.id) {
+      return httpClient(`${apiUrl}/${resource}`).then(({ json }) => ({
+        data: json,
+      }));
+    }
+    return httpClient(`${apiUrl}/${resource}/${params.id}`).then(
+      ({ json }) => ({
+        data: json,
+      })
+    );
+  },
 
   getMany: (resource, params) => {
     const query = {
