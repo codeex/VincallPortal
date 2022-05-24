@@ -18,8 +18,8 @@ export const UserList = (props: any) => {
       ) : (
         <Datagrid>
           <TextField source="id" />
-          <TextField source="userAccount" />
-          <TextField source="name" />
+          <TextField source="account" />
+          <TextField source="userName" />
           <TextField source="remark" />
           <TextField source="createDate" />
           <TwoOperationsField

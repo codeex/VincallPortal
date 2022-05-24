@@ -47,7 +47,7 @@ export const dataProvider = (
 
     const query = {
       pageSize: perPage,
-      pageNum: page,
+      pageNum: page - 1,
       // sort: JSON.stringify([field, order]),
       // range: JSON.stringify([rangeStart, rangeEnd]),
       // filter: JSON.stringify(params.filter),
@@ -63,7 +63,11 @@ export const dataProvider = (
     //         }),
     //       }
     //     : {};
-    const options = {};
+    const options = {
+      headers: new Headers({
+        "Access-Control-Allow-Origin": "*",
+      }),
+    };
     return httpClient(url, options).then(({ headers, json }) => {
       // console.log("headers >>", headers.get("content-type"));
       // if (!headers.get(countHeader)) {
@@ -71,9 +75,10 @@ export const dataProvider = (
       //     `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
       //   );
       // }
+
       return {
         data: json[resource],
-        total: 10,
+        total: json.count,
         // countHeader === "Content-Range"
         //   ? parseInt(headers.get("content-range")?.split("/").pop() || "", 10)
         //   : parseInt(headers.get(countHeader.toLowerCase()) || ""),
@@ -148,7 +153,7 @@ export const dataProvider = (
   },
 
   update: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
       method: "PUT",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
@@ -173,7 +178,7 @@ export const dataProvider = (
     })),
 
   delete: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "text/plain",
@@ -184,7 +189,7 @@ export const dataProvider = (
   deleteMany: (resource, params) =>
     Promise.all(
       params.ids.map((id) =>
-        httpClient(`${apiUrl}/${resource}/${id}`, {
+        httpClient(`${apiUrl}/${resource.slice(0, -1)}/${id}`, {
           method: "DELETE",
           headers: new Headers({
             "Content-Type": "text/plain",
@@ -192,7 +197,8 @@ export const dataProvider = (
         })
       )
     ).then((responses) => ({
-      data: responses.map(({ json }) => json.id),
+      // data: responses.map(({ json }) => json.id),
+      data: [],
     })),
 
   httpGet(resource: string, params: { [key: string]: string }, options = {}) {
