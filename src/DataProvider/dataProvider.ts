@@ -189,7 +189,7 @@ export const dataProvider = (
   deleteMany: (resource, params) =>
     Promise.all(
       params.ids.map((id) =>
-        httpClient(`${apiUrl}/${resource}/${id}`, {
+        httpClient(`${apiUrl}/${resource.slice(0, -1)}/${id}`, {
           method: "DELETE",
           headers: new Headers({
             "Content-Type": "text/plain",
@@ -197,6 +197,7 @@ export const dataProvider = (
         })
       )
     ).then((responses) => ({
-      data: responses.map(({ json }) => json.id),
+      // data: responses.map(({ json }) => json.id),
+      data: [],
     })),
 });
