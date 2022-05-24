@@ -54,23 +54,23 @@ export const dataProvider = (
     };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-    const options =
-      countHeader === "Content-Range"
-        ? {
-            // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
-            headers: new Headers({
-              Range: `${resource}=${rangeStart}-${rangeEnd}`,
-            }),
-          }
-        : {};
-
+    // const options =
+    //   countHeader === "Content-Range"
+    //     ? {
+    //         // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
+    //         headers: new Headers({
+    //           Range: `${resource}=${rangeStart}-${rangeEnd}`,
+    //         }),
+    //       }
+    //     : {};
+    const options = {};
     return httpClient(url, options).then(({ headers, json }) => {
       console.log("headers >>", headers.get("content-type"));
-      if (!headers.get(countHeader)) {
-        throw new Error(
-          `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
-        );
-      }
+      // if (!headers.get(countHeader)) {
+      //   throw new Error(
+      //     `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
+      //   );
+      // }
       return {
         data: json,
         total:
@@ -81,10 +81,18 @@ export const dataProvider = (
     });
   },
 
-  getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      data: json,
-    })),
+  getOne: (resource, params) => {
+    if (!params.id) {
+      return httpClient(`${apiUrl}/${resource}`).then(({ json }) => ({
+        data: json,
+      }));
+    }
+    return httpClient(`${apiUrl}/${resource}/${params.id}`).then(
+      ({ json }) => ({
+        data: json,
+      })
+    );
+  },
 
   getMany: (resource, params) => {
     const query = {
