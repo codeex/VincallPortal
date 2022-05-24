@@ -47,7 +47,7 @@ export const dataProvider = (
 
     const query = {
       pageSize: perPage,
-      pageNum: page,
+      pageNum: page - 1,
       // sort: JSON.stringify([field, order]),
       // range: JSON.stringify([rangeStart, rangeEnd]),
       // filter: JSON.stringify(params.filter),
@@ -63,7 +63,11 @@ export const dataProvider = (
     //         }),
     //       }
     //     : {};
-    const options = {};
+    const options = {
+      headers: new Headers({
+        "Access-Control-Allow-Origin": "*",
+      }),
+    };
     return httpClient(url, options).then(({ headers, json }) => {
       // console.log("headers >>", headers.get("content-type"));
       // if (!headers.get(countHeader)) {
@@ -71,9 +75,10 @@ export const dataProvider = (
       //     `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
       //   );
       // }
+      console.log("json >>", json);
       return {
-        data: json,
-        total: 10,
+        data: json.agents,
+        total: json.count,
         // countHeader === "Content-Range"
         //   ? parseInt(headers.get("content-range")?.split("/").pop() || "", 10)
         //   : parseInt(headers.get(countHeader.toLowerCase()) || ""),
@@ -170,12 +175,15 @@ export const dataProvider = (
     })),
 
   delete: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "text/plain",
-      }),
-    }).then(({ json }) => ({ data: json })),
+    httpClient(
+      `${apiUrl}/vincallservice/${resource.slice(0, -1)}/${params.id}`,
+      {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "text/plain",
+        }),
+      }
+    ).then(({ json }) => ({ data: json })),
 
   // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
   deleteMany: (resource, params) =>

@@ -32,7 +32,7 @@ export const AgentList = (props: any) => {
       ) : (
         <Datagrid>
           <TextField source="id" />
-          <TextField source="extensionNumber" />
+          <TextField source="deviceNumber" />
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
