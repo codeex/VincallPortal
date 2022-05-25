@@ -16,9 +16,11 @@ import {
   useTranslate,
   useLogin,
   useNotify,
+  useCreate,
 } from "react-admin";
 
 import Box from "@mui/material/Box";
+import { customHttpClient } from "../../DataProvider/customHttpClient";
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,13 @@ export const Login = () => {
 
   const handleSubmit = (auth: FormValues) => {
     setLoading(true);
+    customHttpClient("/vincallToken", {
+      method: "POST",
+      body: JSON.stringify(auth),
+    }).then((res) => {
+      console.log("res >>", res);
+    });
+
     login(
       auth,
       location.state ? (location.state as any).nextPathname : "/"
