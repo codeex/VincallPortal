@@ -11,10 +11,11 @@ import { Route } from "react-router-dom";
 import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { dataProvider } from "./DataProvider/dataProvider";
+// import { dataProviderFactory } from "./DataProvider";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
-    return `http://${location.host}/vincallservice`;
+    return `http://${location.host}`;
   }
   return "https://api.vincall.net";
   // return "https://apitest.vincall.net";
@@ -44,8 +45,12 @@ export const App = function () {
         options={{ label: "User Manage" }}
         list={UserList}
       />
+      <Resource
+        name="reports"
+        options={{ label: "Report" }}
+        list={ReportPage}
+      />
       <CustomRoutes>
-        <Route path="/report" element={<ReportPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </CustomRoutes>
     </Admin>

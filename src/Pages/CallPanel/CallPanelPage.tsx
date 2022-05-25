@@ -34,6 +34,14 @@ export const CallPanelPage = () => {
       updateDevice(currentAgentId);
     }
   }, [currentAgentId]);
+
+  useEffect(() => {
+    if (!!agentList.length) {
+      handleCurrentAgentChange({
+        target: { value: agentList[0].id as any },
+      });
+    }
+  }, [!!agentList.length]);
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title="Agent Console" />
@@ -85,7 +93,7 @@ export const CallPanelPage = () => {
         )}
       </CTabPanel>
       <CTabPanel value={tab} index={1}>
-        {tab === 1 && <AgentConsolePanel />}
+        <AgentConsolePanel />
       </CTabPanel>
     </Card>
   );
