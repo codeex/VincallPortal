@@ -14,7 +14,7 @@ import { dataProvider } from "./DataProvider/dataProvider";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
-    return `http://${location.host}/vincallservice`;
+    return `http://${location.host}`;
   }
   return "https://api.vincall.net";
   // return "https://apitest.vincall.net";

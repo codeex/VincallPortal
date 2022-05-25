@@ -1,7 +1,6 @@
 import Button from "@mui/material/Button";
 import { useRef, useState } from "react";
 import { useUpdate } from "react-admin";
-import { TextField } from "@mui/material";
 import { DrawerPage } from "../../DrawerPage";
 import { UpdatePasswordForm } from "./UpdatePasswordForm";
 
@@ -15,7 +14,10 @@ export const UpdatePasswordButton = (props: any) => {
 
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
-    console.log("values >>", values);
+    update("users", {
+      id: 28,
+      data: { password: values.password },
+    }).then(() => setOpen(false));
   };
   return (
     <>
@@ -29,8 +31,6 @@ export const UpdatePasswordButton = (props: any) => {
         children={
           <UpdatePasswordForm onSubmit={handleSave} onCancel={handleClose} />
         }
-        // onSave={handleSave}
-        // onCancel={handleClose}
       />
     </>
   );

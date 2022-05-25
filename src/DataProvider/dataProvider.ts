@@ -154,7 +154,7 @@ export const dataProvider = (
 
   update: (resource, params) =>
     httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
-      method: "PUT",
+      method: params.data.password ? "PATCH" : "PUT",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
 
