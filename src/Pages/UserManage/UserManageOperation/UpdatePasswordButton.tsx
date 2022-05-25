@@ -1,20 +1,22 @@
 import Button from "@mui/material/Button";
-import { useRef, useState } from "react";
-import { useUpdate } from "react-admin";
-import { customHttpClient } from "../../../DataProvider/customHttpClient";
+import { useState } from "react";
+import { useDataProvider } from "react-admin";
 import { DrawerPage } from "../../DrawerPage";
 import { UpdatePasswordForm } from "./UpdatePasswordForm";
 
 export const UpdatePasswordButton = (props: any) => {
   const [open, setOpen] = useState(false);
   const handleClick = () => setOpen(true);
+  const dataProvider = useDataProvider();
 
   const handleClose = () => setOpen(false);
-  const handleSave = (values: any) => {
-    customHttpClient(`/user/${props.record.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ password: values.password }),
-    }).then(() => setOpen(false));
+  const handleSave = async (values: any) => {
+    await dataProvider
+      .updatePassword("user", {
+        id: props.record.id,
+        data: { password: values.password },
+      })
+      .then(() => setOpen(false));
   };
   return (
     <>
