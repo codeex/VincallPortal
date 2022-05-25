@@ -16,7 +16,7 @@ const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     return `http://${location.host}/vincallservice`;
   }
-  return "https://apitest.vincall.net";
+  return "https://api.vincall.net";
   // return "https://apitest.vincall.net";
   // return "https://voipapi.comm100dev.io/vincallservice";
 };
