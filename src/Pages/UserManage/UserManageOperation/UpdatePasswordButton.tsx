@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useUpdate } from "react-admin";
 import { TextField } from "@mui/material";
 import { DrawerPage } from "../../DrawerPage";
+import { UpdatePasswordForm } from "./UpdatePasswordForm";
 
 export const UpdatePasswordButton = (props: any) => {
   const [open, setOpen] = useState(false);
@@ -13,11 +14,8 @@ export const UpdatePasswordButton = (props: any) => {
   const ref = useRef(null as any);
 
   const handleClose = () => setOpen(false);
-  const handleSave = () => {
-    update("agents", {
-      id: props.record.id,
-      data: { account: ref.current.value },
-    }).then(() => setOpen(false));
+  const handleSave = (values: any) => {
+    console.log("values >>", values);
   };
   return (
     <>
@@ -29,7 +27,7 @@ export const UpdatePasswordButton = (props: any) => {
         title="Update Password"
         onClose={handleClose}
         children={
-          <TextField label="Password" variant="filled" sx={{ width: 300 }} />
+          <UpdatePasswordForm onSubmit={handleSave} onCancel={handleClose} />
         }
         // onSave={handleSave}
         // onCancel={handleClose}

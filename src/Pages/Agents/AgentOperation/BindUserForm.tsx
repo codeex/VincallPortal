@@ -2,10 +2,20 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
-import { useMemo, useRef, useState } from "react";
-import { useGetList, useUpdate } from "react-admin";
+import { useMemo } from "react";
+import { useGetList } from "react-admin";
 
-export const BindUserForm = (props: any) => {
+export interface BindUserFormProps {
+  onSubmit: (values: any) => void;
+  record: any;
+  onCancel: () => void;
+}
+
+export const BindUserForm = ({
+  onSubmit,
+  record,
+  onCancel,
+}: BindUserFormProps) => {
   const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
     "users",
     {},
@@ -23,9 +33,9 @@ export const BindUserForm = (props: any) => {
   return (
     <Formik
       initialValues={{
-        userAccount: props.record.userAccount,
+        userAccount: record.userAccount,
       }}
-      onSubmit={(values) => props.onSubmit(values)}
+      onSubmit={(values) => onSubmit(values)}
     >
       {({ handleChange, values, setFieldValue }) => {
         return (
@@ -44,6 +54,7 @@ export const BindUserForm = (props: any) => {
               defaultValue={values.userAccount}
             />
             <Button type="submit">Save</Button>
+            <Button onClick={onCancel}>Cancel</Button>
           </Form>
         );
       }}

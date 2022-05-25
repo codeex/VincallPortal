@@ -53,7 +53,13 @@ export const BindUserButton = (props: any) => {
         open={open}
         title="Bind User"
         onClose={handleClose}
-        children={<BindUserForm onSubmit={handleSave} record={props.record} />}
+        children={
+          <BindUserForm
+            onSubmit={handleSave}
+            record={props.record}
+            onCancel={handleClose}
+          />
+        }
         // onSave={handleSave}
         // onCancel={handleClose}
       />
