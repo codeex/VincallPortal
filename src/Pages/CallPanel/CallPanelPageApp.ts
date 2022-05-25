@@ -44,7 +44,7 @@ export const callPanelPageApp = () => {
     }
   };
 
-  const handleCurrentAgentChange: any = (e: ChangeEvent<string>) => {
+  const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
     setCurrentAgentId(e.target.value);
   };
 
