@@ -1,5 +1,6 @@
 import { stringify } from "query-string";
-import { fetchUtils, DataProvider } from "ra-core";
+import { DataProvider } from "ra-core";
+import { customHttpClient } from "./customHttpClient";
 
 /**
  * Maps react-admin queries to a simple REST API
@@ -35,7 +36,7 @@ import { fetchUtils, DataProvider } from "ra-core";
  */
 export const dataProvider = (
   apiUrl: string,
-  httpClient = fetchUtils.fetchJson,
+  httpClient = customHttpClient,
   countHeader: string = "Content-Range"
 ): DataProvider => ({
   getList: (resource, params) => {
