@@ -14,10 +14,8 @@ import { dataProvider } from "./DataProvider/dataProvider";
 // import { dataProviderFactory } from "./DataProvider";
 
 const getServerURL = () => {
-  if (process.env.NODE_ENV === "development") {
-    return `http://${location.host}`;
-  }
-  return "https://voipapi.comm100dev.io/vincallservice";
+  return "https://apitest.vincall.net";
+  // return "https://voipapi.comm100dev.io/vincallservice";
 };
 
 export const App = function () {
