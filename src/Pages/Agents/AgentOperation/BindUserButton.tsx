@@ -1,30 +1,31 @@
 import Button from "@mui/material/Button";
-import { useRef, useState } from "react";
-import { useUpdate } from "react-admin";
 import { DrawerPage } from "../../DrawerPage";
+import { bindUserButtonApp } from "./Application/BindUserButtonApp";
 import { BindUserForm } from "./BindUserForm";
 
-export const BindUserButton = (props: any) => {
-  const [open, setOpen] = useState(false);
-  const handleClick = () => setOpen(true);
-  const [update] = useUpdate<any>();
+export interface BindUserButtonProps {
+  record: any;
+}
 
-  const ref = useRef<any>({
-    label: props.record.userAccount,
-    value: props.record.userAccount,
+export const BindUserButton = ({ record }: BindUserButtonProps) => {
+  // const [open, setOpen] = useState(false);
+  // const handleClick = () => setOpen(true);
+  // const [update] = useUpdate<any>();
+
+  // const handleClose = () => setOpen(false);
+  // const handleSave = (values: any) => {
+  //   update("agents", {
+  //     id: props.record.id,
+  //     data: { account: values.userAccount },
+  //   }).then(() => setOpen(false));
+  // };
+
+  const { handleOpen, handleClose, handleSave, open } = bindUserButtonApp({
+    record,
   });
-
-  const handleClose = () => setOpen(false);
-  const handleSave = (values: any) => {
-    update("agents", {
-      id: props.record.id,
-      data: { account: values.userAccount },
-    }).then(() => setOpen(false));
-  };
-
   return (
     <>
-      <Button variant="text" onClick={handleClick}>
+      <Button variant="text" onClick={handleOpen}>
         Bind User
       </Button>
       <DrawerPage
@@ -34,7 +35,7 @@ export const BindUserButton = (props: any) => {
         children={
           <BindUserForm
             onSubmit={handleSave}
-            record={props.record}
+            record={record}
             onCancel={handleClose}
           />
         }
