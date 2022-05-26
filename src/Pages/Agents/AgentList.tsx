@@ -7,14 +7,10 @@ import {
   CreateButton,
   TopToolbar,
   FunctionField,
-  EditButton,
-  CustomRoutes,
 } from "react-admin";
 import { BindUserButton } from "./AgentOperation/BindUserButton";
 import { DeleteAgentButton } from "./AgentOperation/DeleteAgentButton";
 import { TwoOperationsField } from "../TwoOperationsField";
-import { Route } from "react-router-dom";
-import { Drawer } from "@mui/material";
 import { PermissionEnums, useCheckPermission } from "../../Helpers/Permission";
 
 export const AgentList = (props: any) => {
@@ -52,7 +48,6 @@ export const AgentList = (props: any) => {
             render={(record: any) => (
               <TwoOperationsField
                 op1={<BindUserButton record={record} />}
-                // op1={<EditButton label="Bind User" />}
                 op2={canDeleteAgent ? <DeleteAgentButton /> : null}
               />
             )}

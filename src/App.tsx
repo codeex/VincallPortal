@@ -12,6 +12,7 @@ import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
+import { authProvider } from "./AuthProvider/authProvider";
 import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 
 const getServerURL = () => {
@@ -32,6 +33,7 @@ export const App = function () {
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
+      authProvider={authProvider}
     >
       <Resource
         name="agents"
