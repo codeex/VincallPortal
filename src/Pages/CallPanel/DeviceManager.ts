@@ -90,7 +90,7 @@ export class DeviceManager {
 
   public toggleMute() {
     if (this.call) {
-      this.call.mute(!this.call.isMuted);
+      this.call.mute(!this.call.isMuted());
     }
   }
 

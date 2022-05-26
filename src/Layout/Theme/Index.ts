@@ -1,4 +1,5 @@
 import { defaultTheme } from "react-admin";
+import { Typography } from "./Typography";
 
 export const darkTheme = {
   palette: {
@@ -37,9 +38,10 @@ export const darkTheme = {
 };
 
 export const lightTheme = {
+  Typography: Typography,
   palette: {
     primary: {
-      main: "#4f3cc9",
+      main: "#7774e7",
     },
     secondary: {
       light: "#5f5fc4",
@@ -101,6 +103,14 @@ export const lightTheme = {
         },
         barColorPrimary: {
           backgroundColor: "#d7d7d7",
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontWeight: 700,
+          fontSize: 14,
         },
       },
     },
