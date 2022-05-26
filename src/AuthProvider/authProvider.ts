@@ -1,9 +1,10 @@
 import { AuthProvider } from "react-admin";
+import { getServerURL } from "../App";
 import { customHttpClient } from "../DataProvider/customHttpClient";
 
 export const authProvider: AuthProvider = {
   login: (auth: any) => {
-    return customHttpClient("/vincallToken", {
+    return customHttpClient(`${getServerURL()}/vincallToken`, {
       method: "POST",
       body: JSON.stringify(auth),
     })
