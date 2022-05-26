@@ -1,5 +1,12 @@
 import { useMediaQuery } from "@mui/material";
-import { SimpleList, List, Datagrid, TextField, TopToolbar } from "react-admin";
+import {
+  SimpleList,
+  List,
+  Datagrid,
+  TextField,
+  TopToolbar,
+  FunctionField,
+} from "react-admin";
 import { TwoOperationsField } from "../TwoOperationsField";
 import { DeleteUserButton } from "./UserManageOperation/DeleteUserButton";
 import { UpdatePasswordButton } from "./UserManageOperation/UpdatePasswordButton";
@@ -22,10 +29,15 @@ export const UserList = (props: any) => {
           <TextField source="userName" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <TwoOperationsField
+          <FunctionField
             label="Operations"
-            op1={<UpdatePasswordButton />}
-            op2={<DeleteUserButton />}
+            render={(record: any) => (
+              <TwoOperationsField
+                label="Operations"
+                op1={<UpdatePasswordButton record={record} />}
+                op2={<DeleteUserButton />}
+              />
+            )}
           />
         </Datagrid>
       )}
