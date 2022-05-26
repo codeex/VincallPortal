@@ -8,18 +8,6 @@ export interface BindUserButtonProps {
 }
 
 export const BindUserButton = ({ record }: BindUserButtonProps) => {
-  // const [open, setOpen] = useState(false);
-  // const handleClick = () => setOpen(true);
-  // const [update] = useUpdate<any>();
-
-  // const handleClose = () => setOpen(false);
-  // const handleSave = (values: any) => {
-  //   update("agents", {
-  //     id: props.record.id,
-  //     data: { account: values.userAccount },
-  //   }).then(() => setOpen(false));
-  // };
-
   const { handleOpen, handleClose, handleSave, open } = bindUserButtonApp({
     record,
   });

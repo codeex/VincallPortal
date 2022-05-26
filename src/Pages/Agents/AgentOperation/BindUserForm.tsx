@@ -4,6 +4,7 @@ import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
 import { useMemo } from "react";
 import { useGetList } from "react-admin";
+import { bindUserFormApp } from "./Application/BindUserFormApp";
 
 export interface BindUserFormProps {
   onSubmit: (values: any) => void;
@@ -16,19 +17,7 @@ export const BindUserForm = ({
   record,
   onCancel,
 }: BindUserFormProps) => {
-  const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
-    "users",
-    {},
-    {
-      refetchInterval: -1,
-    }
-  );
-  const userOptions = useMemo(() => {
-    return userList.map((user) => ({
-      label: user.userName,
-      value: user.userName,
-    }));
-  }, [userList]);
+  const { userOptions, isUserLoading } = bindUserFormApp({});
 
   return (
     <Formik
@@ -48,7 +37,7 @@ export const BindUserForm = ({
                 <TextField {...params} label="Users" onChange={handleChange} />
               )}
               loading={isUserLoading}
-              onChange={(event, value) =>
+              onChange={(_, value) =>
                 setFieldValue("userAccount", value?.value || "")
               }
               defaultValue={values.userAccount}
