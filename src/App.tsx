@@ -18,7 +18,7 @@ import { lightTheme } from "./Layout/Theme/Index";
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     // append /api from proxy.
-    return `http://${location.host}/api`;
+    return `http://${location.host}`;
   }
   return EnvConfig.serverUrl;
 };

@@ -1,21 +1,14 @@
 import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
-import { TextField } from "@mui/material";
+import { TextField, Skeleton } from "@mui/material";
 import { Formik, Form } from "formik";
-import { useMemo, useRef, useState } from "react";
-import { useGetList, useUpdate } from "react-admin";
 
 export interface BindUserFormProps {
-  onSubmit: (values: any) => void;
+  onSubmit: (values: any, settings: any) => void;
   record?: any;
   settings: any[];
 }
 
-export const SettingsForm = ({
-  onSubmit,
-  record,
-  settings,
-}: BindUserFormProps) => {
+export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
   const init = settings.map((setting) => {
     let init: { [key: string]: string } = {};
     init[setting.optionKey.split(" ").join("")] = setting.optionValue;
@@ -26,7 +19,7 @@ export const SettingsForm = ({
   return Object.keys(initialValues).length > 0 ? (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => onSubmit(values)}
+      onSubmit={(values) => onSubmit(values, settings)}
     >
       {({ values, setFieldValue }) => {
         return (
@@ -56,6 +49,6 @@ export const SettingsForm = ({
       }}
     </Formik>
   ) : (
-    <></>
+    <Skeleton variant="rectangular" />
   );
 };
