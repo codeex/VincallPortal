@@ -1,5 +1,4 @@
 import { fetchUtils, Options } from "ra-core";
-import { tokenManager } from "./tokenManager";
 
 export const customHttpClient = (url: string, options?: Options) => {
   let _options = options;
