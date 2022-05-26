@@ -11,7 +11,7 @@ export const TwoOperationsField = ({ op1, op2 }: TwoOperationsFieldProps) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
       {op1}
-      <Divider orientation="vertical" flexItem />
+      {op2 && <Divider orientation="vertical" flexItem />}
       {op2}
     </Box>
   );

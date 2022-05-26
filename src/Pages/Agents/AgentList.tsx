@@ -15,17 +15,23 @@ import { DeleteAgentButton } from "./AgentOperation/DeleteAgentButton";
 import { TwoOperationsField } from "../TwoOperationsField";
 import { Route } from "react-router-dom";
 import { Drawer } from "@mui/material";
+import { PermissionEnums, useCheckPermission } from "../../Helpers/Permission";
 
 export const AgentList = (props: any) => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
-
+  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
+  const canDeleteAgent = useCheckPermission(PermissionEnums.canDeleteAgent);
   return (
     <List
       title="All Agents"
       actions={
-        <TopToolbar>
-          <CreateButton />
-        </TopToolbar>
+        canCreateAgent ? (
+          <TopToolbar>
+            <CreateButton />
+          </TopToolbar>
+        ) : (
+          <></>
+        )
       }
     >
       {isSmall ? (
@@ -47,7 +53,7 @@ export const AgentList = (props: any) => {
               <TwoOperationsField
                 op1={<BindUserButton record={record} />}
                 // op1={<EditButton label="Bind User" />}
-                op2={<DeleteAgentButton />}
+                op2={canDeleteAgent ? <DeleteAgentButton /> : null}
               />
             )}
           />
