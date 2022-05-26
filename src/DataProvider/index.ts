@@ -1,7 +1,13 @@
 import { DataProvider } from "react-admin";
+import { EnvConfig } from "../EnvConfig";
+import { dataProvider } from "./dataProvider";
 import { restDataProviderFactory } from "./rest";
 
 export const dataProviderFactory = (serverURL: string) => {
+  if (!EnvConfig.useMockServer) {
+    // Truly data provider.
+    return dataProvider(serverURL);
+  }
   // The fake servers require to generate data, which can take some time.
   // Here we start the server initialization but we don't wait for it to finish
   let dataProviderPromise = getDataProvider(serverURL);
