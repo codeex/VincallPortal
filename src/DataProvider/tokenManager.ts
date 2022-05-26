@@ -9,4 +9,7 @@ export const tokenManager = {
   getToken(): string {
     return localStorage.getItem("vincall-token")!;
   },
+  removeToken(): string {
+    return localStorage.removeItem("vincall-token")!;
+  },
 };
