@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import { useGetList, useUpdate } from "react-admin";
 
 export interface BindUserFormProps {
-  onSubmit: (values: any) => void;
+  onSubmit: (values: any, settings: any) => void;
   record?: any;
   settings: any[];
 }
@@ -26,7 +26,7 @@ export const SettingsForm = ({
   return Object.keys(initialValues).length > 0 ? (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => onSubmit(values)}
+      onSubmit={(values) => onSubmit(values, settings)}
     >
       {({ values, setFieldValue }) => {
         return (

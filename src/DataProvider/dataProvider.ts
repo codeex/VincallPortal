@@ -159,6 +159,12 @@ export const dataProvider = (
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
 
+  updatePatch: (resource: string, params: { [key: string]: string }) =>
+    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(params.data),
+    }).then(({ json }) => ({ data: json })),
+
   // simple-rest doesn't handle provide an updateMany route, so we fallback to calling update n times instead
   updateMany: (resource, params) =>
     Promise.all(
