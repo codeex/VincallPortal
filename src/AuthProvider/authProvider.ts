@@ -1,9 +1,10 @@
 import { AuthProvider } from "react-admin";
 import { customHttpClient } from "../DataProvider/customHttpClient";
+import { EnvConfig } from "../EnvConfig";
 
 export const authProvider: AuthProvider = {
   login: (auth: any) => {
-    return customHttpClient("/vincallToken", {
+    return customHttpClient(`${EnvConfig.serverUrl}/vincallToken`, {
       method: "POST",
       body: JSON.stringify(auth),
     })
