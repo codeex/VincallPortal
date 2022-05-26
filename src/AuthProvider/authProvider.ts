@@ -8,8 +8,10 @@ export const authProvider: AuthProvider = {
       body: JSON.stringify(auth),
     })
       .then((res) => {
-        localStorage.removeItem("refresh_token");
-        localStorage.setItem("refresh_token", res.json.refresh_token);
+        localStorage.removeItem("userName");
+        localStorage.setItem("userName", res.json.userName);
+        localStorage.removeItem("userId");
+        localStorage.setItem("userId", res.json.userId);
         return Promise.resolve();
       })
       .catch((err) => {
@@ -27,8 +29,8 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: () => {
     return Promise.resolve({
-      id: "user",
-      fullName: "John Doe",
+      id: localStorage.getItem("userId") || "Unknown",
+      fullName: localStorage.getItem("userName") || "Unknown",
     });
   },
   getPermissions: () => {
