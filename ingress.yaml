@@ -12,13 +12,13 @@ metadata:
 spec:
   tls:
     - hosts:
-        - www.vincall.net
+        - wwwtest.vincall.net
       secretName: comm100dev-io-tls
   rules:
-    - host: www.vincall.net
+    - host: wwwtest.vincall.net
       http:
         paths:
-          - path: (.*)
+          - path: /(.*)
             backend:
               serviceName: vincalportal
               servicePort: 80
