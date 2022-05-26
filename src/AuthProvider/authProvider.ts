@@ -3,14 +3,18 @@ import { customHttpClient } from "../DataProvider/customHttpClient";
 
 export const authProvider: AuthProvider = {
   login: (auth: any) => {
-    console.log("auth >>", auth);
-    customHttpClient("/vincallToken", {
+    return customHttpClient("/vincallToken", {
       method: "POST",
       body: JSON.stringify(auth),
-    }).then((res) => {
-      console.log("res >>", res);
-    });
-    return Promise.resolve();
+    })
+      .then((res) => {
+        localStorage.removeItem("refresh_token");
+        localStorage.setItem("refresh_token", res.json.refresh_token);
+        return Promise.resolve();
+      })
+      .catch((err) => {
+        return Promise.reject();
+      });
   },
   logout: () => {
     return Promise.resolve();
