@@ -10,19 +10,22 @@ import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { Route } from "react-router-dom";
 import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
-import { dataProvider } from "./DataProvider/dataProvider";
-// import { dataProviderFactory } from "./DataProvider";
+import { EnvConfig } from "./EnvConfig";
+import { dataProviderFactory } from "./DataProvider";
 
 const getServerURL = () => {
-  return "https://apitest.vincall.net";
-  // return "https://voipapi.comm100dev.io/vincallservice";
+  if (process.env.NODE_ENV === "development") {
+    // append /api from proxy.
+    return `http://${location.host}/api`;
+  }
+  return EnvConfig.serverUrl;
 };
 
 export const App = function () {
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProvider(getServerURL())}
+      dataProvider={dataProviderFactory(getServerURL())}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
