@@ -32,13 +32,6 @@ export const Login = () => {
 
   const handleSubmit = (auth: FormValues) => {
     setLoading(true);
-    customHttpClient("/vincallToken", {
-      method: "POST",
-      body: JSON.stringify(auth),
-    }).then((res) => {
-      console.log("res >>", res);
-    });
-
     login(
       auth,
       location.state ? (location.state as any).nextPathname : "/"
@@ -98,9 +91,7 @@ export const Login = () => {
               justifyContent: "center",
               color: (theme) => theme.palette.grey[500],
             }}
-          >
-            Hint: demo / demo
-          </Box>
+          ></Box>
           <Box sx={{ padding: "0 1em 1em 1em" }}>
             <Box sx={{ marginTop: "1em" }}>
               <TextInput

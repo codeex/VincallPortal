@@ -11,6 +11,7 @@ import { Route } from "react-router-dom";
 import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { dataProvider } from "./DataProvider/dataProvider";
+import { authProvider } from "./AuthProvider/authProvider";
 // import { dataProviderFactory } from "./DataProvider";
 
 const getServerURL = () => {
@@ -30,6 +31,7 @@ export const App = function () {
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
+      authProvider={authProvider}
     >
       <Resource
         name="agents"
