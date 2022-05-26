@@ -2,15 +2,18 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
-import { useMemo } from "react";
-import { useGetList } from "react-admin";
 import { bindUserFormApp } from "./Application/BindUserFormApp";
+import * as Yup from "yup";
 
 export interface BindUserFormProps {
   onSubmit: (values: any) => void;
   record: any;
   onCancel: () => void;
 }
+
+const validateSchema = Yup.object().shape({
+  userAccount: Yup.string().required("User cannot be empty."),
+});
 
 export const BindUserForm = ({
   onSubmit,
@@ -25,8 +28,9 @@ export const BindUserForm = ({
         userAccount: record.userAccount,
       }}
       onSubmit={(values) => onSubmit(values)}
+      validationSchema={validateSchema}
     >
-      {({ handleChange, values, setFieldValue }) => {
+      {({ handleChange, values, setFieldValue, errors }) => {
         return (
           <Form>
             <Autocomplete
@@ -34,7 +38,12 @@ export const BindUserForm = ({
               options={userOptions}
               sx={{ width: 300 }}
               renderInput={(params: any) => (
-                <TextField {...params} label="Users" onChange={handleChange} />
+                <TextField
+                  {...params}
+                  label="Users"
+                  onChange={handleChange}
+                  error={errors.userAccount}
+                />
               )}
               loading={isUserLoading}
               onChange={(_, value) =>
@@ -42,6 +51,9 @@ export const BindUserForm = ({
               }
               defaultValue={values.userAccount}
             />
+            {errors.userAccount ? (
+              <div style={{ color: "red" }}>{`${errors.userAccount}`}</div>
+            ) : null}
             <Button type="submit">Save</Button>
             <Button onClick={onCancel}>Cancel</Button>
           </Form>
