@@ -1,4 +1,5 @@
 import { MenuItemLink } from "react-admin";
+import { PermissionEnums, useCheckPermission } from "../Helpers/Permission";
 
 const menuItems = [
   { name: "agents", text: "Agents", path: "/agents" },
@@ -10,9 +11,14 @@ const menuItems = [
 ];
 
 export const CustomMenu = ({ onMenuClick }: any) => {
+  const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
+  let menus = menuItems;
+  if (!canManageUsers) {
+    menus = menuItems.filter((item) => item.name !== "users");
+  }
   return (
     <>
-      {menuItems.map((item) => (
+      {menus.map((item) => (
         <MenuItemLink
           key={item.name}
           to={item.path}

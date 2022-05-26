@@ -2,32 +2,35 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
-import { useMemo, useRef, useState } from "react";
-import { useGetList, useUpdate } from "react-admin";
+import { bindUserFormApp } from "./Application/BindUserFormApp";
+import * as Yup from "yup";
 
-export const BindUserForm = (props: any) => {
-  const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
-    "users",
-    {},
-    {
-      refetchInterval: -1,
-    }
-  );
-  const userOptions = useMemo(() => {
-    return userList.map((user) => ({
-      label: user.userName,
-      value: user.userName,
-    }));
-  }, [userList]);
+export interface BindUserFormProps {
+  onSubmit: (values: any) => void;
+  record: any;
+  onCancel: () => void;
+}
+
+const validateSchema = Yup.object().shape({
+  userAccount: Yup.string().required("User cannot be empty."),
+});
+
+export const BindUserForm = ({
+  onSubmit,
+  record,
+  onCancel,
+}: BindUserFormProps) => {
+  const { userOptions, isUserLoading } = bindUserFormApp({});
 
   return (
     <Formik
       initialValues={{
-        userAccount: props.record.userAccount,
+        userAccount: record.userAccount,
       }}
-      onSubmit={(values) => props.onSubmit(values)}
+      onSubmit={(values) => onSubmit(values)}
+      validationSchema={validateSchema}
     >
-      {({ handleChange, values, setFieldValue }) => {
+      {({ handleChange, values, setFieldValue, errors }) => {
         return (
           <Form>
             <Autocomplete
@@ -35,15 +38,24 @@ export const BindUserForm = (props: any) => {
               options={userOptions}
               sx={{ width: 300 }}
               renderInput={(params: any) => (
-                <TextField {...params} label="Users" onChange={handleChange} />
+                <TextField
+                  {...params}
+                  label="Users"
+                  onChange={handleChange}
+                  error={errors.userAccount}
+                />
               )}
               loading={isUserLoading}
-              onChange={(event, value) =>
+              onChange={(_, value) =>
                 setFieldValue("userAccount", value?.value || "")
               }
               defaultValue={values.userAccount}
             />
+            {errors.userAccount ? (
+              <div style={{ color: "red" }}>{`${errors.userAccount}`}</div>
+            ) : null}
             <Button type="submit">Save</Button>
+            <Button onClick={onCancel}>Cancel</Button>
           </Form>
         );
       }}
