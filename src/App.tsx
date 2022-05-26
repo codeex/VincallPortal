@@ -13,6 +13,7 @@ import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
 import { authProvider } from "./AuthProvider/authProvider";
+import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
@@ -23,6 +24,8 @@ const getServerURL = () => {
 };
 
 export const App = function () {
+  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
+  const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
   return (
     <Admin
       title="Vin Call"
@@ -36,21 +39,24 @@ export const App = function () {
         name="agents"
         options={{ label: "Agents" }}
         list={AgentList}
-        create={CreateAgentForm}
+        create={canCreateAgent ? CreateAgentForm : undefined}
       />
       <CustomRoutes>
         <Route path="/agentConsole" element={<CallPanelPage />} />
       </CustomRoutes>
-      <Resource
-        name="users"
-        options={{ label: "User Manage" }}
-        list={UserList}
-      />
+
       <Resource
         name="reports"
         options={{ label: "Report" }}
         list={ReportPage}
       />
+      {canManageUsers ? (
+        <Resource
+          name="users"
+          options={{ label: "User Manage" }}
+          list={UserList}
+        />
+      ) : null}
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
       </CustomRoutes>
