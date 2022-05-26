@@ -1,7 +1,6 @@
 import { Admin, Resource, ListGuesser, CustomRoutes } from "react-admin";
 import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
-import { lightTheme } from "./Layout/themes";
 // import { dataProviderFactory } from "./DataProvider";
 import { Login } from "./Pages/Login/Login";
 import { UserList } from "./Pages/UserManage/UserList";
@@ -14,6 +13,7 @@ import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
 import { authProvider } from "./AuthProvider/authProvider";
 import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
+import { lightTheme } from "./Layout/Theme/Index";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
