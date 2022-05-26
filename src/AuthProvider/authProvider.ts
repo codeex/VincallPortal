@@ -1,6 +1,8 @@
 import { AuthProvider } from "react-admin";
 import { getServerURL } from "../App";
 import { customHttpClient } from "../DataProvider/customHttpClient";
+import { tokenManager } from "../DataProvider/tokenManager";
+import jwt_decode from "jwt-decode";
 
 export const authProvider: AuthProvider = {
   login: (auth: any) => {
@@ -9,6 +11,7 @@ export const authProvider: AuthProvider = {
       body: JSON.stringify(auth),
     })
       .then((res) => {
+        tokenManager.setToken(res.json.access_token);
         localStorage.removeItem("userName");
         localStorage.setItem("userName", res.json.userName);
         localStorage.removeItem("userId");
@@ -20,10 +23,18 @@ export const authProvider: AuthProvider = {
       });
   },
   logout: () => {
+    tokenManager.removeToken();
     return Promise.resolve();
   },
   checkAuth: () => {
-    return Promise.resolve();
+    const token = tokenManager.getToken();
+    if (!token) {
+      return Promise.reject();
+    }
+    const decoded = jwt_decode(token) as { [key: string]: number };
+    return decoded.exp > Date.now() / 1000 + 60 * 5
+      ? Promise.resolve()
+      : Promise.reject();
   },
   checkError: (error: any) => {
     return Promise.resolve();
