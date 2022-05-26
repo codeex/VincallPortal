@@ -7,7 +7,7 @@ export const enum PermissionEnums {
   canManageUsers,
 }
 
-export const getRole = (): "admin" | "user" => "user";
+export const getRole = (): "admin" | "user" => "admin";
 
 export const useCheckPermission = (permission: PermissionEnums) => {
   if (getRole() === "admin") {

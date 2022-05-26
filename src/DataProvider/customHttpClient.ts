@@ -6,13 +6,7 @@ export const customHttpClient = (url: string, options?: Options) => {
   if (!_options) {
     _options = {};
   }
-  if (!_options.headers) {
-    _options.headers = new Headers();
-  }
-  const token = tokenManager.getToken();
-  if (token) {
-    (_options.headers as any).set("Authorization", `Bearer ${token}`);
-  }
+  _options.credentials = "include";
 
   return fetchUtils.fetchJson(url, _options);
 };
