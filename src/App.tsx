@@ -23,6 +23,8 @@ const getServerURL = () => {
   return EnvConfig.serverUrl;
 };
 
+console.log("test >>", getServerURL());
+
 export const App = function () {
   const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
   const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
