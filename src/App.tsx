@@ -15,7 +15,7 @@ import { authProvider } from "./AuthProvider/authProvider";
 import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 import { lightTheme } from "./Layout/Theme/Index";
 
-const getServerURL = () => {
+export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     // append /api from proxy.
     return `http://${location.host}`;
