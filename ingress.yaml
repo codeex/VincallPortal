@@ -18,7 +18,7 @@ spec:
     - host: www.vincall.net
       http:
         paths:
-          - path: (.*)
+          - path: /(.*)
             backend:
               serviceName: vincalportal
               servicePort: 80
