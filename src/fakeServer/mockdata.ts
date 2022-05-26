@@ -18,9 +18,22 @@ export const mockdata = {
       createDate: "2022-01-01",
     },
   ],
-  token: [
+  reports: [
     {
-      data: "test token",
+      id: 1,
+      agentId: 1,
+      userName: "ray",
+      incomingCall: 1,
+      outboundCall: 1,
+      callTime: 180,
+    },
+    {
+      id: 2,
+      agentId: 2,
+      userName: "ray2",
+      incomingCall: 12,
+      outboundCall: 12,
+      callTime: 280,
     },
   ],
 };

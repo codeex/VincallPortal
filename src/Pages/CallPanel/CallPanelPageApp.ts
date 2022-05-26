@@ -44,13 +44,23 @@ export const callPanelPageApp = () => {
     }
   };
 
-  const handleCurrentAgentChange: any = (e: ChangeEvent<string>) => {
+  const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
     setCurrentAgentId(e.target.value);
   };
 
   const updateDevice = async (currentAgentId: string) => {
     handleUpdateDeviceState({ status: "initializing" });
-    const tokenResponse = await getTwilioToken(dataProvider, currentAgentId);
+    // TODO: REMOVE_ME: Mock token;
+    let tokenResponse: { token: string; identity: string };
+    try {
+      tokenResponse = await getTwilioToken(dataProvider, currentAgentId);
+    } catch (e) {
+      tokenResponse = {
+        token: localStorage.getItem("t_token") || "",
+        identity: "ray_test",
+      };
+    }
+
     if (tokenResponse.token) {
       if (deviceManager.current) {
         deviceManager.current.clear();
