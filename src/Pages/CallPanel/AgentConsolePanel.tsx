@@ -14,7 +14,7 @@ export const AgentConsolePanel = () => {
     innerDoc.open();
     innerDoc.write(`
       <div id="comm100-agentconsole"></div>
-      <script src="https://voicedash.comm100dev.io/livechat/js/embeddingagentconsole.min.js"></script>
+      <script src="https://voipdash.comm100dev.io/sdk/comm100-embed-agent-console.js"></script>
       <script>
         var ac = new EmbeddingAgentConsole({
           appId: '',

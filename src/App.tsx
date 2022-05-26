@@ -10,46 +10,53 @@ import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { Route } from "react-router-dom";
 import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
-import { dataProvider } from "./DataProvider/dataProvider";
-// import { dataProviderFactory } from "./DataProvider";
+import { EnvConfig } from "./EnvConfig";
+import { dataProviderFactory } from "./DataProvider";
+import { authProvider } from "./AuthProvider/authProvider";
+import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 
 const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
+    // append /api from proxy.
     return `http://${location.host}`;
   }
-  return "https://api.vincall.net";
-  // return "https://apitest.vincall.net";
-  // return "https://voipapi.comm100dev.io/vincallservice";
+  return EnvConfig.serverUrl;
 };
 
 export const App = function () {
+  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
+  const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
   return (
     <Admin
       title="Vin Call"
-      dataProvider={dataProvider(getServerURL())}
+      dataProvider={dataProviderFactory(getServerURL())}
       loginPage={Login}
       layout={Layout}
       theme={lightTheme}
+      authProvider={authProvider}
     >
       <Resource
         name="agents"
         options={{ label: "Agents" }}
         list={AgentList}
-        create={CreateAgentForm}
+        create={canCreateAgent ? CreateAgentForm : undefined}
       />
       <CustomRoutes>
         <Route path="/agentConsole" element={<CallPanelPage />} />
       </CustomRoutes>
-      <Resource
-        name="users"
-        options={{ label: "User Manage" }}
-        list={UserList}
-      />
+
       <Resource
         name="reports"
         options={{ label: "Report" }}
         list={ReportPage}
       />
+      {canManageUsers ? (
+        <Resource
+          name="users"
+          options={{ label: "User Manage" }}
+          list={UserList}
+        />
+      ) : null}
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
       </CustomRoutes>

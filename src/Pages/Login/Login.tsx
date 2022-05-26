@@ -16,9 +16,11 @@ import {
   useTranslate,
   useLogin,
   useNotify,
+  useCreate,
 } from "react-admin";
 
 import Box from "@mui/material/Box";
+import { customHttpClient } from "../../DataProvider/customHttpClient";
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -89,9 +91,7 @@ export const Login = () => {
               justifyContent: "center",
               color: (theme) => theme.palette.grey[500],
             }}
-          >
-            Hint: demo / demo
-          </Box>
+          ></Box>
           <Box sx={{ padding: "0 1em 1em 1em" }}>
             <Box sx={{ marginTop: "1em" }}>
               <TextInput

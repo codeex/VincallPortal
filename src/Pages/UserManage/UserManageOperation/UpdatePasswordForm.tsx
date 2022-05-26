@@ -23,7 +23,7 @@ export const UpdatePasswordForm = ({
       }}
       onSubmit={(values) => onSubmit(values)}
     >
-      {({ handleChange, values, setFieldValue }) => {
+      {({ setFieldValue }) => {
         return (
           <Form>
             <TextField
@@ -35,8 +35,10 @@ export const UpdatePasswordForm = ({
                 setFieldValue("password", event.target.value || "")
               }
             />
-            <Button type="submit">Save</Button>
-            <Button onClick={onCancel}>Cancel</Button>
+            <div>
+              <Button type="submit">Save</Button>
+              <Button onClick={onCancel}>Cancel</Button>
+            </div>
           </Form>
         );
       }}
