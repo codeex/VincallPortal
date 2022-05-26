@@ -157,6 +157,7 @@ export class DeviceManager {
       const token = await this.tokenGetter();
       device.updateToken(token);
     });
+    device.register();
   }
 
   private createDevice(token: string) {
