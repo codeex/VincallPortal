@@ -2,14 +2,17 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
-import { useMemo, useRef, useState } from "react";
-import { useGetList, useUpdate } from "react-admin";
+import * as Yup from "yup";
 
 export interface BindUserFormProps {
   onSubmit: (values: any) => void;
   record?: any;
   onCancel: () => void;
 }
+
+const validateSchema = Yup.object().shape({
+  password: Yup.string().required("Password cannot be empty."),
+});
 
 export const UpdatePasswordForm = ({
   onSubmit,
@@ -22,8 +25,9 @@ export const UpdatePasswordForm = ({
         password: "",
       }}
       onSubmit={(values) => onSubmit(values)}
+      validationSchema={validateSchema}
     >
-      {({ setFieldValue }) => {
+      {({ errors, setFieldValue }) => {
         return (
           <Form>
             <TextField
@@ -34,7 +38,11 @@ export const UpdatePasswordForm = ({
               onChange={(event) =>
                 setFieldValue("password", event.target.value || "")
               }
+              error={!!errors.password}
             />
+            {errors.password ? (
+              <div style={{ color: "red" }}>{`${errors.password}`}</div>
+            ) : null}
             <div>
               <Button type="submit">Save</Button>
               <Button onClick={onCancel}>Cancel</Button>

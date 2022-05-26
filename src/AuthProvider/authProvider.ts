@@ -12,9 +12,9 @@ export const authProvider: AuthProvider = {
     })
       .then((res) => {
         tokenManager.setToken(res.json.access_token);
-        localStorage.removeItem("userName");
+
         localStorage.setItem("userName", res.json.userName);
-        localStorage.removeItem("userId");
+
         localStorage.setItem("userId", res.json.userId);
         return Promise.resolve();
       })
@@ -24,6 +24,8 @@ export const authProvider: AuthProvider = {
   },
   logout: () => {
     tokenManager.removeToken();
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
     return Promise.resolve();
   },
   checkAuth: () => {
