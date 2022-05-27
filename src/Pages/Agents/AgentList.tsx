@@ -43,15 +43,18 @@ export const AgentList = (props: any) => {
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <FunctionField
-            label="Operations"
-            render={(record: any) => (
-              <TwoOperationsField
-                op1={<BindUserButton record={record} />}
-                op2={canDeleteAgent ? <DeleteAgentButton /> : null}
-              />
-            )}
-          />
+          {/* // TODO: Update here; */}
+          {canDeleteAgent ? (
+            <FunctionField
+              label="Operations"
+              render={(record: any) => (
+                <TwoOperationsField
+                  op1={<BindUserButton record={record} />}
+                  op2={<DeleteAgentButton />}
+                />
+              )}
+            />
+          ) : null}
         </Datagrid>
       )}
     </List>
