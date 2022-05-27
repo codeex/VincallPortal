@@ -1,11 +1,11 @@
 import { Card, Box, Tabs, Tab } from "@mui/material";
-import { Title } from "react-admin";
+import { Title, useGetIdentity } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
 import { AgentConsolePanel } from "./AgentConsolePanel";
 import { CallTabContent } from "./CallTabContent";
-import { isEmbeddedMode } from "../../Helpers/Index";
+import { isEmbeddedMode, log } from "../../Helpers/Index";
 
 export const CallPanelPage = () => {
   const {
@@ -22,6 +22,8 @@ export const CallPanelPage = () => {
     clearCallTimeTask,
   } = callPanelPageApp();
 
+  const { identity } = useGetIdentity();
+  log("Ray: identity", identity);
   useEffect(() => {
     if (currentAgentId) {
       updateDevice(currentAgentId);
@@ -29,12 +31,15 @@ export const CallPanelPage = () => {
   }, [currentAgentId]);
 
   useEffect(() => {
-    if (!!agentList.length) {
+    if (!!agentList.length && identity?.account) {
+      const currentAgent = agentList.find(
+        (item) => item.userAccount === identity?.account
+      ) || { id: "" };
       handleCurrentAgentChange({
-        target: { value: agentList[0].id as any },
+        target: { value: (currentAgent.id as any) || (agentList[0].id as any) },
       });
     }
-  }, [!!agentList.length]);
+  }, [!!agentList.length, identity?.account]);
   useEffect(() => {
     return () => {
       clearCallTimeTask();

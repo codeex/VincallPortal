@@ -2,6 +2,7 @@ import { Box, TextField, MenuItem, CircularProgress } from "@mui/material";
 import { CallScreen } from "../../Components/CallScreen";
 import { DeviceState } from "./types";
 import { DeviceManager } from "./DeviceManager";
+import { useCheckPermission, PermissionEnums } from "../../Helpers/Permission";
 
 export interface CallTabContentProps {
   isAgentLoading: boolean;
@@ -21,6 +22,9 @@ export const CallTabContent = ({
   deviceState,
   deviceManager,
 }: CallTabContentProps) => {
+  const canSelectAgentWhenCall = useCheckPermission(
+    PermissionEnums.canSelectAgentWhenCall
+  );
   return (
     <>
       <Box>
@@ -32,7 +36,7 @@ export const CallTabContent = ({
           onChange={handleCurrentAgentChange}
           style={{ width: 200 }}
           variant="standard"
-          disabled={!getIfCanChangeAgentWhenCalling()}
+          disabled={!canSelectAgentWhenCall}
         >
           {isAgentLoading ? (
             <Box sx={{ display: "flex", justifyContent: "center" }}>

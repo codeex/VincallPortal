@@ -37,7 +37,14 @@ export const AgentList = (props: any) => {
           tertiaryText={(record) => record.email}
         />
       ) : (
-        <Datagrid>
+        <Datagrid
+          size="medium"
+          bulkActionButtons={
+            useCheckPermission(PermissionEnums.canSelectAgent)
+              ? undefined
+              : false
+          }
+        >
           <TextField source="id" />
           <TextField source="deviceNumber" />
           <TextField source="userAccount" />
