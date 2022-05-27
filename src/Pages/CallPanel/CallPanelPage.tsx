@@ -27,6 +27,7 @@ export const CallPanelPage = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    clearCallTimeTask,
   } = callPanelPageApp();
 
   useEffect(() => {
@@ -42,6 +43,14 @@ export const CallPanelPage = () => {
       });
     }
   }, [!!agentList.length]);
+  useEffect(() => {
+    return () => {
+      clearCallTimeTask();
+      if (deviceManager) {
+        deviceManager.clear();
+      }
+    };
+  }, []);
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title="Agent Console" />

@@ -1,10 +1,6 @@
 import { useMemo, useRef, useState } from "react";
-import {
-  DataProvider,
-  useDataProvider,
-  useGetList,
-  useGetOne,
-} from "react-admin";
+import { DataProvider, useDataProvider, useGetList } from "react-admin";
+import { useEventCallback } from "@mui/material";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
@@ -16,6 +12,7 @@ export const callPanelPageApp = () => {
   const [tab, setTab] = useState<number>(0);
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
+  const updateCallTimeTaskId = useRef<any>();
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
@@ -30,20 +27,42 @@ export const callPanelPageApp = () => {
   const [deviceState, setDeviceState] = useState<DeviceState>({
     status: "initializing",
   });
-  //@ts-ignore
-  window.setDeviceState = setDeviceState;
 
-  const handleUpdateDeviceState = (
-    state: Partial<DeviceState>,
-    shouldUseAssign?: boolean
-  ) => {
-    if (shouldUseAssign) {
-      log("Ray: handleUpdateDeviceState", deviceState, state);
-      setDeviceState(Object.assign({}, deviceState, state));
-    } else {
-      setDeviceState(state as any);
-    }
+  const requestForUpdateCallTime = () => {
+    log("Ray: requestForUpdateCallTime start.");
+    dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
   };
+
+  const setupUpdateCallTimeTask = () => {
+    if (updateCallTimeTaskId.current) {
+      clearInterval(updateCallTimeTaskId.current);
+    }
+    updateCallTimeTaskId.current = setInterval(requestForUpdateCallTime, 5000);
+  };
+
+  const clearCallTimeTask = () => {
+    log("Ray: requestForUpdateCallTime end.");
+    clearInterval(updateCallTimeTaskId.current);
+    updateCallTimeTaskId.current = null;
+  };
+
+  const handleUpdateDeviceState = useEventCallback(
+    (state: Partial<DeviceState>, shouldUseAssign?: boolean) => {
+      if (shouldUseAssign) {
+        setDeviceState(Object.assign({}, deviceState, state));
+      } else {
+        setDeviceState(state as any);
+      }
+      if (
+        state.status === "incomingAccept" ||
+        state.status === "outingCallingAccept"
+      ) {
+        setupUpdateCallTimeTask();
+      } else if (state.status === "end") {
+        clearCallTimeTask();
+      }
+    }
+  );
 
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
     setCurrentAgentId(e.target.value);
@@ -88,6 +107,7 @@ export const callPanelPageApp = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    clearCallTimeTask,
   };
 };
 
