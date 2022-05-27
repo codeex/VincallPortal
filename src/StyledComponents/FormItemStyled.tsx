@@ -1,3 +1,5 @@
 export const FormItemStyled = (props: any) => {
-  return <div style={{ display: "flex" }} {...props}></div>;
+  return (
+    <div style={{ display: "flex", alignItems: "center" }} {...props}></div>
+  );
 };

@@ -30,8 +30,8 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
               const key = setting.optionKey.split(" ").join("");
               return (
                 <FormItemStyled>
-                  <Typography variant="subtitle1" gutterBottom component="div">
-                    {`${setting.optionKey}:`}
+                  <Typography variant="h6" gutterBottom component="div">
+                    {`${setting.optionKey}: `}
                   </Typography>
                   <TextField
                     id={key}
