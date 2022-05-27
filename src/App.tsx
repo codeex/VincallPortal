@@ -1,4 +1,4 @@
-import { Admin, Resource, ListGuesser, CustomRoutes } from "react-admin";
+import { Admin, Resource, CustomRoutes } from "react-admin";
 import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
 // import { dataProviderFactory } from "./DataProvider";
@@ -18,7 +18,7 @@ import { authProvider } from "./AuthProvider/authProvider";
 export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     // append /api from proxy.
-    return `http://${location.host}`;
+    return `http://${location.host}/api`;
   }
   return EnvConfig.serverUrl;
 };

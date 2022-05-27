@@ -37,21 +37,31 @@ export const AgentList = (props: any) => {
           tertiaryText={(record) => record.email}
         />
       ) : (
-        <Datagrid>
+        <Datagrid
+          size="medium"
+          bulkActionButtons={
+            useCheckPermission(PermissionEnums.canSelectAgent)
+              ? undefined
+              : false
+          }
+        >
           <TextField source="id" />
           <TextField source="deviceNumber" />
           <TextField source="userAccount" />
           <TextField source="remark" />
           <TextField source="createDate" />
-          <FunctionField
-            label="Operations"
-            render={(record: any) => (
-              <TwoOperationsField
-                op1={<BindUserButton record={record} />}
-                op2={canDeleteAgent ? <DeleteAgentButton /> : null}
-              />
-            )}
-          />
+          {/* // TODO: Update here; */}
+          {canDeleteAgent ? (
+            <FunctionField
+              label="Operations"
+              render={(record: any) => (
+                <TwoOperationsField
+                  op1={<BindUserButton record={record} />}
+                  op2={<DeleteAgentButton />}
+                />
+              )}
+            />
+          ) : null}
         </Datagrid>
       )}
     </List>

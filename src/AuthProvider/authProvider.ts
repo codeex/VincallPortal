@@ -12,10 +12,10 @@ export const authProvider: AuthProvider = {
     })
       .then((res) => {
         tokenManager.setToken(res.json.access_token);
-
         localStorage.setItem("userName", res.json.userName);
-
         localStorage.setItem("userId", res.json.userId);
+        localStorage.setItem("vincall-role", res.json.role);
+        localStorage.setItem("userAccount", res.json.userAccount);
         return Promise.resolve();
       })
       .catch((err) => {
@@ -26,6 +26,8 @@ export const authProvider: AuthProvider = {
     tokenManager.removeToken();
     localStorage.removeItem("userName");
     localStorage.removeItem("userId");
+    localStorage.removeItem("vincall-role");
+    localStorage.removeItem("userAccount");
     return Promise.resolve();
   },
   checkAuth: () => {
@@ -45,9 +47,11 @@ export const authProvider: AuthProvider = {
     return Promise.resolve({
       id: localStorage.getItem("userId") || "Unknown",
       fullName: localStorage.getItem("userName") || "Unknown",
+      account: localStorage.getItem("userAccount") || "",
+      role: localStorage.getItem("vincall-role"),
     });
   },
   getPermissions: () => {
-    return Promise.resolve();
+    return Promise.resolve(localStorage.getItem("vincall-role"));
   },
 };
