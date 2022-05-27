@@ -34,7 +34,10 @@ export const NumberScreen = ({
   };
 
   return (
-    <Paper sx={{ width: 240, height: 486, padding: 4 }} elevation={1}>
+    <Paper
+      sx={{ width: 240, height: 486, padding: 4, boxSizing: "content-box" }}
+      elevation={1}
+    >
       <Box>
         <TextField
           placeholder="Type number."

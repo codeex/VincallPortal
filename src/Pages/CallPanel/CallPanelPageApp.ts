@@ -28,6 +28,9 @@ export const callPanelPageApp = () => {
     status: "initializing",
   });
 
+  //@ts-ignore
+  window.setDeviceState = setDeviceState;
+
   const requestForUpdateCallTime = () => {
     log("Ray: requestForUpdateCallTime start.");
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
