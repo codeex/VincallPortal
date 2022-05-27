@@ -8,7 +8,6 @@ import {
   CardActions,
   CircularProgress,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
 import {
   Form,
   required,
@@ -18,9 +17,8 @@ import {
   useNotify,
   useCreate,
 } from "react-admin";
-
 import Box from "@mui/material/Box";
-import { customHttpClient } from "../../DataProvider/customHttpClient";
+import Logo from "../../Asserts/vincall.svg";
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -67,12 +65,13 @@ export const Login = () => {
           minHeight: "100vh",
           alignItems: "center",
           justifyContent: "flex-start",
-          background: "url(https://source.unsplash.com/random/1600x900)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <Card sx={{ minWidth: 300, marginTop: "6em" }}>
+        <Card
+          sx={{ minWidth: 452, marginTop: "10em", padding: "16px 24px 24px" }}
+        >
           <Box
             sx={{
               margin: "1em",
@@ -80,9 +79,12 @@ export const Login = () => {
               justifyContent: "center",
             }}
           >
-            <Avatar sx={{ bgcolor: "secondary.main" }}>
-              <LockIcon />
-            </Avatar>
+            <Box
+              src={Logo}
+              component="img"
+              alt="Vin Call"
+              sx={{ marginRight: "1em", height: 30 }}
+            />
           </Box>
           <Box
             sx={{
