@@ -38,6 +38,7 @@ export const callPanelPageApp = () => {
     shouldUseAssign?: boolean
   ) => {
     if (shouldUseAssign) {
+      log("Ray: handleUpdateDeviceState", deviceState, state);
       setDeviceState(Object.assign({}, deviceState, state));
     } else {
       setDeviceState(state as any);
