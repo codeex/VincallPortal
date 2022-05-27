@@ -1,38 +1,9 @@
-import React from "react";
-import { AppBar, Logout, UserMenu, useTranslate } from "react-admin";
-import { Link } from "react-router-dom";
-import {
-  Box,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  useMediaQuery,
-  Theme,
-} from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
+import { AppBar, Logout, UserMenu } from "react-admin";
+import { Box, Typography, useMediaQuery, Theme } from "@mui/material";
 import Logo from "../Asserts/vincall.svg";
 
-const ConfigurationMenu = React.forwardRef((props, ref) => {
-  const translate = useTranslate();
-  return (
-    <MenuItem
-      component={Link}
-      // @ts-ignore
-      ref={ref}
-      {...props}
-      to="/configuration"
-    >
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText>{translate("pos.configuration")}</ListItemText>
-    </MenuItem>
-  );
-});
 const CustomUserMenu = () => (
   <UserMenu>
-    <ConfigurationMenu />
     <Logout />
   </UserMenu>
 );

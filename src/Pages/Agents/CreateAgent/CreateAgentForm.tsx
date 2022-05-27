@@ -7,6 +7,8 @@ import {
   useRedirect,
 } from "react-admin";
 import Button from "@mui/material/Button";
+import { FormItemStyled } from "../../../StyledComponents/FormItemStyled";
+import Typography from "@mui/material/Typography";
 
 export const CreateAgentForm = (props: any) => {
   const redirect = useRedirect();
@@ -28,8 +30,18 @@ export const CreateAgentForm = (props: any) => {
           </Toolbar>
         }
       >
-        <TextInput source="extensionNumber" />
-        <TextInput multiline source="Remark" />
+        <FormItemStyled>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            Extension Number:
+          </Typography>
+          <TextInput source="extensionNumber" />
+        </FormItemStyled>
+        <FormItemStyled>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            Remark:
+          </Typography>
+          <TextInput multiline source="Remark" />
+        </FormItemStyled>
       </SimpleForm>
     </Create>
   );
