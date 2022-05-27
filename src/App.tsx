@@ -11,9 +11,9 @@ import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
-import { authProvider } from "./AuthProvider/authProvider";
 import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 import { lightTheme } from "./Layout/Theme/Index";
+import { authProvider } from "./AuthProvider/authProvider";
 
 export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
