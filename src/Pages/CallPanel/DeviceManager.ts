@@ -5,13 +5,13 @@ import { CallEventName, DeviceEventName, DeviceState } from "./types";
 export interface DeviceManagerProps {
   token: string;
   identity: string;
-  updateState: (state: Partial<DeviceState>) => void;
+  updateState: (state: Partial<DeviceState>, shouldUseAssign?: boolean) => void;
 }
 
 export class DeviceManager {
   identity: string;
   token: string;
-  updateState: (state: Partial<DeviceState>) => void;
+  updateState: (state: Partial<DeviceState>, shouldUseAssign?: boolean) => void;
   device: Device;
   call?: Call;
   onError: (error: any) => void;
@@ -38,6 +38,7 @@ export class DeviceManager {
     }
     const params = {
       To: to,
+      callingDeviceIdentity: this.identity,
     };
     const call = await this.device.connect({ params });
     const updateState = this.updateState;
@@ -66,7 +67,7 @@ export class DeviceManager {
     });
 
     call.on(CallEventName.Mute, (isMuted: boolean) => {
-      updateState({ isMuted });
+      updateState({ isMuted }, true);
     });
   }
 
@@ -99,7 +100,7 @@ export class DeviceManager {
       this.call.removeAllListeners();
     }
     if (this.device) {
-      this.device.removeAllListeners();
+      this.device.destroy();
     }
   }
 
