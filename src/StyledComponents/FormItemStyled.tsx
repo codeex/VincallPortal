@@ -4,7 +4,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "baseline",
 
       "& .MuiTypography-root": {
         width: 150,
