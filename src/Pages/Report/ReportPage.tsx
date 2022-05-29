@@ -1,17 +1,11 @@
 import { Box, Card, Paper } from "@mui/material";
-import {
-  List,
-  Datagrid,
-  ListBase,
-  TextField,
-  useListContext,
-} from "react-admin";
+import { List, Datagrid, ListBase, TextField } from "react-admin";
 import { CPagination } from "../../Components/CPagination";
+import { ReportChart } from "./ReportChart";
 
 export const ReportPage = () => {
   return (
-    //@ts-ignore
-    <List
+    <ReportList
       pagination={<CPagination />}
       perPage={10}
       debounce={-1}
@@ -24,7 +18,7 @@ export const ReportPage = () => {
         <TextField source="outboundCall" label="Outbound Call" />
         <TextField source="callTime" label="Call Time" />
       </Datagrid>
-    </List>
+    </ReportList>
   );
 };
 
@@ -32,19 +26,11 @@ export const ReportList = ({ children, ...others }: any) => {
   return (
     <ListBase {...others}>
       <Paper sx={{ p: 3, marginTop: 5 }}>
-        {/* <ReportChart /> */}
+        <ReportChart />
         <Card sx={{ marginTop: 2 }}>{children}</Card>
       </Paper>
     </ListBase>
   );
-};
-
-export const ReportChart = () => {
-  const { data, isLoading } = useListContext<ReportItemBo>();
-  if (isLoading) {
-    return null;
-  }
-  return <div>{data.length}</div>;
 };
 
 export interface ReportItemBo {
