@@ -70,19 +70,15 @@ export const dataProvider = (
       }),
     };
     return httpClient(url, options).then(({ headers, json }) => {
-      // console.log("headers >>", headers.get("content-type"));
-      // if (!headers.get(countHeader)) {
-      //   throw new Error(
-      //     `The ${countHeader} header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare ${countHeader} in the Access-Control-Expose-Headers header?`
-      //   );
-      // }
-
+      if (resource === "reports") {
+        json[resource] = json[resource].map((item: any) => ({
+          ...item,
+          id: item.agentId,
+        }));
+      }
       return {
         data: json[resource],
         total: json.count,
-        // countHeader === "Content-Range"
-        //   ? parseInt(headers.get("content-range")?.split("/").pop() || "", 10)
-        //   : parseInt(headers.get(countHeader.toLowerCase()) || ""),
       };
     });
   },

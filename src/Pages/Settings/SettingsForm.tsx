@@ -30,7 +30,7 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
               const key = setting.optionKey.split(" ").join("");
               return (
                 <FormItemStyled>
-                  <Typography variant="h6" gutterBottom component="div">
+                  <Typography variant="subtitle1" gutterBottom component="div">
                     {`${setting.optionKey}: `}
                   </Typography>
                   <TextField
@@ -42,6 +42,8 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
                       setFieldValue(key, event.target.value || "");
                     }}
                     value={values[key]}
+                    multiline={setting.type === 2}
+                    rows={4}
                   />
                 </FormItemStyled>
               );

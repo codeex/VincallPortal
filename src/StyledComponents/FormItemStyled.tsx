@@ -1,5 +1,19 @@
+import { createStyles, makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      display: "flex",
+      alignItems: "baseline",
+
+      "& .MuiTypography-root": {
+        width: 150,
+      },
+    },
+  })
+);
+
 export const FormItemStyled = (props: any) => {
-  return (
-    <div style={{ display: "flex", alignItems: "center" }} {...props}></div>
-  );
+  const classes = useStyles();
+  return <div className={classes.root} {...props}></div>;
 };
