@@ -10,23 +10,16 @@ import {
   Bar,
   Legend,
 } from "recharts";
-import { log } from "../../Helpers/Index";
 import { ReportItemBo } from "./ReportPage";
 
 export const ReportChart = () => {
   const { data, isLoading } = useListContext<ReportItemBo>();
-  log("Ray: ReportChart", data, isLoading);
   if (isLoading) {
     return null;
   }
   return (
-    <Card>
-      <ResponsiveContainer
-        width="60%"
-        height="100%"
-        //@ts-ignore
-        style={{ margin: "0 auto" }}
-      >
+    <Card sx={{ height: 500 }}>
+      <ResponsiveContainer>
         <BarChart
           data={data}
           margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
