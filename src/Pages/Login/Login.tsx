@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CircularProgress } from "@mui/material";
 import { Form, required, TextInput, useTranslate } from "react-admin";
 import Box from "@mui/material/Box";
-import Logo from "../../Asserts/vincall.svg";
+import Logo from "../../Assets/vincall.svg";
 import { loginApp } from "./LoginApp";
 
 export const Login = () => {

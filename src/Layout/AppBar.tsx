@@ -1,6 +1,6 @@
 import { AppBar, Logout, UserMenu } from "react-admin";
 import { Box, Typography, useMediaQuery, Theme } from "@mui/material";
-import Logo from "../Asserts/vincall.svg";
+import Logo from "../Assets/vincall.svg";
 
 const CustomUserMenu = () => (
   <UserMenu>
