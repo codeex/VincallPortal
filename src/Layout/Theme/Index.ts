@@ -59,7 +59,7 @@ export const lightTheme = {
   },
   sidebar: {
     width: 200,
-    closedWidth: 0,
+    closedWidth: 50,
   },
   components: {
     ...defaultTheme.components,

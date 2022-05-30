@@ -2,6 +2,7 @@ import { Layout as AdminLayout, LayoutProps } from "react-admin";
 import { isEmbeddedMode } from "../Helpers/Index";
 import AppBar from "./AppBar";
 import { CustomMenu } from "./CustomMenu";
+import Menu from "./Menu";
 import { CssBaseline, Container } from "@mui/material";
 import { ErrorBoundary } from "react-error-boundary";
 import { Error } from "react-admin";
@@ -27,7 +28,7 @@ export const Layout = (props: LayoutProps) => {
     <AdminLayout
       {...props}
       appBar={!isEmbeddedMode ? AppBar : () => null}
-      menu={!isEmbeddedMode ? CustomMenu : () => null}
+      menu={!isEmbeddedMode ? Menu : () => null}
     />
   );
 };
