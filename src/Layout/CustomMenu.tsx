@@ -3,8 +3,7 @@ import { PermissionEnums, useCheckPermission } from "../Helpers/Permission";
 
 const menuItems = [
   { name: "agents", text: "Agents", path: "/agents" },
-  // Previous it called callPanel, now called Agentconsole
-  { name: "agentConsole", text: "Agent Console", path: "/agentConsole" },
+  { name: "callpanel", text: "Call Panel", path: "/callpanel" },
   { name: "reports", text: "Report", path: "/reports" },
   { name: "settings", text: "Settings", path: "/settings" },
   { name: "users", text: "User Manage", path: "/users" },

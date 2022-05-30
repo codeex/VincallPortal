@@ -6,12 +6,7 @@ import { CallTimeField } from "./CallTimeField";
 
 export const ReportPage = () => {
   return (
-    <ReportList
-      pagination={<CPagination />}
-      perPage={10}
-      debounce={-1}
-      exporter={false}
-    >
+    <ReportList perPage={10} debounce={-1} exporter={false}>
       <Datagrid bulkActionButtons={false} size="medium">
         <TextField source="agentId" label="Agent Id" />
         <TextField source="userName" label="Agent User" />
