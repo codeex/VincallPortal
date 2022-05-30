@@ -12,8 +12,8 @@
     <script src="./util.js"></script>
     <script>
       var search = getSearch(),
-        redirect_url = `redirect_url=https://api.vincall.net/sso/callback?domain=${search.domain}&agentid=${search.agentid}&siteid=${search.siteid}`,
-        url = `https://${search.domain}/oauth/authorize?client_id=${search.client_id}&${redirect_url}`;
+        redirect_url = `redirect_url=https://api.vincall.net/sso/callback?domain=${search.domain}&agentId=${search.agentId}&siteId=${search.siteId}`,
+        url = `${search.domain}/oauth/authorize?client_id=${search.client_id}&${redirect_url}`;
 
       fetch(url);
     </script>
