@@ -4,17 +4,14 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
-  useRedirect,
 } from "react-admin";
 import Button from "@mui/material/Button";
 import { FormItemStyled } from "../../../StyledComponents/FormItemStyled";
 import Typography from "@mui/material/Typography";
+import { createAgentFormApp } from "./CreateAgentFormApp";
 
 export const CreateAgentForm = (props: any) => {
-  const redirect = useRedirect();
-  const handleClick = () => {
-    redirect("/agents");
-  };
+  const { handleClick } = createAgentFormApp({});
 
   return (
     <Create {...props}>
