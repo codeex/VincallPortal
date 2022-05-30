@@ -35,8 +35,7 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
                   </Typography>
                   <TextField
                     id={key}
-                    label={setting.optionKey}
-                    variant="filled"
+                    variant="outlined"
                     sx={{ width: 300 }}
                     onChange={(event) => {
                       setFieldValue(key, event.target.value || "");
