@@ -9,6 +9,10 @@ const useStyles = makeStyles(() =>
       "& .MuiTypography-root": {
         width: 150,
       },
+
+      "& span": {
+        display: "none",
+      },
     },
   })
 );
