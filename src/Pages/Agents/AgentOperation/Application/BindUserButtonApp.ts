@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUpdate } from "react-admin";
+import { useDataProvider, useUpdate } from "react-admin";
 
 export interface BindUserButtonAppProps {
   record: any;
@@ -17,14 +17,16 @@ export const bindUserButtonApp = ({
 }: BindUserButtonAppProps): BindUserButtonApp => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const [update] = useUpdate<any>();
+  const dataProvider = useDataProvider();
 
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
-    update("agents", {
-      id: record.id,
-      data: { account: values.userAccount },
-    }).then(() => setOpen(false));
+    dataProvider
+      .updatePatch("agent", {
+        id: record.id,
+        data: { ...record, account: values.userAccount },
+      })
+      .then(() => setOpen(false));
   };
 
   return {
