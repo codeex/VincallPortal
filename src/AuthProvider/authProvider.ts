@@ -11,7 +11,7 @@ export const authProvider: AuthProvider = {
       .then((res) => {
         localStorage.setItem("userName", res.json.userName);
         localStorage.setItem("userId", res.json.userId);
-        localStorage.setItem("vincall-role", res.json.role);
+        localStorage.setItem("vincallRole", res.json.role);
         localStorage.setItem("userAccount", res.json.userAccount);
         return Promise.resolve();
       })
@@ -22,7 +22,7 @@ export const authProvider: AuthProvider = {
   logout: () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("userId");
-    localStorage.removeItem("vincall-role");
+    localStorage.removeItem("vincallRole");
     localStorage.removeItem("userAccount");
     return Promise.resolve();
   },
@@ -34,7 +34,7 @@ export const authProvider: AuthProvider = {
     if (error.status === 401) {
       localStorage.removeItem("userName");
       localStorage.removeItem("userId");
-      localStorage.removeItem("vincall-role");
+      localStorage.removeItem("vincallRole");
       localStorage.removeItem("userAccount");
       return Promise.reject("Please login again.");
     }
@@ -45,10 +45,10 @@ export const authProvider: AuthProvider = {
       id: localStorage.getItem("userId") || "Unknown",
       fullName: localStorage.getItem("userName") || "Unknown",
       account: localStorage.getItem("userAccount") || "",
-      role: localStorage.getItem("vincall-role"),
+      role: localStorage.getItem("vincallRole"),
     });
   },
   getPermissions: () => {
-    return Promise.resolve(localStorage.getItem("vincall-role"));
+    return Promise.resolve(localStorage.getItem("vincallRole"));
   },
 };
