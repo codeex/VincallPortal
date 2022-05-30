@@ -11,7 +11,7 @@ export const enum PermissionEnums {
 export const getRole = (): "admin" | "user" => "admin";
 
 export const useCheckPermission = (permission: PermissionEnums) => {
-  const permissions = localStorage.getItem("vincall-role");
+  const permissions = localStorage.getItem("vincallRole");
   // const { permissions } = usePermissions();
   if (permissions === "admin") {
     return roleAdmin[permission];
