@@ -42,7 +42,7 @@ export const App = function () {
         create={canCreateAgent ? CreateAgentForm : undefined}
       />
       <CustomRoutes>
-        <Route path="/agentConsole" element={<CallPanelPage />} />
+        <Route path="/callpanel" element={<CallPanelPage />} />
       </CustomRoutes>
 
       <Resource

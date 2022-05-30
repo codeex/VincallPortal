@@ -66,11 +66,11 @@ export const CallPanelPage = () => {
   }
   return (
     <Card sx={{ p: 3, mt: 3 }}>
-      <Title title="Agent Console" />
+      <Title title="Call Panel" />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={handleTabChange}>
-          <Tab label="Agent Console" />
+          <Tab label="Call Panel" />
           <Tab label="Comm100 agent console" />
         </Tabs>
       </Box>
