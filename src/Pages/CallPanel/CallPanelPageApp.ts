@@ -32,7 +32,7 @@ export const callPanelPageApp = () => {
   window.setDeviceState = setDeviceState;
 
   const requestForUpdateCallTime = () => {
-    log("Ray: requestForUpdateCallTime start.");
+    log("request update call time start.");
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
   };
 
@@ -44,7 +44,7 @@ export const callPanelPageApp = () => {
   };
 
   const clearCallTimeTask = () => {
-    log("Ray: requestForUpdateCallTime end.");
+    log("request for update call time end.");
     clearInterval(updateCallTimeTaskId.current);
     updateCallTimeTaskId.current = null;
   };
