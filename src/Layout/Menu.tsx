@@ -4,10 +4,14 @@ import AddIcCallIcon from "@mui/icons-material/AddIcCall";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-PersonOutlineIcon;
+import ContactsIcon from "@mui/icons-material/Contacts";
+import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
 import { MenuProps, useSidebarState } from "react-admin";
 import { CMenuItem } from "./CMenuItem";
 import { useCheckPermission, PermissionEnums } from "../Helpers/Permission";
+import { useState } from "react";
+import { CSubMenu } from "./CSubMenu";
+import { Comm100Icon } from "../Assets/Comm100Icon";
 
 const menuItems = [
   { name: "agents", text: "Agents", path: "/agents", icon: <PeopleAltIcon /> },
@@ -38,7 +42,13 @@ const menuItems = [
 ];
 const Menu = ({ dense = false }: MenuProps) => {
   const [open] = useSidebarState();
+  const [menuState, setMenuState] = useState<{ comm100: boolean }>({
+    comm100: true,
+  });
   const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
+  const handleToggle = () => {
+    setMenuState({ comm100: !menuState.comm100 });
+  };
   let menus = menuItems;
   if (!canManageUsers) {
     menus = menuItems.filter((item) => item.name !== "users");
@@ -61,6 +71,23 @@ const Menu = ({ dense = false }: MenuProps) => {
           <CMenuItem to={m.path} key={m.name} icon={m.icon} label={m.text} />
         );
       })}
+      <CSubMenu
+        icon={<Comm100Icon sx={{ fontSize: "24px !important" }} />}
+        label="Comm100"
+        isOpen={menuState.comm100}
+        onToggle={handleToggle}
+      >
+        <CMenuItem
+          to="/agentconsole"
+          label="Agent Console"
+          icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
+        />
+        <CMenuItem
+          to="/controlpanel"
+          label="Control Panel"
+          icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
+        />
+      </CSubMenu>
     </Box>
   );
 };
