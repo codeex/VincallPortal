@@ -42,7 +42,7 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
                     }}
                     value={values[key]}
                     multiline={setting.type === 2}
-                    rows={4}
+                    rows={8}
                   />
                 </FormItemStyled>
               );
