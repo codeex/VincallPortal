@@ -42,13 +42,15 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
                     }}
                     value={values[key]}
                     multiline={setting.type === 2}
-                    rows={4}
+                    rows={8}
                   />
                 </FormItemStyled>
               );
             })}
             <div>
-              <Button type="submit">Save</Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
             </div>
           </Form>
         );

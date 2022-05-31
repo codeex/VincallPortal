@@ -7,15 +7,21 @@ import {
   TopToolbar,
   FunctionField,
 } from "react-admin";
+import { CListPagination } from "../../Components/CPagination";
 import { TwoOperationsField } from "../TwoOperationsField";
 import { DeleteUserButton } from "./UserManageOperation/DeleteUserButton";
 import { UpdatePasswordButton } from "./UserManageOperation/UpdatePasswordButton";
 
-export const UserList = (props: any) => {
+export const UserList = () => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
 
   return (
-    <List title="All Users" actions={<TopToolbar />}>
+    <List
+      title="All Users"
+      actions={<TopToolbar />}
+      pagination={<CListPagination rowsPerPageOptions={[20, 35, 50]} />}
+      perPage={20}
+    >
       {isSmall ? (
         <SimpleList
           primaryText={(record) => record.name}
@@ -24,11 +30,11 @@ export const UserList = (props: any) => {
         />
       ) : (
         <Datagrid>
-          <TextField source="id" />
-          <TextField source="account" />
-          <TextField source="userName" />
-          <TextField source="remark" />
-          <TextField source="createDate" />
+          <TextField source="id" label="ID" sortable={false} />
+          <TextField source="account" label="Account" sortable={false} />
+          <TextField source="userName" label="User Name" sortable={false} />
+          <TextField source="remark" label="Remark" sortable={false} />
+          <TextField source="createDate" label="Create Date" sortable={false} />
           <FunctionField
             label="Operations"
             render={(record: any) => (
