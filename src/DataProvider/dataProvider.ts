@@ -157,7 +157,7 @@ export const dataProvider = (
     ).then((responses) => ({ data: responses.map(({ json }) => json.id) })),
 
   create: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}`, {
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}`, {
       method: "POST",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({

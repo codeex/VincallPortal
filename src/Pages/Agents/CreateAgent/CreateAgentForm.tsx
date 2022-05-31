@@ -31,11 +31,7 @@ export const CreateAgentForm = (props: any) => {
           <Typography variant="subtitle1" gutterBottom component="div">
             {`Extension Number: `}
           </Typography>
-          <TextInput
-            source="extensionNumber"
-            variant="outlined"
-            label={false}
-          />
+          <TextInput source="deviceNumber" variant="outlined" label={false} />
         </FormItemStyled>
         <FormItemStyled>
           <Typography variant="subtitle1" gutterBottom component="div">
