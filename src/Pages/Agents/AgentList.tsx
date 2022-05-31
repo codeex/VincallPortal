@@ -12,8 +12,9 @@ import { BindUserButton } from "./AgentOperation/BindUserButton";
 import { DeleteAgentButton } from "./AgentOperation/DeleteAgentButton";
 import { TwoOperationsField } from "../TwoOperationsField";
 import { PermissionEnums, useCheckPermission } from "../../Helpers/Permission";
+import { CListPagination } from "../../Components/CPagination";
 
-export const AgentList = (props: any) => {
+export const AgentList = () => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
   const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
   const canDeleteAgent = useCheckPermission(PermissionEnums.canDeleteAgent);
@@ -29,6 +30,8 @@ export const AgentList = (props: any) => {
           <></>
         )
       }
+      pagination={<CListPagination rowsPerPageOptions={[20, 35, 50]} />}
+      perPage={20}
     >
       {isSmall ? (
         <SimpleList
