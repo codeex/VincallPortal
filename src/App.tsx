@@ -25,7 +25,6 @@ export const getServerURL = () => {
 
 export const App = function () {
   const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
-  const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
   return (
     <Admin
       title="Vin Call"
@@ -50,13 +49,11 @@ export const App = function () {
         options={{ label: "Report" }}
         list={ReportPage}
       />
-      {canManageUsers ? (
-        <Resource
-          name="users"
-          options={{ label: "User Manage" }}
-          list={UserList}
-        />
-      ) : null}
+      <Resource
+        name="users"
+        options={{ label: "User Manage" }}
+        list={UserList}
+      />
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
       </CustomRoutes>
