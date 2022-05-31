@@ -30,11 +30,11 @@ export const UserList = () => {
         />
       ) : (
         <Datagrid>
-          <TextField source="id" />
-          <TextField source="account" />
-          <TextField source="userName" />
-          <TextField source="remark" />
-          <TextField source="createDate" />
+          <TextField source="id" label="ID" sortable={false} />
+          <TextField source="account" label="Account" sortable={false} />
+          <TextField source="userName" label="User Name" sortable={false} />
+          <TextField source="remark" label="Remark" sortable={false} />
+          <TextField source="createDate" label="Create Date" sortable={false} />
           <FunctionField
             label="Operations"
             render={(record: any) => (
