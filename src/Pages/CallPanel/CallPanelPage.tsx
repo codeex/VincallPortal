@@ -50,7 +50,7 @@ export const CallPanelPage = () => {
   if (isEmbeddedMode) {
     return (
       <Card sx={{ p: 3, mt: 3 }}>
-        <Title title="Agent Console" />
+        <Title title="Call Panel" />
         <CallTabContent
           isAgentLoading={isAgentLoading}
           currentAgentId={currentAgentId}
