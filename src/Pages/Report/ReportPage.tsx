@@ -8,11 +8,19 @@ export const ReportPage = () => {
   return (
     <ReportList perPage={10} debounce={-1} exporter={false}>
       <Datagrid bulkActionButtons={false} size="medium">
-        <TextField source="agentId" label="Agent Id" />
-        <TextField source="userName" label="Agent User" />
-        <TextField source="incomingCall" label="Incoming Call" />
-        <TextField source="outboundCall" label="Outbound Call" />
-        <CallTimeField source="callTime" label="Call Time" />
+        <TextField source="agentId" label="Agent Id" sortable={false} />
+        <TextField source="userName" label="Agent User" sortable={false} />
+        <TextField
+          source="incomingCall"
+          label="Incoming Call"
+          sortable={false}
+        />
+        <TextField
+          source="outboundCall"
+          label="Outbound Call"
+          sortable={false}
+        />
+        <CallTimeField source="callTime" label="Call Time" sortable={false} />
       </Datagrid>
     </ReportList>
   );
@@ -24,7 +32,10 @@ export const ReportList = ({ children, ...others }: any) => {
       <Title title="Reports" />
       <Paper sx={{ p: 3, marginTop: 5 }}>
         <ReportChart />
-        <Card sx={{ marginTop: 4 }}>{children}</Card>
+        <Card sx={{ marginTop: 4 }}>
+          <Title title="Report" />
+          {children}
+        </Card>
       </Paper>
     </ListBase>
   );

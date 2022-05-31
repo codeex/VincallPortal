@@ -4,6 +4,8 @@ import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
 import { bindUserFormApp } from "./Application/BindUserFormApp";
 import * as Yup from "yup";
+import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
+import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
 
 export interface BindUserFormProps {
   onSubmit: (values: any) => void;
@@ -43,6 +45,7 @@ export const BindUserForm = ({
                   label="Users"
                   onChange={handleChange}
                   error={errors.userAccount}
+                  variant="outlined"
                 />
               )}
               loading={isUserLoading}
@@ -50,12 +53,19 @@ export const BindUserForm = ({
                 setFieldValue("userAccount", value?.value || "")
               }
               defaultValue={values.userAccount}
+              disableClearable
             />
             {errors.userAccount ? (
-              <div style={{ color: "red" }}>{`${errors.userAccount}`}</div>
+              <FormErrorMessageStyled>{`${errors.userAccount}`}</FormErrorMessageStyled>
             ) : null}
-            <Button type="submit">Save</Button>
-            <Button onClick={onCancel}>Cancel</Button>
+            <FormButtonStyled>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
+              <Button onClick={onCancel} variant="outlined">
+                Cancel
+              </Button>
+            </FormButtonStyled>
           </Form>
         );
       }}

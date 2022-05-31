@@ -48,7 +48,9 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
               );
             })}
             <div>
-              <Button type="submit">Save</Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
             </div>
           </Form>
         );
