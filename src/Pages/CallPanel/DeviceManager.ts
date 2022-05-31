@@ -122,7 +122,7 @@ export class DeviceManager {
       updateState({ status: "ready" });
     });
     device.on(DeviceEventName.Error, (error, call) => {
-      log("Ray:An error has occurred: ", error);
+      log("An error has occurred: ", error);
       this.onError(error);
     });
 

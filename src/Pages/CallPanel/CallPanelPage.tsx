@@ -23,7 +23,6 @@ export const CallPanelPage = () => {
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
-  log("Ray: identity", identity);
   useEffect(() => {
     if (currentAgentId) {
       updateDevice(currentAgentId);
