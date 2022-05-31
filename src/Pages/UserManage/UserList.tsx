@@ -12,6 +12,15 @@ import { TwoOperationsField } from "../TwoOperationsField";
 import { DeleteUserButton } from "./UserManageOperation/DeleteUserButton";
 import { UpdatePasswordButton } from "./UserManageOperation/UpdatePasswordButton";
 
+export interface UserRecord {
+  account: string;
+  createDate: string;
+  id: number;
+  isAdmin: boolean;
+  remark: string | null;
+  userName: string;
+}
+
 export const UserList = () => {
   const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
 

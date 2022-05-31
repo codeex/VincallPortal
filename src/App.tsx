@@ -12,6 +12,8 @@ import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
 import { lightTheme } from "./Layout/Theme/Index";
 import { authProvider } from "./AuthProvider/authProvider";
+import { AgentConsole } from "./Pages/Comm100/AgentConsole";
+import { ControlPanel } from "./Pages/Comm100/ControlPanel";
 
 export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
@@ -53,6 +55,8 @@ export const App = function () {
       />
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/agentconsole" element={<AgentConsole />} />
+        <Route path="/controlpanel" element={<ControlPanel />} />
       </CustomRoutes>
     </Admin>
   );

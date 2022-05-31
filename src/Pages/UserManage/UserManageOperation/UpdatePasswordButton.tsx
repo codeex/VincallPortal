@@ -1,26 +1,23 @@
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { useDataProvider } from "react-admin";
 import { DrawerPage } from "../../DrawerPage";
+import { UserRecord } from "../UserList";
+import { updatePasswordButtonApp } from "./UpdatePasswordButtonApp";
 import { UpdatePasswordForm } from "./UpdatePasswordForm";
 
-export const UpdatePasswordButton = (props: any) => {
-  const [open, setOpen] = useState(false);
-  const handleClick = () => setOpen(true);
-  const dataProvider = useDataProvider();
+export interface UpdatePasswordButtonProps {
+  record: UserRecord;
+}
 
-  const handleClose = () => setOpen(false);
-  const handleSave = async (values: any) => {
-    await dataProvider
-      .updatePassword("user", {
-        id: props.record.id,
-        data: { password: values.password },
-      })
-      .then(() => setOpen(false));
-  };
+export const UpdatePasswordButton = ({ record }: UpdatePasswordButtonProps) => {
+  const {
+    handleOpen,
+    handleClose,
+    handleSave,
+    open,
+  } = updatePasswordButtonApp({ record });
   return (
     <>
-      <Button variant="text" onClick={handleClick}>
+      <Button variant="text" onClick={handleOpen}>
         Update Password
       </Button>
       <DrawerPage

@@ -53,6 +53,7 @@ export const BindUserForm = ({
                 setFieldValue("userAccount", value?.value || "")
               }
               defaultValue={values.userAccount}
+              disableClearable
             />
             {errors.userAccount ? (
               <FormErrorMessageStyled>{`${errors.userAccount}`}</FormErrorMessageStyled>

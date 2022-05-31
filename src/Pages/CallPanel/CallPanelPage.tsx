@@ -70,7 +70,7 @@ export const CallPanelPage = () => {
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={handleTabChange}>
           <Tab label="Call Panel" />
-          <Tab label="Comm100 agent console" />
+          {/* <Tab label="Comm100 agent console" /> */}
         </Tabs>
       </Box>
       <CTabPanel value={tab} index={0}>
@@ -84,9 +84,9 @@ export const CallPanelPage = () => {
           handleCurrentAgentChange={handleCurrentAgentChange}
         />
       </CTabPanel>
-      <CTabPanel value={tab} index={1}>
+      {/* <CTabPanel value={tab} index={1}>
         <AgentConsolePanel />
-      </CTabPanel>
+      </CTabPanel> */}
     </Card>
   );
 };
