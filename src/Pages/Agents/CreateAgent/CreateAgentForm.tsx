@@ -9,9 +9,18 @@ import Button from "@mui/material/Button";
 import { FormItemStyled } from "../../../StyledComponents/FormItemStyled";
 import Typography from "@mui/material/Typography";
 import { createAgentFormApp } from "./CreateAgentFormApp";
+import {
+  useCheckPermission,
+  PermissionEnums,
+} from "../../../Helpers/Permission";
 
 export const CreateAgentForm = (props: any) => {
+  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
   const { handleClick } = createAgentFormApp({});
+
+  if (!canCreateAgent) {
+    return null;
+  }
 
   return (
     <Create {...props}>

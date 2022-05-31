@@ -1,4 +1,5 @@
 import { usePermissions, useStore } from "react-admin";
+import { log } from "./Index";
 
 export const enum PermissionEnums {
   canCreateAgent,
@@ -11,8 +12,7 @@ export const enum PermissionEnums {
 export const getRole = (): "admin" | "user" => "admin";
 
 export const useCheckPermission = (permission: PermissionEnums) => {
-  const permissions = localStorage.getItem("vincallRole");
-  // const { permissions } = usePermissions();
+  const { permissions } = usePermissions();
   if (permissions === "admin") {
     return roleAdmin[permission];
   } else {
