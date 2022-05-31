@@ -41,29 +41,13 @@ export const dataProvider = (
 ): DataProvider => ({
   getList: (resource, params) => {
     const { page, perPage } = params.pagination;
-    const { field, order } = params.sort;
-
-    const rangeStart = (page - 1) * perPage;
-    const rangeEnd = page * perPage - 1;
 
     const query = {
       pageSize: perPage,
       pageNum: page - 1,
-      // sort: JSON.stringify([field, order]),
-      // range: JSON.stringify([rangeStart, rangeEnd]),
-      // filter: JSON.stringify(params.filter),
     };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-    // const options =
-    //   countHeader === "Content-Range"
-    //     ? {
-    //         // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
-    //         headers: new Headers({
-    //           Range: `${resource}=${rangeStart}-${rangeEnd}`,
-    //         }),
-    //       }
-    //     : {};
     const options = {
       headers: new Headers({
         "Access-Control-Allow-Origin": "*",
