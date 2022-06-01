@@ -7,6 +7,7 @@ const menuItems = [
   { name: "reports", text: "Report", path: "/reports" },
   { name: "settings", text: "Settings", path: "/settings" },
   { name: "users", text: "User Manage", path: "/users" },
+  { name: "connect", text: "connect", path: "/connect" },
 ];
 
 export const CustomMenu = ({ onMenuClick }: any) => {
