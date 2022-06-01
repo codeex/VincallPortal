@@ -10,12 +10,14 @@ import VoiceMailIcon from "@mui/icons-material/Voicemail";
 
 export interface NumberScreenProps {
   value: string;
+  disabled?: boolean;
   onChange: (e: ChangeEvent) => void;
   onCall: () => void;
 }
 
 export const NumberScreen = ({
   value,
+  disabled,
   onChange,
   onCall,
 }: NumberScreenProps) => {
@@ -44,6 +46,7 @@ export const NumberScreen = ({
           value={value}
           onChange={onChange}
           variant="outlined"
+          disabled={disabled}
           sx={{ width: "100%" }}
         />
       </Box>
@@ -67,6 +70,7 @@ export const NumberScreen = ({
               character="call"
               color="success"
               variant="contained"
+              disabled={disabled}
             >
               <CallIcon />
             </NumberButton>
