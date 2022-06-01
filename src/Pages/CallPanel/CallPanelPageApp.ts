@@ -71,7 +71,7 @@ export const callPanelPageApp = () => {
 
       if (state.status === "ready") {
         if (currentAgentObject && identity) {
-          if (currentAgentObject.userAccount === identity!.account) {
+          if (currentAgentObject.userAccount === identity.account) {
             setupUpdateCallTimeTask();
           } else {
             clearCallTimeTask();
