@@ -2,8 +2,13 @@ import { AuthProvider } from "react-admin";
 import { getServerURL } from "../App";
 import { customHttpClient } from "../DataProvider/customHttpClient";
 
+export interface Auth {
+  username: string;
+  password: string;
+}
+
 export const authProvider: AuthProvider = {
-  login: (auth: any) => {
+  login: (auth: Auth) => {
     return customHttpClient(`${getServerURL()}/vincallToken`, {
       method: "POST",
       body: JSON.stringify(auth),
@@ -15,7 +20,7 @@ export const authProvider: AuthProvider = {
         localStorage.setItem("userAccount", res.json.userAccount);
         return Promise.resolve();
       })
-      .catch((err) => {
+      .catch(() => {
         return Promise.reject();
       });
   },
@@ -30,7 +35,6 @@ export const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   checkError: (error: any) => {
-    console.log("error.status", error.status);
     if (error.status === 401) {
       localStorage.removeItem("userName");
       localStorage.removeItem("userId");
