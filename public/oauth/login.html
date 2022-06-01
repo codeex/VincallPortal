@@ -8,14 +8,14 @@
     <title>Vin Call</title>
   </head>
   <body>
-    <div>Redirect....</div>
+    <div>Logining....</div>
     <script src="./util.js"></script>
     <script>
       var search = getSearch(),
-        redirect_url = `redirect_url=https://api.vincall.net/sso/callback?domain=${search.domain}&agentId=${search.agentId}&siteId=${search.siteId}`,
-        url = `${search.domain}/oauth/authorize?client_id=${search.client_id}&${redirect_url}`;
+        redirect_url = `redirect_uri=https://apitest.vincall.net/sso/callback?domain=${search.domain}&siteId=${search.siteId}`,
+        url = `${search.domain}/oauth/authorize?response_type=code&client_id=${search.client_id}&${redirect_url}`;
 
-      fetch(url);
+      location.href = url;
     </script>
   </body>
 </html>
