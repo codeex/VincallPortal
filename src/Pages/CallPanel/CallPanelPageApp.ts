@@ -11,6 +11,7 @@ import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
+import { Runtime } from "../../Runtime";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
@@ -81,9 +82,19 @@ export const callPanelPageApp = () => {
             clearCallTimeTask();
           }
         }
-      }
-      if (state.status === "end") {
+      } else if (state.status === "incoming") {
+        // Agent is in a call.
+        Runtime.sendNotify(`${state.from} is calling.`);
+      } else if (
+        state.status === "incomingAccept" ||
+        state.status === "outingCallingAccept"
+      ) {
+        // Agent is in a call.
+        Runtime.updateAgentStatus("away");
+      } else if (state.status === "end") {
         requestForUpdateStatusToOnline();
+        // Agent is out of a call.
+        Runtime.updateAgentStatus("online");
       }
     }
   );

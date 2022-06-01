@@ -33,6 +33,7 @@ export const EmbeddedPage = ({
       elRef.current = null;
     };
   };
+
   useEffect(() => {
     if (elRef.current.isMounted) {
       return;
@@ -50,6 +51,7 @@ export const EmbeddedPage = ({
       }
     });
   }, []);
+
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title={title} />
