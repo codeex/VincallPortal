@@ -1,7 +1,9 @@
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import { FormButtonStyled } from "../../StyledComponents/FormButtonStyled";
 import { BindUserButton } from "../Agents/AgentOperation/BindUserButton";
 import { MappingUserButton } from "./Operations/MappingUserButton";
 import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
+import Divider from "@mui/material/Divider";
 
 const columns: GridColumns = [
   { field: "id", headerName: "ID", width: 150 },
@@ -12,12 +14,19 @@ const columns: GridColumns = [
   {
     field: "operations",
     headerName: "Operations",
-    width: 250,
+    width: 300,
     renderCell: (params) => {
       console.log("params >>", params);
       return (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
           <MappingUserButton record={{}} />
+          <Divider orientation="vertical" flexItem />
           <RemoveMappingButton />
         </div>
       );
@@ -32,7 +41,7 @@ const rows = [
 
 export const ConnectList = () => {
   return (
-    <div style={{ height: 400, width: "75%" }}>
+    <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         columns={columns}
         rows={rows}
