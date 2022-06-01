@@ -15,7 +15,7 @@
         redirect_url = `redirect_uri=https://api.vincall.net/sso/callback?domain=${search.domain}&siteId=${search.siteId}`,
         url = `${search.domain}/oauth/authorize?response_type=code&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}`;
 
-      fetch(url, { credentials: "include" });
+      location.href = url;
     </script>
   </body>
 </html>
