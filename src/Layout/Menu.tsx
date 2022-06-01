@@ -39,6 +39,12 @@ const menuItems = [
     path: "/users",
     icon: <PersonOutlineIcon />,
   },
+  {
+    name: "connect",
+    text: "Connect Comm100",
+    path: "/connect",
+    icon: <Comm100Icon sx={{ fontSize: "24px !important" }} />,
+  },
 ];
 const Menu = ({ dense = false }: MenuProps) => {
   const [open] = useSidebarState();
