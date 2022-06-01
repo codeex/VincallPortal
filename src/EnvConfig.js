@@ -1,4 +1,6 @@
 export const EnvConfig = {
-  serverUrl: "https://apitest.vincall.net",
+  serverUrl: "https://apivincall.comm100dev.io/api",
+  routeUrl: "https://voiproute.comm100dev.io",
+  redirectUrlDomain: "https://apivincall.comm100dev.io",
   useMockServer: false,
 };
