@@ -13,6 +13,7 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
 
     const redirect_url = `redirect_uri=${EnvConfig.redirectUrlDomain}/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io&agentId=52163ba0-7caf-44bc-a17d-b9764f9db4db`;
     const url = `${EnvConfig.routeUrl}/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`;
+    console.log("url >>", url);
     window.open(url, "_blank");
   };
 
