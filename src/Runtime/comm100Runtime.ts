@@ -11,7 +11,7 @@ export const comm100Runtime: RuntimeInterface = {
     return this;
   },
   init() {
-    client = APPClient.init({ targetWindow: window });
+    client = APPClient.init();
 
     client.on("agentconsole.navBar.select", (leftTab) => {
       console.log("Ray: agentconsole.navBar.select", leftTab);
