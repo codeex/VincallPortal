@@ -1,4 +1,4 @@
 export const EnvConfig = {
-  serverUrl: "https://apivincall.comm100dev.io/api",
+  serverUrl: "https://apivincall.comm100dev.io",
   useMockServer: false,
 };

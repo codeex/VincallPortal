@@ -1,4 +1,6 @@
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 const columns: GridColumns = [
   { field: "id", headerName: "ID", width: 90 },
@@ -13,6 +15,7 @@ const rows = [
 export const ConnectList = () => {
   return (
     <div style={{ height: 400, width: "100%" }}>
+      <DataGridToolbar />
       <DataGrid
         columns={columns}
         rows={rows}
@@ -24,10 +27,10 @@ export const ConnectList = () => {
   );
 };
 
-// const DataGridToolbar = () => {
-//   return (
-//     <Toolbar>
-
-//     </Toolbar>
-//   )
-// }
+const DataGridToolbar = () => {
+  return (
+    <Toolbar>
+      <Typography>test</Typography>
+    </Toolbar>
+  );
+};
