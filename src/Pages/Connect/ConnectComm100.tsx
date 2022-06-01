@@ -3,6 +3,7 @@ import { useListContext, useRedirect } from "react-admin";
 import { Button, Typography } from "@mui/material";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { TextField } from "@mui/material";
+import { useRef } from "react";
 
 export interface ConnectComm100Props {
   connected: boolean;
@@ -24,6 +25,8 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
     //   }),
     // });
   };
+
+  const ref = useRef();
   return (
     <div style={{ height: 100 }}>
       {connected ? (
@@ -35,7 +38,7 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
           <TextField
             label="Site ID"
             variant="outlined"
-            onChange={(e: any) => console.log(e.target)}
+            onChange={(e: any) => console.log(e.target.value)}
           />
           <Button onClick={handleConnect}>Connect Comm100</Button>
         </Typography>
