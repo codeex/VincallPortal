@@ -23,7 +23,9 @@ export const callPanelPageApp = () => {
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
-      {},
+      {
+        pagination: null as any,
+      },
       {
         refetchInterval: -1,
         retry: 1,
@@ -71,7 +73,7 @@ export const callPanelPageApp = () => {
 
       if (state.status === "ready") {
         if (currentAgentObject && identity) {
-          if (currentAgentObject.userAccount === identity!.account) {
+          if (currentAgentObject.userAccount === identity.account) {
             setupUpdateCallTimeTask();
           } else {
             clearCallTimeTask();
