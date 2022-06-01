@@ -15,7 +15,7 @@
         redirect_url = `redirect_uri=https://apitest.vincall.net/sso/callback?domain=${search.domain}&siteId=${search.siteId}`,
         url = `${search.domain}/oauth/authorize?response_type=code&client_id=${search.client_id}&${redirect_url}`;
 
-      fetch(url);
+      location.href = url;
     </script>
   </body>
 </html>
