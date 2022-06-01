@@ -36,6 +36,10 @@ export const callPanelPageApp = () => {
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
   };
 
+  const requestForUpdateStatusToOnline = () => {
+    dataProvider.httpGet(`agent/${currentAgentId}/updateStatusToOnline`);
+  };
+
   const setupUpdateCallTimeTask = () => {
     if (updateCallTimeTaskId.current) {
       clearInterval(updateCallTimeTaskId.current);
@@ -56,13 +60,8 @@ export const callPanelPageApp = () => {
       } else {
         setDeviceState(state as any);
       }
-      if (
-        state.status === "incomingAccept" ||
-        state.status === "outingCallingAccept"
-      ) {
-        setupUpdateCallTimeTask();
-      } else if (state.status === "end") {
-        clearCallTimeTask();
+      if (state.status === "end") {
+        requestForUpdateStatusToOnline();
       }
     }
   );
@@ -110,6 +109,7 @@ export const callPanelPageApp = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   };
 };

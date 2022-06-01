@@ -19,15 +19,24 @@ export const CallPanelPage = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
+
   useEffect(() => {
     if (currentAgentId) {
       updateDevice(currentAgentId);
     }
-  }, [currentAgentId]);
+    if (currentAgentObject && identity) {
+      if (currentAgentObject.userAccount === identity.account) {
+        setupUpdateCallTimeTask();
+      } else {
+        clearCallTimeTask();
+      }
+    }
+  }, [currentAgentId, identity?.account]);
 
   useEffect(() => {
     if (!!agentList.length && identity?.account) {
@@ -39,6 +48,7 @@ export const CallPanelPage = () => {
       });
     }
   }, [!!agentList.length, identity?.account]);
+
   useEffect(() => {
     return () => {
       clearCallTimeTask();
