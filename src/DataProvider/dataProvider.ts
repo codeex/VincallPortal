@@ -40,12 +40,15 @@ export const dataProvider = (
   countHeader: string = "Content-Range"
 ): DataProvider => ({
   getList: (resource, params) => {
-    const { page, perPage } = params.pagination;
+    let query = {};
+    if (params.pagination) {
+      const { page, perPage } = params.pagination;
+      query = {
+        pageSize: perPage,
+        pageNum: page - 1,
+      };
+    }
 
-    const query = {
-      pageSize: perPage,
-      pageNum: page - 1,
-    };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
     const options = {

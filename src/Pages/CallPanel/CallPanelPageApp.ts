@@ -23,7 +23,9 @@ export const callPanelPageApp = () => {
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
-      {},
+      {
+        pagination: null as any,
+      },
       {
         refetchInterval: -1,
         retry: 1,
