@@ -14,11 +14,12 @@ import { lightTheme } from "./Layout/Theme/Index";
 import { authProvider } from "./AuthProvider/authProvider";
 import { AgentConsole } from "./Pages/Comm100/AgentConsole";
 import { ControlPanel } from "./Pages/Comm100/ControlPanel";
+import { ConnectPage } from "./Pages/Connect/ConnectPage";
 
 export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
     // append /api from proxy.
-    return `http://${location.host}/api`;
+    return `http://${location.host}/api/api`;
   }
   return EnvConfig.serverUrl;
 };
@@ -55,6 +56,7 @@ export const App = function () {
       />
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/connect" element={<ConnectPage />} />
         <Route path="/agentconsole" element={<AgentConsole />} />
         <Route path="/installcode" element={<ControlPanel />} />
       </CustomRoutes>
