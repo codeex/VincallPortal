@@ -58,9 +58,11 @@ export const callPanelPageApp = () => {
   };
 
   const clearCallTimeTask = () => {
-    log("request for update call time end.");
-    clearInterval(updateCallTimeTaskId.current);
-    updateCallTimeTaskId.current = null;
+    if (updateCallTimeTaskId.current) {
+      log("request for update call time end.");
+      clearInterval(updateCallTimeTaskId.current);
+      updateCallTimeTaskId.current = null;
+    }
   };
 
   const handleUpdateDeviceState = useEventCallback(
@@ -87,6 +89,7 @@ export const callPanelPageApp = () => {
   );
 
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
+    clearCallTimeTask();
     setCurrentAgentId(e.target.value);
   };
 
