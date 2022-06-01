@@ -15,3 +15,6 @@ export interface RuntimeInterface {
   updateAgentStatus: (status: "online" | "away") => void;
   on: (eventName: "busy" | "free", callback: () => void) => RuntimeInterface;
 }
+
+// @ts-ignore
+window.Runtime = Runtime;
