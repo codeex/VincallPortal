@@ -3,9 +3,9 @@ import { Title, useGetIdentity } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
-import { AgentConsolePanel } from "./AgentConsolePanel";
 import { CallTabContent } from "./CallTabContent";
 import { isEmbeddedMode, log } from "../../Helpers/Index";
+import { Runtime } from "../../Runtime";
 
 export const CallPanelPage = () => {
   const {
@@ -19,11 +19,12 @@ export const CallPanelPage = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
-  log("Ray: identity", identity);
+
   useEffect(() => {
     if (currentAgentId) {
       updateDevice(currentAgentId);
@@ -40,7 +41,12 @@ export const CallPanelPage = () => {
       });
     }
   }, [!!agentList.length, identity?.account]);
+
   useEffect(() => {
+    Runtime.on("busy", () => {})
+      .on("free", () => {})
+      .init();
+
     return () => {
       clearCallTimeTask();
       if (deviceManager) {
@@ -51,7 +57,7 @@ export const CallPanelPage = () => {
   if (isEmbeddedMode) {
     return (
       <Card sx={{ p: 3, mt: 3 }}>
-        <Title title="Agent Console" />
+        <Title title="Call Panel" />
         <CallTabContent
           isAgentLoading={isAgentLoading}
           currentAgentId={currentAgentId}
@@ -71,7 +77,7 @@ export const CallPanelPage = () => {
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={handleTabChange}>
           <Tab label="Call Panel" />
-          <Tab label="Comm100 agent console" />
+          {/* <Tab label="Comm100 agent console" /> */}
         </Tabs>
       </Box>
       <CTabPanel value={tab} index={0}>
@@ -85,9 +91,9 @@ export const CallPanelPage = () => {
           handleCurrentAgentChange={handleCurrentAgentChange}
         />
       </CTabPanel>
-      <CTabPanel value={tab} index={1}>
+      {/* <CTabPanel value={tab} index={1}>
         <AgentConsolePanel />
-      </CTabPanel>
+      </CTabPanel> */}
     </Card>
   );
 };

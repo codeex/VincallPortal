@@ -40,30 +40,17 @@ export const dataProvider = (
   countHeader: string = "Content-Range"
 ): DataProvider => ({
   getList: (resource, params) => {
-    const { page, perPage } = params.pagination;
-    const { field, order } = params.sort;
+    let query = {};
+    if (params.pagination) {
+      const { page, perPage } = params.pagination;
+      query = {
+        pageSize: perPage,
+        pageNum: page - 1,
+      };
+    }
 
-    const rangeStart = (page - 1) * perPage;
-    const rangeEnd = page * perPage - 1;
-
-    const query = {
-      pageSize: perPage,
-      pageNum: page - 1,
-      // sort: JSON.stringify([field, order]),
-      // range: JSON.stringify([rangeStart, rangeEnd]),
-      // filter: JSON.stringify(params.filter),
-    };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-    // const options =
-    //   countHeader === "Content-Range"
-    //     ? {
-    //         // Chrome doesn't return `Content-Range` header if no `Range` is provided in the request.
-    //         headers: new Headers({
-    //           Range: `${resource}=${rangeStart}-${rangeEnd}`,
-    //         }),
-    //       }
-    //     : {};
     const options = {
       headers: new Headers({
         "Access-Control-Allow-Origin": "*",
@@ -151,7 +138,7 @@ export const dataProvider = (
 
   update: (resource, params) =>
     httpClient(`${apiUrl}/${resource.slice(0, -1)}/${params.id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
 
@@ -173,7 +160,7 @@ export const dataProvider = (
     ).then((responses) => ({ data: responses.map(({ json }) => json.id) })),
 
   create: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}`, {
+    httpClient(`${apiUrl}/${resource.slice(0, -1)}`, {
       method: "POST",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({

@@ -1,7 +1,6 @@
 import { Admin, Resource, CustomRoutes } from "react-admin";
 import { AgentList } from "./Pages/Agents/AgentList";
 import { Layout } from "./Layout/Layout";
-// import { dataProviderFactory } from "./DataProvider";
 import { Login } from "./Pages/Login/Login";
 import { UserList } from "./Pages/UserManage/UserList";
 import { CreateAgentForm } from "./Pages/Agents/CreateAgent/CreateAgentForm";
@@ -11,9 +10,11 @@ import { ReportPage } from "./Pages/Report/ReportPage";
 import { CallPanelPage } from "./Pages/CallPanel/CallPanelPage";
 import { EnvConfig } from "./EnvConfig";
 import { dataProviderFactory } from "./DataProvider";
-import { PermissionEnums, useCheckPermission } from "./Helpers/Permission";
 import { lightTheme } from "./Layout/Theme/Index";
 import { authProvider } from "./AuthProvider/authProvider";
+import { AgentConsole } from "./Pages/Comm100/AgentConsole";
+import { ControlPanel } from "./Pages/Comm100/ControlPanel";
+import { ConnectPage } from "./Pages/Connect/ConnectPage";
 
 export const getServerURL = () => {
   if (process.env.NODE_ENV === "development") {
@@ -24,8 +25,6 @@ export const getServerURL = () => {
 };
 
 export const App = function () {
-  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
-  const canManageUsers = useCheckPermission(PermissionEnums.canManageUsers);
   return (
     <Admin
       title="Vin Call"
@@ -39,7 +38,7 @@ export const App = function () {
         name="agents"
         options={{ label: "Agents" }}
         list={AgentList}
-        create={canCreateAgent ? CreateAgentForm : undefined}
+        create={CreateAgentForm}
       />
       <CustomRoutes>
         <Route path="/callpanel" element={<CallPanelPage />} />
@@ -50,15 +49,16 @@ export const App = function () {
         options={{ label: "Report" }}
         list={ReportPage}
       />
-      {canManageUsers ? (
-        <Resource
-          name="users"
-          options={{ label: "User Manage" }}
-          list={UserList}
-        />
-      ) : null}
+      <Resource
+        name="users"
+        options={{ label: "User Manage" }}
+        list={UserList}
+      />
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/connect" element={<ConnectPage />} />
+        <Route path="/agentconsole" element={<AgentConsole />} />
+        <Route path="/installcode" element={<ControlPanel />} />
       </CustomRoutes>
     </Admin>
   );

@@ -1,11 +1,17 @@
 import { useMemo, useRef, useState } from "react";
-import { DataProvider, useDataProvider, useGetList } from "react-admin";
+import {
+  DataProvider,
+  useDataProvider,
+  useGetIdentity,
+  useGetList,
+} from "react-admin";
 import { useEventCallback } from "@mui/material";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
+import { Runtime } from "../../Runtime";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
@@ -13,11 +19,14 @@ export const callPanelPageApp = () => {
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
   const updateCallTimeTaskId = useRef<any>();
+  const { identity } = useGetIdentity();
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
-      {},
+      {
+        pagination: null as any,
+      },
       {
         refetchInterval: -1,
         retry: 1,
@@ -28,12 +37,18 @@ export const callPanelPageApp = () => {
     status: "initializing",
   });
 
-  //@ts-ignore
-  window.setDeviceState = setDeviceState;
+  const currentAgentObject = useGetCurrentAgentObject(
+    currentAgentId,
+    agentList
+  );
 
   const requestForUpdateCallTime = () => {
-    log("Ray: requestForUpdateCallTime start.");
+    log("request update call time start.");
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
+  };
+
+  const requestForUpdateStatusToOnline = () => {
+    dataProvider.httpGet(`agent/${currentAgentId}/updateStatusToOnline`);
   };
 
   const setupUpdateCallTimeTask = () => {
@@ -44,9 +59,11 @@ export const callPanelPageApp = () => {
   };
 
   const clearCallTimeTask = () => {
-    log("Ray: requestForUpdateCallTime end.");
-    clearInterval(updateCallTimeTaskId.current);
-    updateCallTimeTaskId.current = null;
+    if (updateCallTimeTaskId.current) {
+      log("request for update call time end.");
+      clearInterval(updateCallTimeTaskId.current);
+      updateCallTimeTaskId.current = null;
+    }
   };
 
   const handleUpdateDeviceState = useEventCallback(
@@ -56,18 +73,34 @@ export const callPanelPageApp = () => {
       } else {
         setDeviceState(state as any);
       }
-      if (
+
+      if (state.status === "ready") {
+        if (currentAgentObject && identity) {
+          if (currentAgentObject.userAccount === identity.account) {
+            setupUpdateCallTimeTask();
+          } else {
+            clearCallTimeTask();
+          }
+        }
+      } else if (state.status === "incoming") {
+        // Agent is in a call.
+        Runtime.sendNotify(`${state.from} is calling.`);
+      } else if (
         state.status === "incomingAccept" ||
         state.status === "outingCallingAccept"
       ) {
-        setupUpdateCallTimeTask();
+        // Agent is in a call.
+        Runtime.updateAgentStatus("away");
       } else if (state.status === "end") {
-        clearCallTimeTask();
+        requestForUpdateStatusToOnline();
+        // Agent is out of a call.
+        Runtime.updateAgentStatus("online");
       }
     }
   );
 
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
+    clearCallTimeTask();
     setCurrentAgentId(e.target.value);
   };
 
@@ -105,11 +138,12 @@ export const callPanelPageApp = () => {
     isAgentLoading,
     deviceState,
     currentAgentId,
-    currentAgentObject: useGetCurrentAgentObject(currentAgentId, agentList),
+    currentAgentObject,
     deviceManager: deviceManager.current,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   };
 };

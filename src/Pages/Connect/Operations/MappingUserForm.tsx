@@ -2,12 +2,12 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
-import { bindUserFormApp } from "./Application/BindUserFormApp";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
+import { bindUserFormApp } from "../../Agents/AgentOperation/Application/BindUserFormApp";
 
-export interface BindUserFormProps {
+export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
   record: any;
   onCancel: () => void;
@@ -17,11 +17,11 @@ const validateSchema = Yup.object().shape({
   userAccount: Yup.string().required("User cannot be empty."),
 });
 
-export const BindUserForm = ({
+export const MappingUserForm = ({
   onSubmit,
   record,
   onCancel,
-}: BindUserFormProps) => {
+}: MappingUserFormProps) => {
   const { userOptions, isUserLoading } = bindUserFormApp({});
 
   return (

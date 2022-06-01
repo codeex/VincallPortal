@@ -5,9 +5,16 @@ const useStyles = makeStyles(() =>
     root: {
       display: "flex",
       alignItems: "baseline",
+      width: "70%",
 
       "& .MuiTypography-root": {
-        width: 150,
+        minWidth: 150,
+        width: "12%",
+      },
+
+      "& .MuiFormControl-root": {
+        minWidth: 300,
+        width: "58%",
       },
 
       "& span": {
