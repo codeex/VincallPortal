@@ -83,8 +83,8 @@ const Menu = ({ dense = false }: MenuProps) => {
           icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
         />
         <CMenuItem
-          to="/controlpanel"
-          label="Control Panel"
+          to="/installcode"
+          label="Install Code"
           icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
         />
       </CSubMenu>

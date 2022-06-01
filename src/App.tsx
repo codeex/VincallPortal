@@ -56,7 +56,7 @@ export const App = function () {
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/agentconsole" element={<AgentConsole />} />
-        <Route path="/controlpanel" element={<ControlPanel />} />
+        <Route path="/installcode" element={<ControlPanel />} />
       </CustomRoutes>
     </Admin>
   );
