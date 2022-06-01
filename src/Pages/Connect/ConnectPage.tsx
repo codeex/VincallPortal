@@ -9,7 +9,14 @@ export const ConnectPage = () => {
   const [isConnected, setConnected] = useState<boolean>(false);
   const handleCheckOauth = () => {
     customHttpClient(
-      `https://voipdash.comm100dev.io/api/global/agentSsoConfig`,
+      `https://voipdash.comm100dev.io/api/global/agentSsoConfig?siteId=10000`,
+      {
+        method: "GET",
+      }
+    ).then(() => setConnected(true));
+
+    customHttpClient(
+      `https://voipdash.comm100dev.io/api/global/agents?siteId=10000`,
       {
         method: "GET",
       }

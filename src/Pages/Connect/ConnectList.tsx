@@ -1,10 +1,28 @@
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { BindUserButton } from "../Agents/AgentOperation/BindUserButton";
+import { MappingUserButton } from "./Operations/MappingUserButton";
+import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 
 const columns: GridColumns = [
-  { field: "id", headerName: "ID", width: 90 },
-  { field: "firstName", headerName: "Comm100 Agent Id", width: 150 },
+  { field: "id", headerName: "ID", width: 150 },
+  { field: "agentId", headerName: "Comm100 Agent Id", width: 250 },
+  { field: "agentEmail", headerName: "Comm100 Agent Email", width: 250 },
+  { field: "agentEmail", headerName: "Comm100 Agent Email", width: 250 },
+  { field: "userAccount", headerName: "User Name", width: 250 },
+  {
+    field: "operations",
+    headerName: "Operations",
+    width: 250,
+    renderCell: (params) => {
+      console.log("params >>", params);
+      return (
+        <div>
+          <MappingUserButton record={{}} />
+          <RemoveMappingButton />
+        </div>
+      );
+    },
+  },
 ];
 
 const rows = [
@@ -14,8 +32,7 @@ const rows = [
 
 export const ConnectList = () => {
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGridToolbar />
+    <div style={{ height: 400, width: "75%" }}>
       <DataGrid
         columns={columns}
         rows={rows}
@@ -24,13 +41,5 @@ export const ConnectList = () => {
         disableColumnMenu
       />
     </div>
-  );
-};
-
-const DataGridToolbar = () => {
-  return (
-    <Toolbar>
-      <Typography>test</Typography>
-    </Toolbar>
   );
 };

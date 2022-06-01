@@ -12,11 +12,13 @@ export interface ConnectComm100Props {
 export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
   const redirect = useRedirect();
   const handleConnect = () => {
-    const redirect_url = `redirect_uri=https://apivincall.comm100dev.io/sso/callback?domain=voipdash.comm100dev.io&agentId=52163ba0-7caf-44bc-a17d-b9764f9db4db&siteId=10000`;
+    const siteId = ref.current;
+
+    const redirect_url = `redirect_uri=https://apivincall.comm100dev.io/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io&agentId=52163ba0-7caf-44bc-a17d-b9764f9db4db`;
     const url = window.location.host.includes("test")
-      ? `https://voiproute.testing.comm100dev.io/oauth/authorize?siteId=10000&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`
-      : `https://voiproute.comm100dev.io/oauth/authorize?siteId=10000&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`;
-    redirect(url);
+      ? `https://voiproute.testing.comm100dev.io/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`
+      : `https://voiproute.comm100dev.io/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`;
+    window.open(url, "_blank");
     // location.href = url;
     // customHttpClient(url, {
     //   method: "GET",
@@ -27,20 +29,27 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
   };
 
   const ref = useRef();
+  console.log("ref >>", ref.current);
   return (
-    <div style={{ height: 100 }}>
-      {connected ? (
+    <div style={{ height: 150 }}>
+      {!connected ? (
         <Typography>You are already connected.</Typography>
       ) : (
         <Typography>
           You must connect to Comm100 to get account mappings, Please click the
           button below.
-          <TextField
-            label="Site ID"
-            variant="outlined"
-            onChange={(e: any) => console.log(e.target.value)}
-          />
-          <Button onClick={handleConnect}>Connect Comm100</Button>
+          <div>
+            <TextField
+              label="Site ID"
+              variant="outlined"
+              onChange={(e: any) => (ref.current = e.target.value)}
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={handleConnect}>
+              Connect Comm100
+            </Button>
+          </div>
         </Typography>
       )}
     </div>
