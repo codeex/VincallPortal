@@ -1,5 +1,10 @@
 import { useMemo, useRef, useState } from "react";
-import { DataProvider, useDataProvider, useGetList } from "react-admin";
+import {
+  DataProvider,
+  useDataProvider,
+  useGetIdentity,
+  useGetList,
+} from "react-admin";
 import { useEventCallback } from "@mui/material";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
@@ -13,6 +18,7 @@ export const callPanelPageApp = () => {
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
   const updateCallTimeTaskId = useRef<any>();
+  const { identity } = useGetIdentity();
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
@@ -28,12 +34,18 @@ export const callPanelPageApp = () => {
     status: "initializing",
   });
 
-  //@ts-ignore
-  window.setDeviceState = setDeviceState;
+  const currentAgentObject = useGetCurrentAgentObject(
+    currentAgentId,
+    agentList
+  );
 
   const requestForUpdateCallTime = () => {
     log("request update call time start.");
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
+  };
+
+  const requestForUpdateStatusToOnline = () => {
+    dataProvider.httpGet(`agent/${currentAgentId}/updateStatusToOnline`);
   };
 
   const setupUpdateCallTimeTask = () => {
@@ -56,13 +68,18 @@ export const callPanelPageApp = () => {
       } else {
         setDeviceState(state as any);
       }
-      if (
-        state.status === "incomingAccept" ||
-        state.status === "outingCallingAccept"
-      ) {
-        setupUpdateCallTimeTask();
-      } else if (state.status === "end") {
-        clearCallTimeTask();
+
+      if (state.status === "ready") {
+        if (currentAgentObject && identity) {
+          if (currentAgentObject.userAccount === identity!.account) {
+            setupUpdateCallTimeTask();
+          } else {
+            clearCallTimeTask();
+          }
+        }
+      }
+      if (state.status === "end") {
+        requestForUpdateStatusToOnline();
       }
     }
   );
@@ -105,11 +122,12 @@ export const callPanelPageApp = () => {
     isAgentLoading,
     deviceState,
     currentAgentId,
-    currentAgentObject: useGetCurrentAgentObject(currentAgentId, agentList),
+    currentAgentObject,
     deviceManager: deviceManager.current,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   };
 };
