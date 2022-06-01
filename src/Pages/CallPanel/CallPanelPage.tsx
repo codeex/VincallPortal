@@ -5,6 +5,7 @@ import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
 import { CallTabContent } from "./CallTabContent";
 import { isEmbeddedMode, log } from "../../Helpers/Index";
+import { Runtime } from "../../Runtime";
 
 export const CallPanelPage = () => {
   const {
@@ -42,6 +43,10 @@ export const CallPanelPage = () => {
   }, [!!agentList.length, identity?.account]);
 
   useEffect(() => {
+    Runtime.on("busy", () => {})
+      .on("free", () => {})
+      .init();
+
     return () => {
       clearCallTimeTask();
       if (deviceManager) {
