@@ -20,7 +20,7 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
   const ref = useRef();
   return (
     <div style={{ height: 150 }}>
-      {!connected ? (
+      {connected ? (
         <Typography>You are already connected.</Typography>
       ) : (
         <Typography>
