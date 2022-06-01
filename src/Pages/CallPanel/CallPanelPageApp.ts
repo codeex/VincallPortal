@@ -2,25 +2,31 @@ import { useMemo, useRef, useState } from "react";
 import {
   DataProvider,
   useDataProvider,
+  useGetIdentity,
   useGetList,
-  useGetOne,
 } from "react-admin";
+import { useEventCallback } from "@mui/material";
 import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
+import { Runtime } from "../../Runtime";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
   const [tab, setTab] = useState<number>(0);
   const dataProvider = useDataProvider();
   const deviceManager = useRef<DeviceManager>();
+  const updateCallTimeTaskId = useRef<any>();
+  const { identity } = useGetIdentity();
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
       "agents",
-      {},
+      {
+        pagination: null as any,
+      },
       {
         refetchInterval: -1,
         retry: 1,
@@ -30,22 +36,71 @@ export const callPanelPageApp = () => {
   const [deviceState, setDeviceState] = useState<DeviceState>({
     status: "initializing",
   });
-  //@ts-ignore
-  window.setDeviceState = setDeviceState;
 
-  const handleUpdateDeviceState = (
-    state: Partial<DeviceState>,
-    shouldUseAssign?: boolean
-  ) => {
-    if (shouldUseAssign) {
-      log("Ray: handleUpdateDeviceState", deviceState, state);
-      setDeviceState(Object.assign({}, deviceState, state));
-    } else {
-      setDeviceState(state as any);
+  const currentAgentObject = useGetCurrentAgentObject(
+    currentAgentId,
+    agentList
+  );
+
+  const requestForUpdateCallTime = () => {
+    log("request update call time start.");
+    dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
+  };
+
+  const requestForUpdateStatusToOnline = () => {
+    dataProvider.httpGet(`agent/${currentAgentId}/updateStatusToOnline`);
+  };
+
+  const setupUpdateCallTimeTask = () => {
+    if (updateCallTimeTaskId.current) {
+      clearInterval(updateCallTimeTaskId.current);
+    }
+    updateCallTimeTaskId.current = setInterval(requestForUpdateCallTime, 5000);
+  };
+
+  const clearCallTimeTask = () => {
+    if (updateCallTimeTaskId.current) {
+      log("request for update call time end.");
+      clearInterval(updateCallTimeTaskId.current);
+      updateCallTimeTaskId.current = null;
     }
   };
 
+  const handleUpdateDeviceState = useEventCallback(
+    (state: Partial<DeviceState>, shouldUseAssign?: boolean) => {
+      if (shouldUseAssign) {
+        setDeviceState(Object.assign({}, deviceState, state));
+      } else {
+        setDeviceState(state as any);
+      }
+
+      if (state.status === "ready") {
+        if (currentAgentObject && identity) {
+          if (currentAgentObject.userAccount === identity.account) {
+            setupUpdateCallTimeTask();
+          } else {
+            clearCallTimeTask();
+          }
+        }
+      } else if (state.status === "incoming") {
+        // Agent is in a call.
+        Runtime.sendNotify(`${state.from} is calling.`);
+      } else if (
+        state.status === "incomingAccept" ||
+        state.status === "outingCallingAccept"
+      ) {
+        // Agent is in a call.
+        Runtime.updateAgentStatus("away");
+      } else if (state.status === "end") {
+        requestForUpdateStatusToOnline();
+        // Agent is out of a call.
+        Runtime.updateAgentStatus("online");
+      }
+    }
+  );
+
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
+    clearCallTimeTask();
     setCurrentAgentId(e.target.value);
   };
 
@@ -83,11 +138,13 @@ export const callPanelPageApp = () => {
     isAgentLoading,
     deviceState,
     currentAgentId,
-    currentAgentObject: useGetCurrentAgentObject(currentAgentId, agentList),
+    currentAgentObject,
     deviceManager: deviceManager.current,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
+    clearCallTimeTask,
   };
 };
 

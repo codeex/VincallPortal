@@ -4,15 +4,23 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
-  useRedirect,
 } from "react-admin";
 import Button from "@mui/material/Button";
+import { FormItemStyled } from "../../../StyledComponents/FormItemStyled";
+import Typography from "@mui/material/Typography";
+import { createAgentFormApp } from "./CreateAgentFormApp";
+import {
+  useCheckPermission,
+  PermissionEnums,
+} from "../../../Helpers/Permission";
 
 export const CreateAgentForm = (props: any) => {
-  const redirect = useRedirect();
-  const handleClick = () => {
-    redirect("/agents");
-  };
+  const canCreateAgent = useCheckPermission(PermissionEnums.canCreateAgent);
+  const { handleClick } = createAgentFormApp({});
+
+  if (!canCreateAgent) {
+    return null;
+  }
 
   return (
     <Create {...props}>
@@ -28,8 +36,18 @@ export const CreateAgentForm = (props: any) => {
           </Toolbar>
         }
       >
-        <TextInput source="extensionNumber" />
-        <TextInput multiline source="Remark" />
+        <FormItemStyled>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            {`Extension Number: `}
+          </Typography>
+          <TextInput source="deviceNumber" variant="outlined" required />
+        </FormItemStyled>
+        <FormItemStyled>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            {`Remark: `}
+          </Typography>
+          <TextInput multiline source="Remark" variant="outlined" required />
+        </FormItemStyled>
       </SimpleForm>
     </Create>
   );

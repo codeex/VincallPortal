@@ -1,6 +1,6 @@
 import { DeleteWithConfirmButton } from "react-admin";
 
-export const DeleteUserButton = (props: any) => {
+export const DeleteUserButton = () => {
   return (
     <DeleteWithConfirmButton
       label="Delete"

@@ -52,7 +52,10 @@ export const CallingScreen = ({
   };
   const actionsActiveState = getActionsActiveState(deviceState);
   return (
-    <Paper sx={{ width: 240, height: 486, padding: 4 }} elevation={1}>
+    <Paper
+      sx={{ width: 240, height: 486, padding: 4, boxSizing: "content-box" }}
+      elevation={1}
+    >
       <Box sx={{ textAlign: "center" }}>
         <AccountCircleIcon sx={{ fontSize: 72, margin: "0 atuo" }} />
       </Box>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Vincall manage system" />
+    <title>Vin Call</title>
+  </head>
+  <body>
+    <div>Logining....</div>
+    <script src="./util.js"></script>
+    <script>
+      var search = getSearch(),
+        redirect_url = `redirect_uri=https://apitest.vincall.net/sso/callback?domain=${search.domain}&siteId=${search.siteId}`,
+        url = `${search.domain}/oauth/authorize?response_type=code&client_id=${search.client_id}&${redirect_url}`;
+
+      location.href = url;
+    </script>
+  </body>
+</html>

@@ -1,8 +1,9 @@
 import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
+import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
 
 export interface BindUserFormProps {
   onSubmit: (values: any) => void;
@@ -33,20 +34,24 @@ export const UpdatePasswordForm = ({
             <TextField
               id="password"
               label="Password"
-              variant="filled"
               sx={{ width: 300 }}
               onChange={(event) =>
                 setFieldValue("password", event.target.value || "")
               }
               error={!!errors.password}
+              variant="outlined"
             />
             {errors.password ? (
-              <div style={{ color: "red" }}>{`${errors.password}`}</div>
+              <FormErrorMessageStyled>{`${errors.password}`}</FormErrorMessageStyled>
             ) : null}
-            <div>
-              <Button type="submit">Save</Button>
-              <Button onClick={onCancel}>Cancel</Button>
-            </div>
+            <FormButtonStyled>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
+              <Button onClick={onCancel} variant="outlined">
+                Cancel
+              </Button>
+            </FormButtonStyled>
           </Form>
         );
       }}

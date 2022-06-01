@@ -1,50 +1,44 @@
 import { Box, Card, Paper } from "@mui/material";
-import {
-  List,
-  Datagrid,
-  ListBase,
-  TextField,
-  useListContext,
-} from "react-admin";
+import { List, Datagrid, ListBase, TextField, Title } from "react-admin";
 import { CPagination } from "../../Components/CPagination";
+import { ReportChart } from "./ReportChart";
+import { CallTimeField } from "./CallTimeField";
 
 export const ReportPage = () => {
   return (
-    //@ts-ignore
-    <List
-      pagination={<CPagination />}
-      perPage={10}
-      debounce={-1}
-      exporter={false}
-    >
+    <ReportList perPage={10} debounce={-1} exporter={false}>
       <Datagrid bulkActionButtons={false} size="medium">
-        <TextField source="agentId" label="Agent Id" />
-        <TextField source="userName" label="Agent User" />
-        <TextField source="incomingCall" label="Incoming Call" />
-        <TextField source="outboundCall" label="Outbound Call" />
-        <TextField source="callTime" label="Call Time" />
+        <TextField source="agentId" label="Agent Id" sortable={false} />
+        <TextField source="userName" label="Agent User" sortable={false} />
+        <TextField
+          source="incomingCall"
+          label="Incoming Call"
+          sortable={false}
+        />
+        <TextField
+          source="outboundCall"
+          label="Outbound Call"
+          sortable={false}
+        />
+        <CallTimeField source="callTime" label="Call Time" sortable={false} />
       </Datagrid>
-    </List>
+    </ReportList>
   );
 };
 
 export const ReportList = ({ children, ...others }: any) => {
   return (
     <ListBase {...others}>
+      <Title title="Reports" />
       <Paper sx={{ p: 3, marginTop: 5 }}>
-        {/* <ReportChart /> */}
-        <Card sx={{ marginTop: 2 }}>{children}</Card>
+        <ReportChart />
+        <Card sx={{ marginTop: 4 }}>
+          <Title title="Report" />
+          {children}
+        </Card>
       </Paper>
     </ListBase>
   );
-};
-
-export const ReportChart = () => {
-  const { data, isLoading } = useListContext<ReportItemBo>();
-  if (isLoading) {
-    return null;
-  }
-  return <div>{data.length}</div>;
 };
 
 export interface ReportItemBo {

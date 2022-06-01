@@ -10,10 +10,6 @@ export interface DrawerPageProps {
   title: string;
   onClose: () => void;
   children: ReactNode;
-  // onSave: () => void;
-  // saveText?: string;
-  // onCancel: () => void;
-  // cancelText?: string;
 }
 export const DrawerPage = ({
   open,
@@ -21,11 +17,7 @@ export const DrawerPage = ({
   title,
   onClose,
   children,
-}: // onSave,
-// saveText = "Save",
-// onCancel,
-// cancelText = "Cancel",
-DrawerPageProps) => {
+}: DrawerPageProps) => {
   return (
     <Drawer open={open} anchor={anchor} title={title} onClose={onClose}>
       <Box style={{ padding: 24, paddingTop: 16 }}>
@@ -36,8 +28,6 @@ DrawerPageProps) => {
           {title}
         </Typography>
         {children}
-        {/* <Button onClick={onSave}>{saveText}</Button>
-        <Button onClick={onCancel}>{cancelText}</Button> */}
       </Box>
     </Drawer>
   );

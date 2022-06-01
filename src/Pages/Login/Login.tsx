@@ -1,62 +1,12 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-
-import {
-  Avatar,
-  Button,
-  Card,
-  CardActions,
-  CircularProgress,
-} from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import {
-  Form,
-  required,
-  TextInput,
-  useTranslate,
-  useLogin,
-  useNotify,
-  useCreate,
-} from "react-admin";
-
+import { Button, Card, CardActions, CircularProgress } from "@mui/material";
+import { Form, required, TextInput, useTranslate } from "react-admin";
 import Box from "@mui/material/Box";
-import { customHttpClient } from "../../DataProvider/customHttpClient";
+import Logo from "../../Assets/vincall.svg";
+import { loginApp } from "./LoginApp";
 
 export const Login = () => {
-  const [loading, setLoading] = useState(false);
   const translate = useTranslate();
-
-  const notify = useNotify();
-  const login = useLogin();
-  const location = useLocation();
-
-  const handleSubmit = (auth: FormValues) => {
-    setLoading(true);
-    login(
-      auth,
-      location.state ? (location.state as any).nextPathname : "/"
-    ).catch((error: Error) => {
-      setLoading(false);
-      notify(
-        typeof error === "string"
-          ? error
-          : typeof error === "undefined" || !error.message
-          ? "ra.auth.sign_in_error"
-          : error.message,
-        {
-          type: "warning",
-          messageArgs: {
-            _:
-              typeof error === "string"
-                ? error
-                : error && error.message
-                ? error.message
-                : undefined,
-          },
-        }
-      );
-    });
-  };
+  const { loading, handleSubmit } = loginApp({});
 
   return (
     <Form onSubmit={handleSubmit} noValidate>
@@ -67,12 +17,13 @@ export const Login = () => {
           minHeight: "100vh",
           alignItems: "center",
           justifyContent: "flex-start",
-          background: "url(https://source.unsplash.com/random/1600x900)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <Card sx={{ minWidth: 300, marginTop: "6em" }}>
+        <Card
+          sx={{ minWidth: 452, marginTop: "10em", padding: "16px 24px 24px" }}
+        >
           <Box
             sx={{
               margin: "1em",
@@ -80,9 +31,12 @@ export const Login = () => {
               justifyContent: "center",
             }}
           >
-            <Avatar sx={{ bgcolor: "secondary.main" }}>
-              <LockIcon />
-            </Avatar>
+            <Box
+              src={Logo}
+              component="img"
+              alt="Vin Call"
+              sx={{ marginRight: "1em", height: 30 }}
+            />
           </Box>
           <Box
             sx={{
@@ -131,8 +85,3 @@ export const Login = () => {
     </Form>
   );
 };
-
-interface FormValues {
-  username?: string;
-  password?: string;
-}

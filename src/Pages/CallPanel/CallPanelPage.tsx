@@ -1,19 +1,11 @@
-import {
-  Card,
-  Paper,
-  Box,
-  Tabs,
-  Tab,
-  TextField,
-  MenuItem,
-  CircularProgress,
-} from "@mui/material";
-import { Title } from "react-admin";
+import { Card, Box, Tabs, Tab } from "@mui/material";
+import { Title, useGetIdentity } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
-import { CallScreen } from "../../Components/CallScreen";
 import { useEffect } from "react";
-import { AgentConsolePanel } from "./AgentConsolePanel";
+import { CallTabContent } from "./CallTabContent";
+import { isEmbeddedMode, log } from "../../Helpers/Index";
+import { Runtime } from "../../Runtime";
 
 export const CallPanelPage = () => {
   const {
@@ -27,7 +19,11 @@ export const CallPanelPage = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
+    clearCallTimeTask,
   } = callPanelPageApp();
+
+  const { identity } = useGetIdentity();
 
   useEffect(() => {
     if (currentAgentId) {
@@ -36,65 +32,68 @@ export const CallPanelPage = () => {
   }, [currentAgentId]);
 
   useEffect(() => {
-    if (!!agentList.length) {
+    if (!!agentList.length && identity?.account) {
+      const currentAgent = agentList.find(
+        (item) => item.userAccount === identity?.account
+      ) || { id: "" };
       handleCurrentAgentChange({
-        target: { value: agentList[0].id as any },
+        target: { value: (currentAgent.id as any) || (agentList[0].id as any) },
       });
     }
-  }, [!!agentList.length]);
+  }, [!!agentList.length, identity?.account]);
+
+  useEffect(() => {
+    Runtime.on("busy", () => {})
+      .on("free", () => {})
+      .init();
+
+    return () => {
+      clearCallTimeTask();
+      if (deviceManager) {
+        deviceManager.clear();
+      }
+    };
+  }, []);
+  if (isEmbeddedMode) {
+    return (
+      <Card sx={{ p: 3, mt: 3 }}>
+        <Title title="Call Panel" />
+        <CallTabContent
+          isAgentLoading={isAgentLoading}
+          currentAgentId={currentAgentId}
+          currentAgentObject={currentAgentObject}
+          agentList={agentList}
+          deviceState={deviceState}
+          deviceManager={deviceManager}
+          handleCurrentAgentChange={handleCurrentAgentChange}
+        />
+      </Card>
+    );
+  }
   return (
     <Card sx={{ p: 3, mt: 3 }}>
-      <Title title="Agent Console" />
+      <Title title="Call Panel" />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={handleTabChange}>
-          <Tab label="Agent Console" />
-          <Tab label="Comm100 agent console" />
+          <Tab label="Call Panel" />
+          {/* <Tab label="Comm100 agent console" /> */}
         </Tabs>
       </Box>
       <CTabPanel value={tab} index={0}>
-        <Box>
-          <TextField
-            label="Current Agent"
-            select
-            value={currentAgentId}
-            placeholder="Select an Agent"
-            onChange={handleCurrentAgentChange}
-            style={{ width: 200 }}
-            variant="standard"
-            disabled={!getIfCanChangeAgentWhenCalling()}
-          >
-            {isAgentLoading ? (
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <CircularProgress size={24} />
-              </Box>
-            ) : (
-              agentList.map(({ id, deviceNumber, userAccount }) => (
-                <MenuItem key={id} value={id}>
-                  {userAccount} {deviceNumber}
-                </MenuItem>
-              ))
-            )}
-          </TextField>
-        </Box>
-        {deviceState.status === "initializing" ? (
-          <Box sx={{ display: "flex", justifyContent: "center", pt: 4 }}>
-            <CircularProgress />
-          </Box>
-        ) : (
-          <Box sx={{ pt: 2 }}>
-            <CallScreen
-              currentAgent={currentAgentId}
-              currentAgentNumber={currentAgentObject.deviceNumber}
-              deviceManager={deviceManager!}
-              deviceState={deviceState}
-            />
-          </Box>
-        )}
+        <CallTabContent
+          isAgentLoading={isAgentLoading}
+          currentAgentId={currentAgentId}
+          currentAgentObject={currentAgentObject}
+          agentList={agentList}
+          deviceState={deviceState}
+          deviceManager={deviceManager}
+          handleCurrentAgentChange={handleCurrentAgentChange}
+        />
       </CTabPanel>
-      <CTabPanel value={tab} index={1}>
+      {/* <CTabPanel value={tab} index={1}>
         <AgentConsolePanel />
-      </CTabPanel>
+      </CTabPanel> */}
     </Card>
   );
 };
@@ -107,7 +106,3 @@ export interface AgentBo {
   state: number;
   createDate: string;
 }
-
-const getIfCanChangeAgentWhenCalling = () => {
-  return true;
-};

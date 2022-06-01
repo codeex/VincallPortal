@@ -1,6 +1,8 @@
 import Button from "@mui/material/Button";
 import { TextField, Skeleton } from "@mui/material";
 import { Formik, Form } from "formik";
+import { FormItemStyled } from "../../StyledComponents/FormItemStyled";
+import Typography from "@mui/material/Typography";
 
 export interface BindUserFormProps {
   onSubmit: (values: any, settings: any) => void;
@@ -27,22 +29,28 @@ export const SettingsForm = ({ onSubmit, settings }: BindUserFormProps) => {
             {settings.map((setting) => {
               const key = setting.optionKey.split(" ").join("");
               return (
-                <div>
+                <FormItemStyled>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {`${setting.optionKey}: `}
+                  </Typography>
                   <TextField
                     id={key}
-                    label={setting.optionKey}
-                    variant="filled"
+                    variant="outlined"
                     sx={{ width: 300 }}
                     onChange={(event) => {
                       setFieldValue(key, event.target.value || "");
                     }}
                     value={values[key]}
+                    multiline={setting.type === 2}
+                    rows={8}
                   />
-                </div>
+                </FormItemStyled>
               );
             })}
             <div>
-              <Button type="submit">Save</Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
             </div>
           </Form>
         );
