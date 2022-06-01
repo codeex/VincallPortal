@@ -8,7 +8,6 @@ export interface EmbeddedPageProps {
     | "Comm100 Control Panel Js Code"
     | "Comm100 Agent Console Js Code";
 }
-const iframeStore: { [key: string]: HTMLIFrameElement } = {};
 
 export const EmbeddedPage = ({
   title = "",
@@ -19,12 +18,7 @@ export const EmbeddedPage = ({
   const dataProvider = useDataProvider();
 
   const init = (snippet: string) => {
-    // if (iframeStore[id]) {
-    //   elRef.current.appendChild(iframeStore[id]);
-    //   return;
-    // }
     var iframe = document.createElement("iframe");
-    // iframeStore[id] = iframe;
     elRef.current.appendChild(iframe);
     var innerDoc = iframe.contentDocument!;
     iframe.id = "comm100-iframe" + id;
