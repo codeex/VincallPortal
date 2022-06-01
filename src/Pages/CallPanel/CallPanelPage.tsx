@@ -3,7 +3,6 @@ import { Title, useGetIdentity } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
-import { AgentConsolePanel } from "./AgentConsolePanel";
 import { CallTabContent } from "./CallTabContent";
 import { isEmbeddedMode, log } from "../../Helpers/Index";
 
@@ -19,10 +18,12 @@ export const CallPanelPage = () => {
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
+    setupUpdateCallTimeTask,
     clearCallTimeTask,
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
+
   useEffect(() => {
     if (currentAgentId) {
       updateDevice(currentAgentId);
@@ -39,6 +40,7 @@ export const CallPanelPage = () => {
       });
     }
   }, [!!agentList.length, identity?.account]);
+
   useEffect(() => {
     return () => {
       clearCallTimeTask();
