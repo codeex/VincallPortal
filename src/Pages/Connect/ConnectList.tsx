@@ -6,17 +6,43 @@ import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 import Divider from "@mui/material/Divider";
 
 const columns: GridColumns = [
-  { field: "id", headerName: "ID", width: 150 },
-  { field: "agentId", headerName: "Comm100 Agent Id", width: 250 },
-  { field: "agentEmail", headerName: "Comm100 Agent Email", width: 250 },
-  { field: "agentEmail", headerName: "Comm100 Agent Email", width: 250 },
-  { field: "userAccount", headerName: "User Name", width: 250 },
+  { field: "id", headerName: "ID", flex: 1, sortable: false },
+  {
+    field: "agentId",
+    headerName: "Comm100 Agent Id",
+    flex: 1,
+    sortable: false,
+    align: "center",
+  },
+  {
+    field: "agentEmail",
+    headerName: "Comm100 Agent Email",
+    flex: 1,
+    sortable: false,
+    align: "center",
+  },
+  {
+    field: "userAccount",
+    headerName: "User Account",
+    flex: 1,
+    sortable: false,
+    align: "center",
+  },
+  {
+    field: "userName",
+    headerName: "User Name",
+    flex: 1,
+    sortable: false,
+    align: "center",
+  },
   {
     field: "operations",
     headerName: "Operations",
-    width: 300,
+    width: 250,
+    sortable: false,
+    align: "center",
     renderCell: (params) => {
-      console.log("params >>", params);
+      // console.log("params >>", params);
       return (
         <div
           style={{
