@@ -8,11 +8,13 @@ import { EnvConfig } from "../../EnvConfig";
 export interface ConnectComm100Props {
   connected: boolean;
   handleSiteId: (siteId: number | undefined) => void;
+  setConnected: any;
 }
 
 export const ConnectComm100 = ({
   connected,
   handleSiteId,
+  setConnected,
 }: ConnectComm100Props) => {
   const handleConnect = () => {
     const siteId = ref.current;
@@ -49,7 +51,16 @@ export const ConnectComm100 = ({
     handleSiteId(ref.current);
   };
 
-  const handleDisconnect = () => {};
+  const handleDisconnect = () => {
+    customHttpClient(
+      `${getServerURL()}/connectState/disconnect?siteId=${localStorage.getItem(
+        "connectSiteId"
+      )}`,
+      {
+        method: "PUT",
+      }
+    ).then((res: any) => setConnected(res.json.connected));
+  };
 
   const ref = useRef();
   return (
