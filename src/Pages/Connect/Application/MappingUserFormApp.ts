@@ -24,7 +24,7 @@ export const mappingUserFormApp = ({}: MappingUserFormAppProps): MappingUserForm
   const userOptions = useMemo(() => {
     return userList.map((user) => ({
       label: user.userName,
-      value: user.userName,
+      value: user.account,
     }));
   }, [userList]);
 

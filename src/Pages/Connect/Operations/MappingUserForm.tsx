@@ -9,7 +9,7 @@ import { mappingUserFormApp } from "../Application/MappingUserFormApp";
 
 export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
-  record: any;
+  row: any;
   onCancel: () => void;
 }
 
@@ -19,7 +19,7 @@ const validateSchema = Yup.object().shape({
 
 export const MappingUserForm = ({
   onSubmit,
-  record,
+  row,
   onCancel,
 }: MappingUserFormProps) => {
   const { userOptions, isUserLoading } = mappingUserFormApp({});
@@ -27,7 +27,7 @@ export const MappingUserForm = ({
   return (
     <Formik
       initialValues={{
-        userAccount: record.userAccount,
+        userAccount: row.userName,
       }}
       onSubmit={(values) => onSubmit(values)}
       validationSchema={validateSchema}
@@ -49,9 +49,7 @@ export const MappingUserForm = ({
                 />
               )}
               loading={isUserLoading}
-              onChange={(_, value) =>
-                setFieldValue("userAccount", value?.value || "")
-              }
+              onChange={(_, value) => setFieldValue("userAccount", value || "")}
               defaultValue={values.userAccount}
               disableClearable
             />

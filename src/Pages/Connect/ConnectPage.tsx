@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Title, useStore } from "react-admin";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { ConnectComm100 } from "./ConnectComm100";
@@ -11,37 +11,37 @@ export const ConnectPage = () => {
     "isComm100Connect",
     false
   );
-  const [agents, setAgents] = useState<any>([]);
-  const handleCheckOauth = () => {
-    // customHttpClient(
-    //   `https://voipdash.comm100dev.io/api/global/agentSsoConfig?siteId=10000`,
-    //   {
-    //     method: "GET",
-    //   }
-    // ).then(() => setConnected(true));
+  const [siteId, setSiteId] = useState<number>(0);
+  const handleSiteId = useCallback((siteId: number) => {
+    // may use LocalStorage instead
+    // console.log("siteId >>", siteId);
+    // setSiteId(siteId);
+  }, []);
 
+  const handleCheckOauth = () => {
     customHttpClient(
-      `https://voipdash.comm100dev.io/api/global/agents?siteId=10000`,
+      `https://apivincall.comm100dev.io/api/connectState?siteId=${localStorage.getItem(
+        "connectSiteId"
+      )}`,
       {
         method: "GET",
       }
     ).then((res) => {
-      setConnected(true);
-      setIsComm100Connect(true);
-      setAgents(res.json);
+      setConnected(res.json.connected);
+      setIsComm100Connect(res.json.connected);
     });
   };
   //@ts-ignore
   window.setIsComm100Connect = setIsComm100Connect;
   useEffect(() => {
     handleCheckOauth();
-  }, []);
+  }, [localStorage.getItem("connectSiteId")]);
   return (
     <Card>
       <Title title="Connect Comm100" />
       <CardContent>
-        <ConnectComm100 connected={isConnected} />
-        <ConnectList />
+        <ConnectComm100 connected={isConnected} handleSiteId={handleSiteId} />
+        <ConnectList connected={isConnected} />
       </CardContent>
     </Card>
   );
