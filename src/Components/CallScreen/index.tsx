@@ -10,6 +10,7 @@ export interface CallScreenProps {
   currentAgentNumber?: string;
   deviceManager: DeviceManager;
   deviceState: DeviceState;
+  disabled?: boolean;
 }
 
 export const CallScreen = ({
@@ -17,10 +18,14 @@ export const CallScreen = ({
   currentAgentNumber,
   deviceState,
   deviceManager,
+  disabled,
 }: CallScreenProps) => {
   const [number, setNumber] = useState<string>("");
 
   const handleNumberChange = (e: ChangeEvent) => {
+    if (disabled) {
+      return;
+    }
     setNumber(e.target.value);
   };
   const handleCall = () => {
@@ -48,6 +53,7 @@ export const CallScreen = ({
         value={number}
         onChange={handleNumberChange}
         onCall={handleCall}
+        disabled={disabled}
       />
     );
   }
