@@ -1,6 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { useRef } from "react";
+import { getServerURL } from "../../App";
+import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { EnvConfig } from "../../EnvConfig";
 
 export interface ConnectComm100Props {
@@ -15,27 +17,34 @@ export const ConnectComm100 = ({
   const handleConnect = () => {
     const siteId = ref.current;
     localStorage.setItem("connectSiteId", siteId || "");
-    const redirect_url = `${EnvConfig.redirectUrlDomain}/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io`;
-    const url = `${
-      EnvConfig.routeUrl
-    }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDE&redirect_uri=${encodeURIComponent(
-      redirect_url
-    )}&response_type=code`;
-    window.open(
-      url,
-      "ConnectPage",
+    customHttpClient(`${getServerURL()}/sso/connectinfo`, {
+      method: "GET",
+    }).then((res: any) => {
+      const redirect_url = `${EnvConfig.serverUrl}/sso/connectcallback?siteId=${siteId}&domain=${res.json.domain}`;
+      const url = `${
+        EnvConfig.routeUrl
+      }/oauth/authorize?siteId=${siteId}&client_id=${
+        res.json.clientId
+      }&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=code`;
+      // const url = `${EnvConfig.routeUrl}/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDE&${redirect_url}&response_type=code`;
+      console.log("redirectUri >>", redirect_url);
+      console.log("url >>", url);
+      window.open(
+        url,
+        "ConnectPage",
+        `
+        width = 500,
+        height = 600,
+        left = 0,
+        top = 0,
+        menubar = false,
+        toolbar = false,
+        location = false,
+        resizable = true,
+        scrollbars = true
       `
-      width = 500,
-      height = 600,
-      left = 0,
-      top = 0,
-      menubar = false,
-      toolbar = false,
-      location = false,
-      resizable = true,
-      scrollbars = true
-    `
-    );
+      );
+    });
 
     handleSiteId(ref.current);
   };
@@ -44,11 +53,18 @@ export const ConnectComm100 = ({
   return (
     <div style={{ height: 150 }}>
       {connected ? (
-        <Typography>You are already connected.</Typography>
+        <>
+          <Typography>You are already connected.</Typography>
+          <Button variant="contained" onClick={handleConnect}>
+            Connect Comm100
+          </Button>
+        </>
       ) : (
-        <Typography>
-          You must connect to Comm100 to get account mappings, Please click the
-          button below.
+        <>
+          <Typography>
+            You must connect to Comm100 to get account mappings, Please click
+            the button below.
+          </Typography>
           <div>
             <TextField
               label="Site ID"
@@ -61,7 +77,7 @@ export const ConnectComm100 = ({
               Connect Comm100
             </Button>
           </div>
-        </Typography>
+        </>
       )}
     </div>
   );
