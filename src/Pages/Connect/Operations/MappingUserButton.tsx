@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
-import { bindUserButtonApp } from "../../Agents/AgentOperation/Application/BindUserButtonApp";
 import { DrawerPage } from "../../DrawerPage";
+import { mappingUserButtonApp } from "../Application/MappingUserButtonApp";
 import { MappingUserForm } from "./MappingUserForm";
 
 export interface MappingUserButtonProps {
@@ -8,7 +8,7 @@ export interface MappingUserButtonProps {
 }
 
 export const MappingUserButton = ({ record }: MappingUserButtonProps) => {
-  const { handleOpen, handleClose, handleSave, open } = bindUserButtonApp({
+  const { handleOpen, handleClose, handleSave, open } = mappingUserButtonApp({
     record,
   });
   return (

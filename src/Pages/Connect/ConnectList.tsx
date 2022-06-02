@@ -1,46 +1,51 @@
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
-import { FormButtonStyled } from "../../StyledComponents/FormButtonStyled";
-import { BindUserButton } from "../Agents/AgentOperation/BindUserButton";
 import { MappingUserButton } from "./Operations/MappingUserButton";
 import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 import Divider from "@mui/material/Divider";
 
 const columns: GridColumns = [
-  { field: "id", headerName: "ID", flex: 1, sortable: false },
+  {
+    field: "id",
+    headerName: "ID",
+    flex: 1,
+    sortable: false,
+    headerAlign: "center",
+    align: "center",
+  },
   {
     field: "agentId",
     headerName: "Comm100 Agent Id",
-    flex: 1,
+    flex: 2,
     sortable: false,
-    align: "center",
+    headerAlign: "center",
   },
   {
     field: "agentEmail",
     headerName: "Comm100 Agent Email",
-    flex: 1,
+    flex: 2,
     sortable: false,
-    align: "center",
+    headerAlign: "center",
   },
   {
     field: "userAccount",
     headerName: "User Account",
     flex: 1,
     sortable: false,
-    align: "center",
+    headerAlign: "center",
   },
   {
     field: "userName",
     headerName: "User Name",
     flex: 1,
     sortable: false,
-    align: "center",
+    headerAlign: "center",
   },
   {
     field: "operations",
     headerName: "Operations",
     width: 250,
     sortable: false,
-    align: "center",
+    headerAlign: "center",
     renderCell: (params) => {
       // console.log("params >>", params);
       return (
