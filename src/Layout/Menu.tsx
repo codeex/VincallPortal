@@ -80,7 +80,7 @@ const Menu = ({ dense = false }: MenuProps) => {
       })}
 
       {isComm100Connect ? (
-        <div style={{ paddingLeft: 24 }}>
+        <div style={{ paddingLeft: open ? 28 : 0 }}>
           <CMenuItem
             to="/agentconsole"
             label="Agent Console"
