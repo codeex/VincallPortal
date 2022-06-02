@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Title, useStore } from "react-admin";
+import { getServerURL } from "../../App";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { ConnectComm100 } from "./ConnectComm100";
 import { ConnectList } from "./ConnectList";
@@ -20,7 +21,7 @@ export const ConnectPage = () => {
 
   const handleCheckOauth = () => {
     customHttpClient(
-      `https://apivincall.comm100dev.io/api/connectState?siteId=${localStorage.getItem(
+      `${getServerURL()}/connectState?siteId=${localStorage.getItem(
         "connectSiteId"
       )}`,
       {
@@ -34,6 +35,7 @@ export const ConnectPage = () => {
   //@ts-ignore
   window.setIsComm100Connect = setIsComm100Connect;
   useEffect(() => {
+    console.log("test...");
     handleCheckOauth();
   }, [localStorage.getItem("connectSiteId")]);
   return (
