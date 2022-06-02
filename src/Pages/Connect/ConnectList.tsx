@@ -4,6 +4,7 @@ import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
+import { getServerURL } from "../../App";
 
 const rows = [
   { id: 1, userAccount: "Dahan", userName: "Admin" },
@@ -22,9 +23,7 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
   }, []);
   const handleLoad = () => {
     customHttpClient(
-      `https://apivincall.comm100dev.io/api/usermapping/${localStorage.getItem(
-        "connectSiteId"
-      )}`,
+      `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
       {
         method: "GET",
       }
@@ -117,7 +116,7 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={!connected ? mapping : []}
+        rows={connected ? mapping : []}
         pageSize={5}
         rowsPerPageOptions={[5, 10]}
         disableColumnMenu

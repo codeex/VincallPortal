@@ -41,7 +41,11 @@ export const ConnectPage = () => {
     <Card>
       <Title title="Connect Comm100" />
       <CardContent>
-        <ConnectComm100 connected={isConnected} handleSiteId={handleSiteId} />
+        <ConnectComm100
+          connected={isConnected}
+          handleSiteId={handleSiteId}
+          setConnected={setConnected}
+        />
         <ConnectList connected={isConnected} />
       </CardContent>
     </Card>
