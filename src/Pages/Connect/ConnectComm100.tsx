@@ -5,16 +5,20 @@ import { EnvConfig } from "../../EnvConfig";
 
 export interface ConnectComm100Props {
   connected: boolean;
+  handleSiteId: (siteId: number) => void;
 }
 
-export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
+export const ConnectComm100 = ({
+  connected,
+  handleSiteId,
+}: ConnectComm100Props) => {
   const handleConnect = () => {
     const siteId = ref.current;
-
+    localStorage.setItem("connectSiteId", siteId || "");
     const redirect_url = `${EnvConfig.redirectUrlDomain}/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io`;
     const url = `${
       EnvConfig.routeUrl
-    }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&redirect_uri=${encodeURIComponent(
+    }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDE&redirect_uri=${encodeURIComponent(
       redirect_url
     )}&response_type=code`;
     window.open(
@@ -32,6 +36,8 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
       scrollbars = true
     `
     );
+
+    handleSiteId(ref.current || 0);
   };
 
   const ref = useRef();
