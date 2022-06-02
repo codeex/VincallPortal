@@ -146,7 +146,8 @@ export class DeviceManager {
       });
 
       call.on(CallEventName.Reject, () => {
-        updateState({ status: "incomingReject" });
+        // updateState({ status: "incomingReject" });
+        updateState({ status: "end" });
       });
 
       call.on(CallEventName.Mute, (isMuted: boolean) => {

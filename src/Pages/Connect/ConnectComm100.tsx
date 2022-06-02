@@ -9,12 +9,14 @@ export interface ConnectComm100Props {
   connected: boolean;
   handleSiteId: (siteId: number | undefined) => void;
   setConnected: any;
+  triggerPageRefresh: any;
 }
 
 export const ConnectComm100 = ({
   connected,
   handleSiteId,
   setConnected,
+  triggerPageRefresh,
 }: ConnectComm100Props) => {
   const handleConnect = () => {
     const siteId = ref.current;
@@ -31,6 +33,8 @@ export const ConnectComm100 = ({
       // const url = `${EnvConfig.routeUrl}/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDE&${redirect_url}&response_type=code`;
       console.log("redirectUri >>", redirect_url);
       console.log("url >>", url);
+      // @ts-ignore
+      window.__refreshComm100Connect = triggerPageRefresh;
       window.open(
         url,
         "ConnectPage",

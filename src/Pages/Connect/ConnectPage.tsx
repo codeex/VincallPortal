@@ -5,6 +5,7 @@ import { getServerURL } from "../../App";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { ConnectComm100 } from "./ConnectComm100";
 import { ConnectList } from "./ConnectList";
+import { useEventCallback } from "@mui/material";
 
 export const ConnectPage = () => {
   const [isConnected, setConnected] = useState<boolean>(false);
@@ -12,12 +13,18 @@ export const ConnectPage = () => {
     "isComm100Connect",
     false
   );
+  const [shouldPageRefresh, setShouldPageRefresh] = useState<boolean>(false);
+
   const [siteId, setSiteId] = useState<number | undefined>(undefined);
   const handleSiteId = useCallback((siteId: number | undefined) => {
     // may use LocalStorage instead
     // console.log("siteId >>", siteId);
     setSiteId(siteId);
   }, []);
+
+  const triggerPageRefresh = useEventCallback(() => {
+    setShouldPageRefresh(!shouldPageRefresh);
+  });
 
   const handleCheckOauth = () => {
     customHttpClient(
@@ -45,8 +52,12 @@ export const ConnectPage = () => {
           connected={isConnected}
           handleSiteId={handleSiteId}
           setConnected={setConnected}
+          triggerPageRefresh={triggerPageRefresh}
         />
-        <ConnectList connected={isConnected} />
+        <ConnectList
+          connected={isConnected}
+          shouldPageRefresh={shouldPageRefresh}
+        />
       </CardContent>
     </Card>
   );
