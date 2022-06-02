@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { useUpdate } from "react-admin";
+import { useDataProvider, useUpdate } from "react-admin";
+import { getServerURL } from "../../../App";
+import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
 export interface MappingUserButtonAppProps {
-  record: any;
+  row: any;
+  allData: any;
+  onRefresh: () => void;
 }
 
 export interface MappingUserButtonApp {
@@ -13,18 +17,43 @@ export interface MappingUserButtonApp {
 }
 
 export const mappingUserButtonApp = ({
-  record,
+  row,
+  allData,
+  onRefresh,
 }: MappingUserButtonAppProps): MappingUserButtonApp => {
+  // console.log("allData >>", allData);
+  // console.log("row >>", row);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const [update] = useUpdate();
+  // const [update] = useUpdate();
+  // const dataProvider = useDataProvider();
 
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
-    update("agents", {
-      id: record.id,
-      data: { ...record, userAccount: values.userAccount },
-    }).then(() => setOpen(false));
+    const unchangedData = allData
+      .filter((data: { id: any }) => {
+        return data.id !== row.id;
+      })
+      .map((data: any) => ({
+        comm100AgentId: data.comm100AgentId,
+        userAccount: data.userAccount,
+        comm100Email: data.comm100Email,
+        userName: data.userName,
+      }));
+    const changedData = {
+      comm100AgentId: row.comm100AgentId,
+      userAccount: values.userAccount.value,
+      comm100Email: row.comm100Email,
+      userName: values.userAccount.label,
+    };
+    const newData = [...unchangedData, changedData];
+    customHttpClient(`${getServerURL()}/usermapping/10000`, {
+      method: "PUT",
+      body: JSON.stringify(newData),
+    }).then(() => {
+      setOpen(false);
+      onRefresh();
+    });
   };
 
   return {

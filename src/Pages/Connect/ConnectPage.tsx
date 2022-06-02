@@ -11,7 +11,6 @@ export const ConnectPage = () => {
     "isComm100Connect",
     false
   );
-  const [agents, setAgents] = useState<any>([]);
   const handleCheckOauth = () => {
     // customHttpClient(
     //   `https://voipdash.comm100dev.io/api/global/agentSsoConfig?siteId=10000`,
@@ -28,7 +27,6 @@ export const ConnectPage = () => {
     ).then((res) => {
       setConnected(true);
       setIsComm100Connect(true);
-      setAgents(res.json);
     });
   };
   //@ts-ignore
@@ -41,7 +39,7 @@ export const ConnectPage = () => {
       <Title title="Connect Comm100" />
       <CardContent>
         <ConnectComm100 connected={isConnected} />
-        <ConnectList />
+        <ConnectList connected={isConnected} />
       </CardContent>
     </Card>
   );
