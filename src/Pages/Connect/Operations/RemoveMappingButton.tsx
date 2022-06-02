@@ -1,12 +1,11 @@
-import { Button, DeleteWithConfirmButton } from "react-admin";
+import Button from "@mui/material/Button";
+import { removeMappingButtonApp } from "../Application/RemoveMappingButtonApp";
 
 export const RemoveMappingButton = () => {
+  const { handleRemove } = removeMappingButtonApp({});
   return (
-    <Button
-      label="Delete"
-      // confirmTitle="Confirm Delete"
-      // confirmContent="Are you sure to delete?"
-      // icon={<></>}
-    />
+    <Button onClick={handleRemove} color="error">
+      Delete
+    </Button>
   );
 };

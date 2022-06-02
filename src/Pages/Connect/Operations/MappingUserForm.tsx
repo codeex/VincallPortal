@@ -5,7 +5,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
-import { bindUserFormApp } from "../../Agents/AgentOperation/Application/BindUserFormApp";
+import { mappingUserFormApp } from "../Application/MappingUserFormApp";
 
 export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
@@ -22,7 +22,7 @@ export const MappingUserForm = ({
   record,
   onCancel,
 }: MappingUserFormProps) => {
-  const { userOptions, isUserLoading } = bindUserFormApp({});
+  const { userOptions, isUserLoading } = mappingUserFormApp({});
 
   return (
     <Formik

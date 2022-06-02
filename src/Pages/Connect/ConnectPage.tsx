@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@mui/material";
+import { reset } from "fetch-mock";
 import { useEffect, useState } from "react";
 import { Title } from "react-admin";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
@@ -7,20 +8,24 @@ import { ConnectList } from "./ConnectList";
 
 export const ConnectPage = () => {
   const [isConnected, setConnected] = useState<boolean>(false);
+  const [agents, setAgents] = useState<any>([]);
   const handleCheckOauth = () => {
-    customHttpClient(
-      `https://voipdash.comm100dev.io/api/global/agentSsoConfig?siteId=10000`,
-      {
-        method: "GET",
-      }
-    ).then(() => setConnected(true));
+    // customHttpClient(
+    //   `https://voipdash.comm100dev.io/api/global/agentSsoConfig?siteId=10000`,
+    //   {
+    //     method: "GET",
+    //   }
+    // ).then(() => setConnected(true));
 
     customHttpClient(
       `https://voipdash.comm100dev.io/api/global/agents?siteId=10000`,
       {
         method: "GET",
       }
-    ).then(() => setConnected(true));
+    ).then((res) => {
+      setConnected(true);
+      setAgents(res.json);
+    });
   };
 
   useEffect(() => {
