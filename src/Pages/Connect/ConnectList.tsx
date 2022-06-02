@@ -18,13 +18,17 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
   const [refresh, setRefresh] = useState<boolean>(false);
 
   const handleRefresh = useCallback(() => {
-    console.log("refresh >>", refresh);
     setRefresh(!refresh);
   }, []);
   const handleLoad = () => {
-    customHttpClient(`https://apivincall.comm100dev.io/api/usermapping/10000`, {
-      method: "GET",
-    }).then((res) =>
+    customHttpClient(
+      `https://apivincall.comm100dev.io/api/usermapping/${localStorage.getItem(
+        "connectSiteId"
+      )}`,
+      {
+        method: "GET",
+      }
+    ).then((res) =>
       setMapping(
         res.json.map((j: any, index: number) => Object.assign({ id: index }, j))
       )
@@ -78,7 +82,7 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
       {
         field: "operations",
         headerName: "Operations",
-        width: 250,
+        width: 350,
         sortable: false,
         headerAlign: "center",
         renderCell: (params) => {
@@ -96,7 +100,11 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
                 onRefresh={handleRefresh}
               />
               <Divider orientation="vertical" flexItem />
-              <RemoveMappingButton allData={mapping} />
+              <RemoveMappingButton
+                row={params.row}
+                allData={mapping}
+                onRefresh={handleRefresh}
+              />
             </div>
           );
         },

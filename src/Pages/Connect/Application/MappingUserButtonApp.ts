@@ -47,10 +47,13 @@ export const mappingUserButtonApp = ({
       userName: values.userAccount.label,
     };
     const newData = [...unchangedData, changedData];
-    customHttpClient(`${getServerURL()}/usermapping/10000`, {
-      method: "PUT",
-      body: JSON.stringify(newData),
-    }).then(() => {
+    customHttpClient(
+      `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(newData),
+      }
+    ).then(() => {
       setOpen(false);
       onRefresh();
     });

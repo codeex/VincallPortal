@@ -5,7 +5,7 @@ import { EnvConfig } from "../../EnvConfig";
 
 export interface ConnectComm100Props {
   connected: boolean;
-  handleSiteId: (siteId: number) => void;
+  handleSiteId: (siteId: number | undefined) => void;
 }
 
 export const ConnectComm100 = ({
@@ -37,7 +37,7 @@ export const ConnectComm100 = ({
     `
     );
 
-    handleSiteId(ref.current || 0);
+    handleSiteId(ref.current);
   };
 
   const ref = useRef();
