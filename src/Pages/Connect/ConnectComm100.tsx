@@ -11,8 +11,12 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
   const handleConnect = () => {
     const siteId = ref.current;
 
-    const redirect_url = `redirect_uri=${EnvConfig.redirectUrlDomain}/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io`;
-    const url = `${EnvConfig.routeUrl}/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&${redirect_url}&response_type=code`;
+    const redirect_url = `${EnvConfig.redirectUrlDomain}/sso/callback?siteId=${siteId}&domain=voipdash.comm100dev.io`;
+    const url = `${
+      EnvConfig.routeUrl
+    }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&redirect_uri=${encodeURIComponent(
+      redirect_url
+    )}&response_type=code`;
     window.open(url, "_blank");
   };
 
