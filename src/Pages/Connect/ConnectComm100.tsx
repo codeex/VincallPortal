@@ -49,14 +49,16 @@ export const ConnectComm100 = ({
     handleSiteId(ref.current);
   };
 
+  const handleDisconnect = () => {};
+
   const ref = useRef();
   return (
     <div style={{ height: 150 }}>
       {connected ? (
         <>
           <Typography>You are already connected.</Typography>
-          <Button variant="contained" onClick={handleConnect}>
-            Connect Comm100
+          <Button variant="contained" onClick={handleDisconnect}>
+            Disconnect Comm100
           </Button>
         </>
       ) : (
