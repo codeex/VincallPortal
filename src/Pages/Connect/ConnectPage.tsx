@@ -22,11 +22,6 @@ export const ConnectPage = () => {
     setSiteId(siteId);
   }, []);
 
-  const triggerPageRefresh = useEventCallback((connected?: boolean) => {
-    setConnected(!!connected);
-    setShouldPageRefresh(!shouldPageRefresh);
-  });
-
   const [refresh, setRefresh] = useState<number>(0);
 
   const handleRefresh = useEventCallback(() => {
@@ -36,6 +31,11 @@ export const ConnectPage = () => {
   const handleUpdateIsConnect = useEventCallback((c: boolean) => {
     setConnected(c);
     setIsComm100Connect(c);
+  });
+
+  const triggerPageRefresh = useEventCallback((connected?: boolean) => {
+    handleUpdateIsConnect(!!connected);
+    setShouldPageRefresh(!shouldPageRefresh);
   });
 
   const handleCheckOauth = () => {
