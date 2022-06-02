@@ -1,13 +1,16 @@
 import { Card, CardContent } from "@mui/material";
-import { reset } from "fetch-mock";
 import { useEffect, useState } from "react";
-import { Title } from "react-admin";
+import { Title, useStore } from "react-admin";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { ConnectComm100 } from "./ConnectComm100";
 import { ConnectList } from "./ConnectList";
 
 export const ConnectPage = () => {
   const [isConnected, setConnected] = useState<boolean>(false);
+  const [isComm100Connect, setIsComm100Connect] = useStore<boolean>(
+    "isComm100Connect",
+    false
+  );
   const [agents, setAgents] = useState<any>([]);
   const handleCheckOauth = () => {
     // customHttpClient(
@@ -24,10 +27,12 @@ export const ConnectPage = () => {
       }
     ).then((res) => {
       setConnected(true);
+      setIsComm100Connect(true);
       setAgents(res.json);
     });
   };
-
+  //@ts-ignore
+  window.setIsComm100Connect = setIsComm100Connect;
   useEffect(() => {
     handleCheckOauth();
   }, []);

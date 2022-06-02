@@ -6,7 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
-import { MenuProps, useSidebarState } from "react-admin";
+import { MenuProps, useSidebarState, useStore } from "react-admin";
 import { CMenuItem } from "./CMenuItem";
 import { useCheckPermission, PermissionEnums } from "../Helpers/Permission";
 import { useState } from "react";
@@ -55,6 +55,7 @@ const Menu = ({ dense = false }: MenuProps) => {
   const handleToggle = () => {
     setMenuState({ comm100: !menuState.comm100 });
   };
+  const [isComm100Connect] = useStore<boolean>("isComm100Connect", false);
   let menus = menuItems;
   if (!canManageUsers) {
     menus = menuItems.filter((item) => item.name !== "users");
@@ -77,23 +78,21 @@ const Menu = ({ dense = false }: MenuProps) => {
           <CMenuItem to={m.path} key={m.name} icon={m.icon} label={m.text} />
         );
       })}
-      <CSubMenu
-        icon={<Comm100Icon sx={{ fontSize: "24px !important" }} />}
-        label="Comm100"
-        isOpen={menuState.comm100}
-        onToggle={handleToggle}
-      >
-        <CMenuItem
-          to="/agentconsole"
-          label="Agent Console"
-          icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
-        />
-        <CMenuItem
-          to="/installcode"
-          label="Install Code"
-          icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
-        />
-      </CSubMenu>
+
+      {isComm100Connect ? (
+        <div style={{ paddingLeft: 24 }}>
+          <CMenuItem
+            to="/agentconsole"
+            label="Agent Console"
+            icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
+          />
+          <CMenuItem
+            to="/installcode"
+            label="Install Code"
+            icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
+          />
+        </div>
+      ) : null}
     </Box>
   );
 };
