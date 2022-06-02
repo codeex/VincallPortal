@@ -13,14 +13,24 @@ const rows = [
 
 export interface ConnectListProps {
   connected: boolean;
+  shouldPageRefresh: boolean;
+  refresh: number;
+  handleRefresh: () => void;
 }
-export const ConnectList = ({ connected }: ConnectListProps) => {
+export const ConnectList = ({
+  connected,
+  shouldPageRefresh,
+  refresh,
+  handleRefresh,
+}: ConnectListProps) => {
   const [mapping, setMapping] = useState([]);
-  const [refresh, setRefresh] = useState<boolean>(false);
+  // const [refresh, setRefresh] = useState<number>(0);
 
-  const handleRefresh = useCallback(() => {
-    setRefresh(!refresh);
-  }, []);
+  // const handleRefresh = useCallback(() => {
+  //   setRefresh(refresh === 0 ? 1 : 0);
+  // }, []);
+
+  console.log("refresh >>", refresh);
   const handleLoad = () => {
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
@@ -36,7 +46,7 @@ export const ConnectList = ({ connected }: ConnectListProps) => {
 
   useEffect(() => {
     handleLoad();
-  }, [refresh]);
+  }, [refresh, shouldPageRefresh]);
   // console.log("mapping >>", mapping);
 
   const columns: GridColumns = useMemo(

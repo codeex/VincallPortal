@@ -195,8 +195,8 @@ interface ActionItem {
 const actionItems: ActionItem[] = [
   { name: "mute", label: "Mute", icon: MicOffIcon },
   { name: "keypad", label: "Keypad", icon: AppsIcon },
-  { name: "speaker", label: "Speaker", icon: () => null as any },
   { name: "hold", label: "Hold", icon: PauseIcon },
+  { name: "speaker", label: "Speaker", icon: () => null as any },
   { name: "placeholder", label: "", icon: () => null as any },
   { name: "placeholder", label: "", icon: () => null as any },
 ];
