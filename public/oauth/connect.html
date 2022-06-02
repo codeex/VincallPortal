@@ -14,16 +14,16 @@
     <script>
       var search = getSearch(),
         success = search.success,
-        errMsg = search.errMsg || "error....";
+        errMsg = search.errMsg;
 
       if (window.opener && window.opener.__refreshComm100Connect) {
         window.opener.__refreshComm100Connect();
       }
       if (errMsg) {
         document.getElementById("error-msg").innerText = errMsg;
-        // setTimeout(() => {
-        //   window.close();
-        // }, 5000);
+        setTimeout(() => {
+          window.close();
+        }, 10000);
       } else {
         setTimeout(() => {
           window.close();
