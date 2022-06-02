@@ -28,8 +28,6 @@ export const comm100Runtime: RuntimeInterface = {
       console.log("Ray: chatEnded", args.chat);
       checkIfAgentFree(client, this);
     });
-
-    checkIfAgentFree(client, this);
   },
 
   sendNotify(message: string) {
