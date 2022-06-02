@@ -17,7 +17,21 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
     }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&redirect_uri=${encodeURIComponent(
       redirect_url
     )}&response_type=code`;
-    window.open(url, "_blank");
+    window.open(
+      url,
+      "ConnectPage",
+      `
+      width = 500,
+      height = 600,
+      left = 0,
+      top = 0,
+      menubar = false,
+      toolbar = false,
+      location = false,
+      resizable = true,
+      scrollbars = true
+    `
+    );
   };
 
   const ref = useRef();
