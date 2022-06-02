@@ -26,6 +26,12 @@ export const ConnectPage = () => {
     setShouldPageRefresh(!shouldPageRefresh);
   });
 
+  const [refresh, setRefresh] = useState<number>(0);
+
+  const handleRefresh = useEventCallback(() => {
+    setRefresh(refresh === 0 ? 1 : 0);
+  });
+
   const handleCheckOauth = () => {
     customHttpClient(
       `${getServerURL()}/connectState?siteId=${localStorage.getItem(
@@ -57,6 +63,8 @@ export const ConnectPage = () => {
         <ConnectList
           connected={isConnected}
           shouldPageRefresh={shouldPageRefresh}
+          refresh={refresh}
+          handleRefresh={handleRefresh}
         />
       </CardContent>
     </Card>
