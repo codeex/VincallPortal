@@ -17,13 +17,20 @@ export const ConnectComm100 = ({ connected }: ConnectComm100Props) => {
     }/oauth/authorize?siteId=${siteId}&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&redirect_uri=${encodeURIComponent(
       redirect_url
     )}&response_type=code`;
-
     window.open(
       url,
-      "_blank",
-      `width=300, height=200, left=${window.innerWidth / 2 - 100}, top=${
-        window.innerHeight / 2 - 150
-      }`
+      "ConnectPage",
+      `
+      width = 500,
+      height = 600,
+      left = 0,
+      top = 0,
+      menubar = false,
+      toolbar = false,
+      location = false,
+      resizable = true,
+      scrollbars = true
+    `
     );
   };
 
