@@ -4,12 +4,20 @@ import { mappingUserButtonApp } from "../Application/MappingUserButtonApp";
 import { MappingUserForm } from "./MappingUserForm";
 
 export interface MappingUserButtonProps {
-  record: any;
+  row: any;
+  allData: any;
+  onRefresh: () => void;
 }
 
-export const MappingUserButton = ({ record }: MappingUserButtonProps) => {
+export const MappingUserButton = ({
+  row,
+  allData,
+  onRefresh,
+}: MappingUserButtonProps) => {
   const { handleOpen, handleClose, handleSave, open } = mappingUserButtonApp({
-    record,
+    row,
+    allData,
+    onRefresh,
   });
   return (
     <>
@@ -23,7 +31,7 @@ export const MappingUserButton = ({ record }: MappingUserButtonProps) => {
         children={
           <MappingUserForm
             onSubmit={handleSave}
-            record={record}
+            row={row}
             onCancel={handleClose}
           />
         }
