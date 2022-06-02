@@ -17,7 +17,7 @@
         errMsg = search.errMsg;
 
       if (window.opener && window.opener.__refreshComm100Connect) {
-        window.opener.__refreshComm100Connect();
+        window.opener.__refreshComm100Connect(!errMsg);
       }
       if (errMsg) {
         document.getElementById("error-msg").innerText = errMsg;

@@ -82,14 +82,14 @@ const Menu = ({ dense = false }: MenuProps) => {
       {isComm100Connect ? (
         <div style={{ paddingLeft: open ? 28 : 0 }}>
           <CMenuItem
-            to="/agentconsole"
-            label="Agent Console"
-            icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
-          />
-          <CMenuItem
             to="/installcode"
             label="Install Code"
             icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
+          />
+          <CMenuItem
+            to="/agentconsole"
+            label="Agent Console"
+            icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
           />
         </div>
       ) : null}

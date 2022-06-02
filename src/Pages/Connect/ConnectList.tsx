@@ -30,7 +30,7 @@ export const ConnectList = ({
   //   setRefresh(refresh === 0 ? 1 : 0);
   // }, []);
 
-  console.log("refresh >>", refresh);
+  console.log("refresh >>", refresh, connected);
   const handleLoad = () => {
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
