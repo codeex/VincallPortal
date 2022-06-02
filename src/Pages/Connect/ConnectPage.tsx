@@ -22,7 +22,8 @@ export const ConnectPage = () => {
     setSiteId(siteId);
   }, []);
 
-  const triggerPageRefresh = useEventCallback(() => {
+  const triggerPageRefresh = useEventCallback((connected?: boolean) => {
+    setConnected(!!connected);
     setShouldPageRefresh(!shouldPageRefresh);
   });
 
@@ -30,6 +31,11 @@ export const ConnectPage = () => {
 
   const handleRefresh = useEventCallback(() => {
     setRefresh(refresh === 0 ? 1 : 0);
+  });
+
+  const handleUpdateIsConnect = useEventCallback((c: boolean) => {
+    setConnected(c);
+    setIsComm100Connect(c);
   });
 
   const handleCheckOauth = () => {
@@ -41,8 +47,9 @@ export const ConnectPage = () => {
         method: "GET",
       }
     ).then((res) => {
-      setConnected(res.json.connected);
-      setIsComm100Connect(res.json.connected);
+      handleUpdateIsConnect(res.json.connected);
+      // setConnected(res.json.connected);
+      // setIsComm100Connect(res.json.connected);
     });
   };
   //@ts-ignore
@@ -57,7 +64,7 @@ export const ConnectPage = () => {
         <ConnectComm100
           connected={isConnected}
           handleSiteId={handleSiteId}
-          setConnected={setConnected}
+          setConnected={handleUpdateIsConnect}
           triggerPageRefresh={triggerPageRefresh}
         />
         <ConnectList
