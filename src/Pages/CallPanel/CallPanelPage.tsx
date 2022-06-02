@@ -5,7 +5,7 @@ import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
 import { CallTabContent } from "./CallTabContent";
 import { isEmbeddedMode, log } from "../../Helpers/Index";
-import { Runtime } from "../../Runtime";
+import { Runtime } from "../../Runtime/index";
 
 export const CallPanelPage = () => {
   const {
@@ -16,11 +16,13 @@ export const CallPanelPage = () => {
     agentList,
     isAgentLoading,
     deviceManager,
+    isCallDisabled,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
-    setupUpdateCallTimeTask,
     clearCallTimeTask,
+    disableCallWhenAgentBusy,
+    enableCallWhenAgentFree,
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
@@ -43,8 +45,8 @@ export const CallPanelPage = () => {
   }, [!!agentList.length, identity?.account]);
 
   useEffect(() => {
-    Runtime.on("busy", () => {})
-      .on("free", () => {})
+    Runtime.on("busy", disableCallWhenAgentBusy)
+      .on("free", enableCallWhenAgentFree)
       .init();
 
     return () => {
@@ -66,6 +68,7 @@ export const CallPanelPage = () => {
           deviceState={deviceState}
           deviceManager={deviceManager}
           handleCurrentAgentChange={handleCurrentAgentChange}
+          disabled={isCallDisabled}
         />
       </Card>
     );
@@ -88,6 +91,7 @@ export const CallPanelPage = () => {
           agentList={agentList}
           deviceState={deviceState}
           deviceManager={deviceManager}
+          disabled={isCallDisabled}
           handleCurrentAgentChange={handleCurrentAgentChange}
         />
       </CTabPanel>

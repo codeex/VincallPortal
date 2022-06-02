@@ -11,7 +11,7 @@ import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
 import { DeviceState } from "./types";
-import { Runtime } from "../../Runtime";
+import { Runtime } from "../../Runtime/index";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
@@ -20,6 +20,7 @@ export const callPanelPageApp = () => {
   const deviceManager = useRef<DeviceManager>();
   const updateCallTimeTaskId = useRef<any>();
   const { identity } = useGetIdentity();
+  const [isCallDisabled, setIsCallDisabled] = useState<boolean>(false);
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
@@ -43,6 +44,9 @@ export const callPanelPageApp = () => {
   );
 
   const requestForUpdateCallTime = () => {
+    if (isCallDisabled) {
+      return;
+    }
     log("request update call time start.");
     dataProvider.httpGet(`agent/${currentAgentId}/updatetime`);
   };
@@ -54,6 +58,9 @@ export const callPanelPageApp = () => {
   const setupUpdateCallTimeTask = () => {
     if (updateCallTimeTaskId.current) {
       clearInterval(updateCallTimeTaskId.current);
+    }
+    if (isCallDisabled) {
+      return;
     }
     updateCallTimeTaskId.current = setInterval(requestForUpdateCallTime, 5000);
   };
@@ -99,6 +106,18 @@ export const callPanelPageApp = () => {
     }
   );
 
+  const disableCallWhenAgentBusy = useEventCallback(() => {
+    if (deviceManager.current) {
+      deviceManager.current.clear();
+    }
+    setIsCallDisabled(true);
+  });
+
+  const enableCallWhenAgentFree = useEventCallback(() => {
+    updateDevice(currentAgentId);
+    setIsCallDisabled(false);
+  });
+
   const handleCurrentAgentChange = (e: ChangeEvent<string>) => {
     clearCallTimeTask();
     setCurrentAgentId(e.target.value);
@@ -140,11 +159,14 @@ export const callPanelPageApp = () => {
     currentAgentId,
     currentAgentObject,
     deviceManager: deviceManager.current,
+    isCallDisabled,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
     setupUpdateCallTimeTask,
     clearCallTimeTask,
+    disableCallWhenAgentBusy,
+    enableCallWhenAgentFree,
   };
 };
 

@@ -1,7 +1,7 @@
 import Button, { ButtonProps } from "@mui/material/Button";
 
 export interface NumberButtonProps
-  extends Pick<ButtonProps, "variant" | "color"> {
+  extends Pick<ButtonProps, "variant" | "color" | "disabled"> {
   onClick: (character?: number | string) => void;
   character?: number | string;
   children: any;
