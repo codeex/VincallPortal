@@ -12,7 +12,7 @@ export const darkTheme = {
     mode: "dark" as "dark", // Switching the dark mode on is a single property value change.
   },
   sidebar: {
-    width: 200,
+    width: 220,
   },
   components: {
     ...defaultTheme.components,
@@ -58,7 +58,7 @@ export const lightTheme = {
     borderRadius: 10,
   },
   sidebar: {
-    width: 200,
+    width: 220,
     closedWidth: 50,
   },
   components: {
