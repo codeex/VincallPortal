@@ -10,7 +10,7 @@ export const AgentConsolePanel = () => {
 
   const updateSnippet = () => {
     dataProvider
-      .httpGet("/globalSetting", { type: "installcode" })
+      .httpGet("globalSetting", { type: "installcode" })
       .then(({ data = [] }: { data: any[] }) => {
         const obj: { [key: string]: string } = data.reduce((pre, current) => {
           pre[current.key] = current.value;
