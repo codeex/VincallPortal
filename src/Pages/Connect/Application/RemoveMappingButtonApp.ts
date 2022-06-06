@@ -23,8 +23,8 @@ export const removeMappingButtonApp = ({
   const [open, setOpen] = useState<boolean>(false);
   const handleRemove = () => {
     const newData = allData
-      .filter((data: { id: any }) => {
-        return data.id !== row.id;
+      .filter((data: { id: any; comm100AgentId: string }) => {
+        return data.id !== row.id && data.comm100AgentId !== "";
       })
       .map((data: any) => ({
         comm100AgentId: data.comm100AgentId,
@@ -32,6 +32,7 @@ export const removeMappingButtonApp = ({
         comm100Email: data.comm100Email,
         userName: data.userName,
       }));
+    console.log("newData >>", newData);
 
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,

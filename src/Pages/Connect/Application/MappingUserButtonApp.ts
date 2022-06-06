@@ -24,8 +24,6 @@ export const mappingUserButtonApp = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
-    console.log("values >>", values);
-
     const unchangedData = allData
       .filter((data: { id: any; comm100AgentId: string }) => {
         return data.id !== row.id && data.comm100AgentId !== "";
