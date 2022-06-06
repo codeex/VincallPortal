@@ -1,11 +1,13 @@
 import { Card, Box, Tabs, Tab } from "@mui/material";
-import { Title, useGetIdentity } from "react-admin";
+import { Title, useGetIdentity, useStore } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
 import { CallTabContent } from "./CallTabContent";
 import { isEmbeddedMode, log } from "../../Helpers/Index";
 import { Runtime } from "../../Runtime/index";
+import { AgentConsolePanel } from "./AgentConsolePanel";
+import { useIsComm100Connect } from "../../Helpers/useIsComm100Connect";
 
 export const CallPanelPage = () => {
   const {
@@ -26,6 +28,7 @@ export const CallPanelPage = () => {
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
+  const isComm100Connect = useIsComm100Connect();
 
   useEffect(() => {
     if (currentAgentId) {
@@ -79,8 +82,8 @@ export const CallPanelPage = () => {
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={handleTabChange}>
-          <Tab label="Call Panel" />
-          {/* <Tab label="Comm100 agent console" /> */}
+          <Tab label="Call" />
+          {isComm100Connect ? <Tab label="Chat" /> : null}
         </Tabs>
       </Box>
       <CTabPanel value={tab} index={0}>
@@ -95,9 +98,11 @@ export const CallPanelPage = () => {
           handleCurrentAgentChange={handleCurrentAgentChange}
         />
       </CTabPanel>
-      {/* <CTabPanel value={tab} index={1}>
-        <AgentConsolePanel />
-      </CTabPanel> */}
+      {isComm100Connect ? (
+        <CTabPanel value={tab} index={1}>
+          <AgentConsolePanel />
+        </CTabPanel>
+      ) : null}
     </Card>
   );
 };
