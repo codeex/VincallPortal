@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDataProvider, useUpdate } from "react-admin";
 import { getServerURL } from "../../../App";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
@@ -21,13 +20,8 @@ export const mappingUserButtonApp = ({
   allData,
   onRefresh,
 }: MappingUserButtonAppProps): MappingUserButtonApp => {
-  // console.log("allData >>", allData);
-  // console.log("row >>", row);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  // const [update] = useUpdate();
-  // const dataProvider = useDataProvider();
-
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
     const unchangedData = allData
