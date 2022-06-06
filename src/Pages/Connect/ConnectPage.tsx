@@ -15,12 +15,13 @@ export const ConnectPage = () => {
   );
   const [shouldPageRefresh, setShouldPageRefresh] = useState<boolean>(false);
 
-  const [siteId, setSiteId] = useState<number | undefined>(undefined);
-  const handleSiteId = useCallback((siteId: number | undefined) => {
-    // may use LocalStorage instead
-    // console.log("siteId >>", siteId);
-    setSiteId(siteId);
-  }, []);
+  // const [siteId, setSiteId] = useState<number | undefined>(undefined);
+  // const handleSiteId = useCallback((siteId: number | undefined) => {
+  //   // may use LocalStorage instead
+  //   // console.log("siteId >>", siteId);
+  //   // console.log("test...");
+  //   setSiteId(siteId);
+  // }, []);
 
   const [refresh, setRefresh] = useState<number>(0);
 
@@ -63,7 +64,7 @@ export const ConnectPage = () => {
       <CardContent>
         <ConnectComm100
           connected={isConnected}
-          handleSiteId={handleSiteId}
+          // handleSiteId={handleSiteId}
           setConnected={handleUpdateIsConnect}
           triggerPageRefresh={triggerPageRefresh}
         />
