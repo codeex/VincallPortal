@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useDataProvider, useGetList } from "react-admin";
+import { useDataProvider } from "react-admin";
 
 export const AgentConsolePanel = () => {
   const elRef = useRef<any>(null);

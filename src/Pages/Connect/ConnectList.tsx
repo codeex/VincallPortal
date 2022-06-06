@@ -5,48 +5,36 @@ import Divider from "@mui/material/Divider";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { customHttpClient } from "../../DataProvider/customHttpClient";
 import { getServerURL } from "../../App";
+import { useGetList } from "react-admin";
+import { connectListApp } from "./Application/ConnectListApp";
 
-const rows = [
-  { id: 1, userAccount: "Dahan", userName: "Admin" },
-  { id: 2, userAccount: "admin44", userName: "Admin44" },
-];
-
+export interface MappingData {
+  id: number;
+  userAccount: string;
+  userName: string;
+  comm100AgentId: string;
+  comm100Email: string;
+}
 export interface ConnectListProps {
   connected: boolean;
   shouldPageRefresh: boolean;
   refresh: number;
   handleRefresh: () => void;
+  connectInfo: any;
 }
+
 export const ConnectList = ({
   connected,
   shouldPageRefresh,
   refresh,
   handleRefresh,
+  connectInfo,
 }: ConnectListProps) => {
-  const [mapping, setMapping] = useState([]);
-  // const [refresh, setRefresh] = useState<number>(0);
-
-  // const handleRefresh = useCallback(() => {
-  //   setRefresh(refresh === 0 ? 1 : 0);
-  // }, []);
-
-  console.log("refresh >>", refresh, connected);
-  const handleLoad = () => {
-    customHttpClient(
-      `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
-      {
-        method: "GET",
-      }
-    ).then((res) =>
-      setMapping(
-        res.json.map((j: any, index: number) => Object.assign({ id: index }, j))
-      )
-    );
-  };
+  const { isUserLoading, mapping, handleLoad } = connectListApp({});
 
   useEffect(() => {
     handleLoad();
-  }, [refresh, shouldPageRefresh]);
+  }, [refresh, shouldPageRefresh, isUserLoading]);
 
   const columns: GridColumns = useMemo(
     () => [
@@ -60,20 +48,6 @@ export const ConnectList = ({
         hide: true,
       },
       {
-        field: "comm100AgentId",
-        headerName: "Comm100 Agent Id",
-        flex: 2,
-        sortable: false,
-        headerAlign: "center",
-      },
-      {
-        field: "comm100Email",
-        headerName: "Comm100 Agent Email",
-        flex: 2,
-        sortable: false,
-        headerAlign: "center",
-      },
-      {
         field: "userAccount",
         headerName: "User Account",
         flex: 1,
@@ -84,6 +58,20 @@ export const ConnectList = ({
         field: "userName",
         headerName: "User Name",
         flex: 1,
+        sortable: false,
+        headerAlign: "center",
+      },
+      {
+        field: "comm100AgentId",
+        headerName: "Comm100 Agent Id",
+        flex: 2,
+        sortable: false,
+        headerAlign: "center",
+      },
+      {
+        field: "comm100Email",
+        headerName: "Comm100 Agent Email",
+        flex: 2,
         sortable: false,
         headerAlign: "center",
       },
@@ -106,6 +94,7 @@ export const ConnectList = ({
                 row={params.row}
                 allData={mapping}
                 onRefresh={handleRefresh}
+                connectInfo={connectInfo}
               />
               <Divider orientation="vertical" flexItem />
               <RemoveMappingButton
@@ -118,16 +107,16 @@ export const ConnectList = ({
         },
       },
     ],
-    [mapping]
+    [mapping, connectInfo]
   );
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 635, width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={connected ? mapping : []}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10]}
+        rows={connected ? (mapping as any[]) : []}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50]}
         disableColumnMenu
       />
     </div>
