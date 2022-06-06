@@ -47,7 +47,6 @@ export const ConnectList = ({
   useEffect(() => {
     handleLoad();
   }, [refresh, shouldPageRefresh]);
-  // console.log("mapping >>", mapping);
 
   const columns: GridColumns = useMemo(
     () => [
