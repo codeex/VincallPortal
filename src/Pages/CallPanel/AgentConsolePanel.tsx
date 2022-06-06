@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider } from "react-admin";
+import { getConnectSiteId, log } from "../../Helpers/Index";
+import { Embedded } from "./Embedded";
 
 export const AgentConsolePanel = () => {
   const elRef = useRef<any>(null);
