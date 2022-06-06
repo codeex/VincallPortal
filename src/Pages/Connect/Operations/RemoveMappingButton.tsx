@@ -10,12 +10,14 @@ export interface RemoveMappingButtonProps {
   row: any;
   allData: any;
   onRefresh: () => void;
+  connectInfo: any;
 }
 
 export const RemoveMappingButton = ({
   row,
   allData,
   onRefresh,
+  connectInfo,
 }: RemoveMappingButtonProps) => {
   const {
     handleRemove,

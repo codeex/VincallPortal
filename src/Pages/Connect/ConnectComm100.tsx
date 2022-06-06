@@ -11,6 +11,7 @@ export interface ConnectComm100Props {
   // handleSiteId: (siteId: number | undefined) => void;
   setConnected: any;
   triggerPageRefresh: any;
+  connectInfo: any;
 }
 
 export const ConnectComm100 = ({
@@ -18,10 +19,12 @@ export const ConnectComm100 = ({
   // handleSiteId,
   setConnected,
   triggerPageRefresh,
+  connectInfo,
 }: ConnectComm100Props) => {
   const { handleConnect, handleDisconnect, ref } = connectComm100App({
     setConnected,
     triggerPageRefresh,
+    connectInfo,
   });
   // const handleConnect = () => {
   //   const siteId = ref.current;

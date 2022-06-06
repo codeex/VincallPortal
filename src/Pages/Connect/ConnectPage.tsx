@@ -24,6 +24,7 @@ export const ConnectPage = () => {
   // }, []);
 
   const [refresh, setRefresh] = useState<number>(0);
+  const [connectInfo, setConnectInfo] = useState<any>();
 
   const handleRefresh = useEventCallback(() => {
     setRefresh(refresh === 0 ? 1 : 0);
@@ -49,15 +50,18 @@ export const ConnectPage = () => {
       }
     ).then((res) => {
       handleUpdateIsConnect(res.json.connected);
-      // setConnected(res.json.connected);
-      // setIsComm100Connect(res.json.connected);
     });
+
+    customHttpClient(`${getServerURL()}/sso/connectinfo`, {
+      method: "GET",
+    }).then((res) => setConnectInfo(res.json));
   };
   //@ts-ignore
   window.setIsComm100Connect = setIsComm100Connect;
   useEffect(() => {
     handleCheckOauth();
   }, []);
+
   return (
     <Card>
       <Title title="Connect Comm100" />
@@ -67,12 +71,14 @@ export const ConnectPage = () => {
           // handleSiteId={handleSiteId}
           setConnected={handleUpdateIsConnect}
           triggerPageRefresh={triggerPageRefresh}
+          connectInfo={connectInfo}
         />
         <ConnectList
           connected={isConnected}
           shouldPageRefresh={shouldPageRefresh}
           refresh={refresh}
           handleRefresh={handleRefresh}
+          connectInfo={connectInfo}
         />
       </CardContent>
     </Card>

@@ -11,25 +11,28 @@ const rows = [
   { id: 1, userAccount: "Dahan", userName: "Admin" },
   { id: 2, userAccount: "admin44", userName: "Admin44" },
 ];
-
+export interface MappingData {
+  id: number;
+  userAccount: string;
+  userName: string;
+  comm100AgentId: string;
+  comm100Email: string;
+}
 export interface ConnectListProps {
   connected: boolean;
   shouldPageRefresh: boolean;
   refresh: number;
   handleRefresh: () => void;
+  connectInfo: any;
 }
 export const ConnectList = ({
   connected,
   shouldPageRefresh,
   refresh,
   handleRefresh,
+  connectInfo,
 }: ConnectListProps) => {
-  const [mapping, setMapping] = useState([]);
-  // const [refresh, setRefresh] = useState<number>(0);
-
-  // const handleRefresh = useCallback(() => {
-  //   setRefresh(refresh === 0 ? 1 : 0);
-  // }, []);
+  const [mapping, setMapping] = useState<MappingData[] | undefined>(undefined);
   const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
     "users",
     {
@@ -40,21 +43,35 @@ export const ConnectList = ({
     }
   );
 
-  // console.log("refresh >>", refresh, connected);
   const handleLoad = () => {
-    console.log("userList >>", userList);
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
       {
         method: "GET",
       }
     ).then((res) => {
-      userList.map(() => {
-        return {};
-      });
-      setMapping(
-        res.json.map((j: any, index: number) => Object.assign({ id: index }, j))
+      const mappingUserList: MappingData[] = userList.map(
+        (user: any, index: number) => {
+          return {
+            id: index,
+            userAccount: user.account,
+            userName: user.userName,
+            comm100AgentId: "",
+            comm100Email: "",
+          };
+        }
       );
+
+      for (const userData of mappingUserList) {
+        for (const mappingInfo of res.json) {
+          if (userData.userAccount === mappingInfo.userAccount) {
+            userData["comm100AgentId"] = mappingInfo["comm100AgentId"];
+            userData["comm100Email"] = mappingInfo["comm100Email"];
+          }
+        }
+      }
+
+      setMapping(mappingUserList);
     });
   };
 
@@ -120,28 +137,30 @@ export const ConnectList = ({
                 row={params.row}
                 allData={mapping}
                 onRefresh={handleRefresh}
+                connectInfo={connectInfo}
               />
               <Divider orientation="vertical" flexItem />
               <RemoveMappingButton
                 row={params.row}
                 allData={mapping}
                 onRefresh={handleRefresh}
+                connectInfo={connectInfo}
               />
             </div>
           );
         },
       },
     ],
-    [mapping]
+    [mapping, connectInfo]
   );
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 635, width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={connected ? mapping : []}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10]}
+        rows={connected ? (mapping as any[]) : []}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50]}
         disableColumnMenu
       />
     </div>

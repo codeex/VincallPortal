@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { useGetList } from "react-admin";
 
-export interface MappingUserFormAppProps {}
+export interface MappingUserFormAppProps {
+  connectInfo: any;
+}
 
 export interface SelectOption {
   label: string;
@@ -13,7 +15,9 @@ export interface MappingUserFormApp {
   isUserLoading: boolean;
 }
 
-export const mappingUserFormApp = ({}: MappingUserFormAppProps): MappingUserFormApp => {
+export const mappingUserFormApp = ({
+  connectInfo,
+}: MappingUserFormAppProps): MappingUserFormApp => {
   const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
     "users",
     {
