@@ -16,7 +16,9 @@ export interface MappingUserFormApp {
 export const mappingUserFormApp = ({}: MappingUserFormAppProps): MappingUserFormApp => {
   const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
     "users",
-    {},
+    {
+      meta: "all",
+    },
     {
       refetchInterval: -1,
     }
