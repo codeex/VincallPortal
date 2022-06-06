@@ -32,8 +32,6 @@ export const removeMappingButtonApp = ({
         comm100Email: data.comm100Email,
         userName: data.userName,
       }));
-    console.log("newData >>", newData);
-
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
       {

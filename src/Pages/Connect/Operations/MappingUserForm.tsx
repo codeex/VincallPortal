@@ -11,7 +11,6 @@ import {
 } from "../Application/MappingUserFormApp";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 import { useEffect, useState } from "react";
-import { truncateSync } from "fs";
 
 export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
@@ -30,28 +29,9 @@ export const MappingUserForm = ({
   onCancel,
   connectInfo,
 }: MappingUserFormProps) => {
-  const { userOptions, isUserLoading } = mappingUserFormApp({
+  const { agentOptions, isAgentLoading, handleLoad } = mappingUserFormApp({
     connectInfo,
   });
-
-  const [agentOptions, setOptions] = useState<SelectOption[]>([]);
-  const [isAgentLoading, setLoading] = useState<boolean>(true);
-  const handleLoad = () => {
-    setLoading(true);
-    customHttpClient(
-      `${connectInfo.domain}/api/global/agents?siteId=${localStorage.getItem(
-        "connectSiteId"
-      )}`,
-      {
-        method: "GET",
-      }
-    ).then((res) => {
-      setOptions(res.json.map((j: any) => ({ label: j.email, value: j.id })));
-      setLoading(false);
-    });
-  };
-
-  console.log("agentOptions >>", agentOptions);
 
   useEffect(() => {
     handleLoad();
