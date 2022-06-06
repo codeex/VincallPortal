@@ -44,7 +44,7 @@ export const comm100Runtime: RuntimeInterface = {
 };
 
 const checkIfAgentFree = (client: APPAPI, runtime: RuntimeInterface) => {
-  client.get("agentconsole.currentAgent").then((agentArgs) => {
+  client.get("currentAgent").then((agentArgs) => {
     const agent = agentArgs.data;
     if (agent.chats <= 0) {
       console.log("Ray: currentAgent", agent);
