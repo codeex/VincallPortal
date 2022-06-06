@@ -5,29 +5,41 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
-import { mappingUserFormApp } from "../Application/MappingUserFormApp";
+import {
+  mappingUserFormApp,
+  SelectOption,
+} from "../Application/MappingUserFormApp";
+import { customHttpClient } from "../../../DataProvider/customHttpClient";
+import { useEffect, useState } from "react";
 
 export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
   row: any;
   onCancel: () => void;
+  connectInfo: any;
 }
 
 const validateSchema = Yup.object().shape({
-  userAccount: Yup.string().required("User cannot be empty."),
+  comm100Agent: Yup.string().required("Comm100 Agent cannot be empty."),
 });
 
 export const MappingUserForm = ({
   onSubmit,
   row,
   onCancel,
+  connectInfo,
 }: MappingUserFormProps) => {
-  const { userOptions, isUserLoading } = mappingUserFormApp({});
+  const { agentOptions, isAgentLoading, handleLoad } = mappingUserFormApp({
+    connectInfo,
+  });
 
+  useEffect(() => {
+    handleLoad();
+  }, []);
   return (
     <Formik
       initialValues={{
-        userAccount: row.userName,
+        comm100Agent: { label: row.comm100Email, value: row.comm100AgentId },
       }}
       onSubmit={(values) => onSubmit(values)}
       validationSchema={validateSchema}
@@ -36,25 +48,27 @@ export const MappingUserForm = ({
         return (
           <Form>
             <Autocomplete
-              id="userAccount"
-              options={userOptions}
+              id="comm100Agent"
+              options={agentOptions}
               sx={{ width: 300 }}
               renderInput={(params: any) => (
                 <TextField
                   {...params}
-                  label="Users"
+                  label="Agents"
                   onChange={handleChange}
-                  error={errors.userAccount}
+                  error={errors.comm100Agent}
                   variant="outlined"
                 />
               )}
-              loading={isUserLoading}
-              onChange={(_, value) => setFieldValue("userAccount", value || "")}
-              defaultValue={values.userAccount}
+              loading={isAgentLoading}
+              onChange={(_, value) => {
+                setFieldValue("comm100Agent", value || "");
+              }}
+              defaultValue={values.comm100Agent}
               disableClearable
             />
-            {errors.userAccount ? (
-              <FormErrorMessageStyled>{`${errors.userAccount}`}</FormErrorMessageStyled>
+            {errors.comm100Agent ? (
+              <FormErrorMessageStyled>{`${errors.comm100Agent}`}</FormErrorMessageStyled>
             ) : null}
             <FormButtonStyled>
               <Button type="submit" variant="contained">

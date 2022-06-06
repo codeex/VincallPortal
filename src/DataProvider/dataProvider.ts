@@ -41,7 +41,10 @@ export const dataProvider = (
 ): DataProvider => ({
   getList: (resource, params) => {
     let query = {};
-    if (params.pagination) {
+    if (params.meta === "all") {
+      query = {};
+    }
+    if (params.pagination && params.meta !== "all") {
       const { page, perPage } = params.pagination;
       query = {
         pageSize: perPage,
