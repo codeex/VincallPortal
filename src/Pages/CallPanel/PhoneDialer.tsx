@@ -75,6 +75,12 @@ export const PhoneDialer = () => {
             updateInfo.label = toCallTimeString(0);
           }
           appClient.set('agentconsole.topBar.buttons', updateInfo);
+          appClient.do('agentconsole.popper.open', {
+            widgetId: 'vincall-top-bar',
+            url: `./integration.html`,
+            width: 337,
+            height: 585
+          });
         }
         break;
       default:
