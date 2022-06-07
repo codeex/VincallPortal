@@ -41,7 +41,6 @@ const getSnippet = (domain: string, appId: string, siteId: number) => {
       modules: ["chat"],
       container: document.getElementById("comm100-agentconsole"),
     });
-    var client = ac.init();
     ac.init().then(client=>{
       console.log("AgentConsolePanel", client);
       window.top.__comm100_client = client;
