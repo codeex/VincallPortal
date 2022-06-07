@@ -4,18 +4,12 @@ import { Card } from "@mui/material";
 
 export interface EmbeddedPageProps {
   title: string;
-  installCodeKeyName:
-    | "Comm100 Control Panel Js Code"
-    | "Comm100 Agent Console Js Code";
+  snippet: string;
 }
 
-export const EmbeddedPage = ({
-  title = "",
-  installCodeKeyName,
-}: EmbeddedPageProps) => {
+export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
   const id = title.replace(/\s/g, "-");
   const elRef = useRef<any>(null);
-  const dataProvider = useDataProvider();
 
   const init = (snippet: string) => {
     var iframe = document.createElement("iframe");
@@ -41,18 +35,7 @@ export const EmbeddedPage = ({
       return;
     }
     elRef.current.isMounted = true;
-    dataProvider.httpGet("/settings").then((res: any) => {
-      const settings = (res.data || []) as any[];
-      if (settings.length) {
-        const target = settings.find(
-          (item) => item.optionKey === installCodeKeyName
-        );
-        if (target) {
-          // TODO: find the siteid.
-          return init(target.optionValue);
-        }
-      }
-    });
+    return init(snippet);
   }, []);
 
   return (

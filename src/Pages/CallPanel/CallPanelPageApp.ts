@@ -83,6 +83,7 @@ export const callPanelPageApp = () => {
       }
 
       if (state.status === "ready") {
+        log("Ray: handleUpdateDeviceState ready");
         setAgentStatus("Available");
         if (currentAgentObject && identity) {
           if (currentAgentObject.userAccount === identity.account) {
@@ -110,6 +111,7 @@ export const callPanelPageApp = () => {
   );
 
   const disableCallWhenAgentBusy = useEventCallback(() => {
+    log("Ray: disableCallWhenAgentBusy");
     if (deviceManager.current) {
       deviceManager.current.clear();
     }
@@ -118,6 +120,7 @@ export const callPanelPageApp = () => {
   });
 
   const enableCallWhenAgentFree = useEventCallback(() => {
+    log("Ray: enableCallWhenAgentFree");
     updateDevice(currentAgentId);
     setIsCallDisabled(false);
   });
