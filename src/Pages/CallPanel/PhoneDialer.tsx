@@ -2,12 +2,12 @@ import { Box, CircularProgress } from '@mui/material';
 import { useGetIdentity } from 'react-admin';
 import { APPClient } from '@comm100/app-client';
 import { callPanelPageApp } from './CallPanelPageApp';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Runtime } from '../../Runtime/index';
 import { CallScreen } from '../../Components/CallScreen';
+import { toCallTimeString } from '../../Helpers/Index';
 
 export const PhoneDialer = () => {
-  const appClient = APPClient.init();
   const {
     deviceState,
     currentAgentId,
@@ -56,6 +56,7 @@ export const PhoneDialer = () => {
 
   useEffect(() => {
     console.log('deviceState.status', deviceState.status);
+    const appClient = APPClient.init();
     switch (deviceState.status) {
       case 'incoming':
       case 'incomingAccept':
@@ -71,22 +72,17 @@ export const PhoneDialer = () => {
             deviceState.status === 'incomingAccept' ||
             deviceState.status === 'outingCallingAccept'
           ) {
-            updateInfo.label = '00:00:00';
+            updateInfo.label = toCallTimeString(0);
           }
           appClient.set('agentconsole.topBar.buttons', updateInfo);
         }
         break;
-      case 'end':
-      case 'incomingReject':
-      case 'outingCallingReject':
-        {
-          const updateInfo = {
-            id: 'vincall-top-bar',
-            icon: './images/default.png',
-            label: ''
-          };
-          appClient.set('agentconsole.topBar.buttons', updateInfo);
-        }
+      default:
+        appClient.set('agentconsole.topBar.buttons', {
+          id: 'vincall-top-bar',
+          icon: './images/default.png',
+          label: ''
+        });
         break;
     }
   }, [deviceState.status]);

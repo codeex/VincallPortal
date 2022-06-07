@@ -53,6 +53,7 @@ export const ConnectList = ({
         flex: 1,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "userName",
@@ -60,6 +61,7 @@ export const ConnectList = ({
         flex: 1,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "comm100AgentId",
@@ -67,6 +69,7 @@ export const ConnectList = ({
         flex: 2,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "comm100Email",
@@ -74,6 +77,7 @@ export const ConnectList = ({
         flex: 2,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "operations",
