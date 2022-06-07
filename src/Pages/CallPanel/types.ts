@@ -49,3 +49,9 @@ export interface DeviceStateIncoming {
   isHold: boolean;
   isShowKeyboard: boolean;
 }
+
+export type AgentCallStatus =
+  | "Available"
+  | "On Call"
+  | "Do not disturb"
+  | "Offline";

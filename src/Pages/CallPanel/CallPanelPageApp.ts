@@ -10,7 +10,7 @@ import { log } from "../../Helpers/Index";
 import { ChangeEvent } from "../../types";
 import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
-import { DeviceState } from "./types";
+import { AgentCallStatus, DeviceState } from "./types";
 import { Runtime } from "../../Runtime/index";
 
 export const callPanelPageApp = () => {
@@ -21,6 +21,8 @@ export const callPanelPageApp = () => {
   const updateCallTimeTaskId = useRef<any>();
   const { identity } = useGetIdentity();
   const [isCallDisabled, setIsCallDisabled] = useState<boolean>(false);
+  const [agentStatus, setAgentStatus] =
+    useState<AgentCallStatus>("Do not disturb");
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
@@ -82,6 +84,7 @@ export const callPanelPageApp = () => {
       }
 
       if (state.status === "ready") {
+        setAgentStatus("Available");
         if (currentAgentObject && identity) {
           if (currentAgentObject.userAccount === identity.account) {
             setupUpdateCallTimeTask();
@@ -96,12 +99,13 @@ export const callPanelPageApp = () => {
         state.status === "incomingAccept" ||
         state.status === "outingCallingAccept"
       ) {
-        // Agent is in a call.
+        setAgentStatus("On Call");
         Runtime.updateAgentStatus("away");
       } else if (state.status === "end") {
         requestForUpdateStatusToOnline();
         // Agent is out of a call.
         Runtime.updateAgentStatus("online");
+        setAgentStatus("Available");
       }
     }
   );
@@ -111,6 +115,7 @@ export const callPanelPageApp = () => {
       deviceManager.current.clear();
     }
     setIsCallDisabled(true);
+    setAgentStatus("On Call");
   });
 
   const enableCallWhenAgentFree = useEventCallback(() => {
@@ -160,6 +165,7 @@ export const callPanelPageApp = () => {
     currentAgentObject,
     deviceManager: deviceManager.current,
     isCallDisabled,
+    agentStatus,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
