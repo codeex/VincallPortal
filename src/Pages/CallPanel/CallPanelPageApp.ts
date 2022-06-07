@@ -21,8 +21,7 @@ export const callPanelPageApp = () => {
   const updateCallTimeTaskId = useRef<any>();
   const { identity } = useGetIdentity();
   const [isCallDisabled, setIsCallDisabled] = useState<boolean>(false);
-  const [agentStatus, setAgentStatus] =
-    useState<AgentCallStatus>("Do not disturb");
+  const [agentStatus, setAgentStatus] = useState<AgentCallStatus>("Available");
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
