@@ -21,7 +21,6 @@ export const PhoneDialer = () => {
     disableCallWhenAgentBusy,
     enableCallWhenAgentFree
   } = callPanelPageApp();
-
   const { identity } = useGetIdentity();
 
   useEffect(() => {
@@ -66,7 +65,8 @@ export const PhoneDialer = () => {
           const updateInfo = {
             id: 'vincall-top-bar',
             icon: './images/calling.png',
-            label: ''
+            label: '',
+            tooltip: 'On Call.'
           };
           if (
             deviceState.status === 'incomingAccept' ||
@@ -81,7 +81,8 @@ export const PhoneDialer = () => {
         appClient.set('agentconsole.topBar.buttons', {
           id: 'vincall-top-bar',
           icon: './images/default.png',
-          label: ''
+          label: '',
+          tooltip: 'Available.'
         });
         break;
     }
