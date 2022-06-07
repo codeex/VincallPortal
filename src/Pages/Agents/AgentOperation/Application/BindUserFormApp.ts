@@ -16,7 +16,9 @@ export interface BindUserFormApp {
 export const bindUserFormApp = ({}: BindUserFormAppProps): BindUserFormApp => {
   const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
     "users",
-    {},
+    {
+      meta: "all",
+    },
     {
       refetchInterval: -1,
     }

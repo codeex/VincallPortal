@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - wwwvincall.comm100dev.io
+        - wwwtest.vincall.net
       secretName: comm100dev-io-tls
   rules:
-    - host: wwwvincall.comm100dev.io
+    - host: wwwtest.vincall.net
       http:
         paths:
           - path: /(.*)

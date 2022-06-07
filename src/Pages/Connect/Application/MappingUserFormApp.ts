@@ -1,7 +1,9 @@
-import { useMemo } from "react";
-import { useGetList } from "react-admin";
+import { useState } from "react";
+import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
-export interface MappingUserFormAppProps {}
+export interface MappingUserFormAppProps {
+  connectInfo: any;
+}
 
 export interface SelectOption {
   label: string;
@@ -9,27 +11,34 @@ export interface SelectOption {
 }
 
 export interface MappingUserFormApp {
-  userOptions: SelectOption[];
-  isUserLoading: boolean;
+  agentOptions: SelectOption[];
+  isAgentLoading: boolean;
+  handleLoad: () => void;
 }
 
-export const mappingUserFormApp = ({}: MappingUserFormAppProps): MappingUserFormApp => {
-  const { data: userList = [], isLoading: isUserLoading } = useGetList<any>(
-    "users",
-    {},
-    {
-      refetchInterval: -1,
-    }
-  );
-  const userOptions = useMemo(() => {
-    return userList.map((user) => ({
-      label: user.userName,
-      value: user.account,
-    }));
-  }, [userList]);
+export const mappingUserFormApp = ({
+  connectInfo,
+}: MappingUserFormAppProps): MappingUserFormApp => {
+  const [agentOptions, setOptions] = useState<SelectOption[]>([]);
+  const [isAgentLoading, setLoading] = useState<boolean>(true);
+  const handleLoad = () => {
+    setLoading(true);
+    customHttpClient(
+      `${connectInfo.domain}/api/global/agents?siteId=${localStorage.getItem(
+        "connectSiteId"
+      )}`,
+      {
+        method: "GET",
+      }
+    ).then((res) => {
+      setOptions(res.json.map((j: any) => ({ label: j.email, value: j.id })));
+      setLoading(false);
+    });
+  };
 
   return {
-    userOptions,
-    isUserLoading,
+    agentOptions,
+    isAgentLoading,
+    handleLoad,
   };
 };

@@ -7,12 +7,14 @@ export interface MappingUserButtonProps {
   row: any;
   allData: any;
   onRefresh: () => void;
+  connectInfo: any;
 }
 
 export const MappingUserButton = ({
   row,
   allData,
   onRefresh,
+  connectInfo,
 }: MappingUserButtonProps) => {
   const { handleOpen, handleClose, handleSave, open } = mappingUserButtonApp({
     row,
@@ -33,6 +35,7 @@ export const MappingUserButton = ({
             onSubmit={handleSave}
             row={row}
             onCancel={handleClose}
+            connectInfo={connectInfo}
           />
         }
       />

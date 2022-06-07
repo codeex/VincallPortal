@@ -25,8 +25,8 @@ export const mappingUserButtonApp = ({
   const handleClose = () => setOpen(false);
   const handleSave = (values: any) => {
     const unchangedData = allData
-      .filter((data: { id: any }) => {
-        return data.id !== row.id;
+      .filter((data: { id: any; comm100AgentId: string }) => {
+        return data.id !== row.id && data.comm100AgentId !== "";
       })
       .map((data: any) => ({
         comm100AgentId: data.comm100AgentId,
@@ -34,13 +34,15 @@ export const mappingUserButtonApp = ({
         comm100Email: data.comm100Email,
         userName: data.userName,
       }));
+
     const changedData = {
-      comm100AgentId: row.comm100AgentId,
-      userAccount: values.userAccount.value,
-      comm100Email: row.comm100Email,
-      userName: values.userAccount.label,
+      comm100AgentId: values.comm100Agent.value,
+      userAccount: row.userAccount,
+      comm100Email: values.comm100Agent.label,
+      userName: row.userName,
     };
     const newData = [...unchangedData, changedData];
+
     customHttpClient(
       `${getServerURL()}/usermapping/${localStorage.getItem("connectSiteId")}`,
       {
