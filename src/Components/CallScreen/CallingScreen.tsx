@@ -72,13 +72,15 @@ export const CallingScreen = ({
           const Icon = action.icon;
           return (
             <Grid item xs={4} key={index} sx={{ padding: 1 }}>
-              <NumberButton
-                character={action.name}
-                onClick={handleActionClick}
-                active={actionsActiveState[action.name]}
-              >
-                <Icon />
-              </NumberButton>
+              {action.name === "placeholder" ? null : (
+                <NumberButton
+                  character={action.name}
+                  onClick={handleActionClick}
+                  active={actionsActiveState[action.name]}
+                >
+                  <Icon />
+                </NumberButton>
+              )}
             </Grid>
           );
         })}
@@ -196,7 +198,7 @@ const actionItems: ActionItem[] = [
   { name: "mute", label: "Mute", icon: MicOffIcon },
   { name: "keypad", label: "Keypad", icon: AppsIcon },
   { name: "hold", label: "Hold", icon: PauseIcon },
-  { name: "speaker", label: "Speaker", icon: () => null as any },
+  { name: "placeholder", label: "", icon: () => null as any },
   { name: "placeholder", label: "", icon: () => null as any },
   { name: "placeholder", label: "", icon: () => null as any },
 ];

@@ -4,6 +4,7 @@ import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 import Divider from "@mui/material/Divider";
 import { useEffect, useMemo } from "react";
 import { connectListApp } from "./Application/ConnectListApp";
+import { ConnectListStyled } from "../../StyledComponents/ConnectListStyled";
 
 export interface MappingData {
   id: number;
@@ -109,7 +110,7 @@ export const ConnectList = ({
   );
 
   return (
-    <div style={{ height: 635, width: "100%" }}>
+    <ConnectListStyled>
       <DataGrid
         columns={columns}
         rows={connected && !!mapping ? (mapping as any[]) : []}
@@ -117,6 +118,6 @@ export const ConnectList = ({
         rowsPerPageOptions={[10, 25, 50]}
         disableColumnMenu
       />
-    </div>
+    </ConnectListStyled>
   );
 };
