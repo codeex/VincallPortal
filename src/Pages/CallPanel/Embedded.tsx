@@ -32,21 +32,7 @@ export const Embedded = ({ title = "", snippet }: EmbeddedProps) => {
       return;
     }
     elRef.current.isMounted = true;
-    init(snippet);
-    return;
-
-    // dataProvider.httpGet("/settings").then((res: any) => {
-    //   const settings = (res.data || []) as any[];
-    //   if (settings.length) {
-    //     const target = settings.find(
-    //       (item) => item.optionKey === installCodeKeyName
-    //     );
-    //     if (target) {
-    //       // TODO: find the siteid.
-    //       return init(target.optionValue);
-    //     }
-    //   }
-    // });
+    return init(snippet);
   }, []);
 
   return <div id={"vincall-comm100-" + id} ref={elRef}></div>;
