@@ -1,11 +1,13 @@
-import { Card, Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useGetIdentity } from 'react-admin';
+import { APPClient } from '@comm100/app-client';
 import { callPanelPageApp } from './CallPanelPageApp';
 import { useEffect } from 'react';
 import { Runtime } from '../../Runtime/index';
 import { CallScreen } from '../../Components/CallScreen';
 
 export const PhoneDialer = () => {
+  const appClient = APPClient.init();
   const {
     deviceState,
     currentAgentId,
@@ -51,24 +53,61 @@ export const PhoneDialer = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    console.log('deviceState.status', deviceState.status);
+    switch (deviceState.status) {
+      case 'incoming':
+      case 'incomingAccept':
+      case 'outingCallingAccept':
+      case 'outingCalling':
+        {
+          const updateInfo = {
+            id: 'vincall-top-bar',
+            icon: './images/calling.png',
+            label: ''
+          };
+          if (
+            deviceState.status === 'incomingAccept' ||
+            deviceState.status === 'outingCallingAccept'
+          ) {
+            updateInfo.label = '00:00:00';
+          }
+          appClient.set('agentconsole.topBar.buttons', updateInfo);
+        }
+        break;
+      case 'end':
+      case 'incomingReject':
+      case 'outingCallingReject':
+        {
+          const updateInfo = {
+            id: 'vincall-top-bar',
+            icon: './images/default.png',
+            label: ''
+          };
+          appClient.set('agentconsole.topBar.buttons', updateInfo);
+        }
+        break;
+    }
+  }, [deviceState.status]);
+
+  if (deviceState.status === 'initializing') {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
   return (
-    <Card sx={{ p: 3, mt: 3 }}>
-      {deviceState.status === 'initializing' ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box sx={{ pt: 2 }}>
-          <CallScreen
-            currentAgent={currentAgentId}
-            currentAgentNumber={currentAgentObject.deviceNumber}
-            deviceManager={deviceManager!}
-            deviceState={deviceState}
-            disabled={isCallDisabled}
-          />
-        </Box>
-      )}
-    </Card>
+    <Box sx={{ pt: 2 }}>
+      <CallScreen
+        currentAgent={currentAgentId}
+        currentAgentNumber={currentAgentObject.deviceNumber}
+        deviceManager={deviceManager!}
+        deviceState={deviceState}
+        disabled={isCallDisabled}
+      />
+    </Box>
   );
 };
 
