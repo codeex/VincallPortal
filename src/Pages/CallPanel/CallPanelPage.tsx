@@ -8,7 +8,7 @@ import { isEmbeddedMode, log } from "../../Helpers/Index";
 import { Runtime } from "../../Runtime/index";
 import { AgentConsolePanel } from "./AgentConsolePanel";
 import { useIsComm100Connect } from "../../Helpers/useIsComm100Connect";
-import { AgentCallStatusIcon } from "./AgentCallStatusIcon";
+import { AgentCallStatusIcon, Comm100StatusIcon } from "./AgentCallStatusIcon";
 
 export const CallPanelPage = () => {
   const {
@@ -21,6 +21,7 @@ export const CallPanelPage = () => {
     deviceManager,
     isCallDisabled,
     agentStatus,
+    chatStatus,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
@@ -100,7 +101,13 @@ export const CallPanelPage = () => {
             iconPosition="end"
             icon={<AgentCallStatusIcon status={agentStatus} />}
           />
-          {isComm100Connect ? <Tab label="Chat" /> : null}
+          {isComm100Connect ? (
+            <Tab
+              label="Chat"
+              iconPosition="end"
+              icon={<Comm100StatusIcon status={chatStatus} />}
+            />
+          ) : null}
         </Tabs>
       </Box>
       <CTabPanel value={tab} index={0}>
