@@ -2,9 +2,7 @@ import { useState } from "react";
 import { getServerURL } from "../../../App";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
-export interface MappingUserFormAppProps {
-  connectInfo: any;
-}
+export interface MappingUserFormAppProps {}
 
 export interface SelectOption {
   label: string;
@@ -17,9 +15,7 @@ export interface MappingUserFormApp {
   handleLoad: () => void;
 }
 
-export const mappingUserFormApp = ({
-  connectInfo,
-}: MappingUserFormAppProps): MappingUserFormApp => {
+export const mappingUserFormApp = ({}: MappingUserFormAppProps): MappingUserFormApp => {
   const [agentOptions, setOptions] = useState<SelectOption[]>([]);
   const [isAgentLoading, setLoading] = useState<boolean>(true);
   const handleLoad = () => {
