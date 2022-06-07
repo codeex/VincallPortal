@@ -12,6 +12,7 @@ import { AgentBo } from "./CallPanelPage";
 import { DeviceManager } from "./DeviceManager";
 import { AgentCallStatus, DeviceState } from "./types";
 import { Runtime } from "../../Runtime/index";
+import { Comm100ChatStatus } from "./AgentCallStatusIcon";
 
 export const callPanelPageApp = () => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
@@ -22,6 +23,7 @@ export const callPanelPageApp = () => {
   const { identity } = useGetIdentity();
   const [isCallDisabled, setIsCallDisabled] = useState<boolean>(false);
   const [agentStatus, setAgentStatus] = useState<AgentCallStatus>("Available");
+  const [chatStatus, setChatStatus] = useState<Comm100ChatStatus>("Online");
 
   const { data: agentList = [], isLoading: isAgentLoading } =
     useGetList<AgentBo>(
@@ -100,11 +102,14 @@ export const callPanelPageApp = () => {
         state.status === "outingCallingAccept"
       ) {
         setAgentStatus("On Call");
+        setChatStatus("Away");
         Runtime.updateAgentStatus("away");
       } else if (state.status === "end") {
         requestForUpdateStatusToOnline();
         // Agent is out of a call.
         Runtime.updateAgentStatus("online");
+        setChatStatus("Online");
+
         setAgentStatus("Available");
       }
     }
@@ -116,7 +121,7 @@ export const callPanelPageApp = () => {
       deviceManager.current.clear();
     }
     setIsCallDisabled(true);
-    setAgentStatus("On Call");
+    setAgentStatus("Do not disturb");
   });
 
   const enableCallWhenAgentFree = useEventCallback(() => {
@@ -168,6 +173,7 @@ export const callPanelPageApp = () => {
     deviceManager: deviceManager.current,
     isCallDisabled,
     agentStatus,
+    chatStatus,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,

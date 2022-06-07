@@ -5,6 +5,7 @@ import { Card } from "@mui/material";
 export interface EmbeddedProps {
   title: string;
   snippet: string;
+  install: any;
 }
 
 export const Embedded = ({ title = "", snippet }: EmbeddedProps) => {
@@ -25,7 +26,6 @@ export const Embedded = ({ title = "", snippet }: EmbeddedProps) => {
       if (elRef.current) {
         elRef.current.removeChild(iframe);
       }
-      elRef.current = null;
     };
   };
 
@@ -34,8 +34,23 @@ export const Embedded = ({ title = "", snippet }: EmbeddedProps) => {
       return;
     }
     elRef.current.isMounted = true;
-    return init(snippet);
+    install();
+    // return init(snippet);
   }, []);
 
   return <div id={"vincall-comm100-" + id} ref={elRef}></div>;
+};
+
+const install = () => {
+  const s = document.createElement("script");
+  s.src = "https://voipdash.comm100dev.io/sdk/comm100-embedded-client.js";
+  s.async = false;
+  s.onload = () => {
+    const s2 = document.createElement("script");
+    s2.innerHTML = `
+    console.log("Install EmbeddedAgentConsole", EmbeddedAgentConsole);
+    `;
+    document.body.appendChild(s2);
+  };
+  document.body.appendChild(s);
 };
