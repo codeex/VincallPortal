@@ -17,6 +17,7 @@ export const defaultRuntime = {
   },
   init() {
     const client = getAppClient();
+    console.log("Ray: Runtime", client);
     if (!client) {
       return;
     }
