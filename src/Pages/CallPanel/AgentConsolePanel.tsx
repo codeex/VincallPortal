@@ -2,27 +2,10 @@ import { useEffect, useState } from "react";
 import { useDataProvider } from "react-admin";
 import { getConnectSiteId, log } from "../../Helpers/Index";
 import { Embedded } from "./Embedded";
+import { GlobalSettings } from "./types";
 
 export const AgentConsolePanel = () => {
-  const [snippet, setSnippet] = useState<string>("");
-  const siteId = getConnectSiteId();
-  const dataProvider = useDataProvider();
-
-  const updateSnippet = () => {
-    dataProvider
-      .httpGet("globalSetting", { type: "installcode" })
-      .then(({ data = [] }: { data: any[] }) => {
-        const obj: { [key: string]: string } = data.reduce((pre, current) => {
-          pre[current.key] = current.value;
-          return pre;
-        }, {});
-        setSnippet(getSnippet(obj.agentConsole, obj.agentAppId, siteId));
-      });
-  };
-
-  useEffect(() => {
-    updateSnippet();
-  }, []);
+  const snippet = useComm100Snippet(getSnippet);
 
   if (!snippet) {
     return null;
@@ -30,18 +13,42 @@ export const AgentConsolePanel = () => {
   return <Embedded title="agent console" snippet={snippet} />;
 };
 
-const getSnippet = (domain: string, appId: string, siteId: number) => {
+export const useComm100Snippet = (
+  getSnippet: (arg: GlobalSettings, siteId: number) => string
+) => {
+  const dataProvider = useDataProvider();
+  const [snippet, setSnippet] = useState<string>("");
+  const siteId = getConnectSiteId();
+  useEffect(() => {
+    dataProvider
+      .httpGet("globalSetting", { type: "installcode" })
+      .then(({ data = [] }: { data: any[] }) => {
+        const obj = data.reduce((pre, current) => {
+          pre[current.key] = current.value;
+          return pre;
+        }, {}) as GlobalSettings;
+        setSnippet(getSnippet(obj, siteId));
+      });
+  }, []);
+  return snippet;
+};
+
+const getSnippet = (arg: GlobalSettings, siteId: number) => {
   return `
   <div id="comm100-agentconsole"></div>
-  <script src="${domain}/sdk/comm100-embedded-client.js"></script>
+  <script src="${arg.agentConsole}/sdk/comm100-embedded-client.js"></script>
   <script>
     var ac = new EmbeddedAgentConsole({
-      appId: "${appId}",
+      appId: "${arg.agentAppId}",
       siteId: ${siteId},
       modules: ["chat"],
       container: document.getElementById("comm100-agentconsole"),
     });
-    window.top.__comm100_client = ac.init();
+    ac.init().then(client=>{
+      console.log("AgentConsolePanel", client);
+      window.top.__comm100_client = client;
+      window.top.Runtime.init();
+    });
   </script>
   `;
 };

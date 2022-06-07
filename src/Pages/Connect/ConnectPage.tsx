@@ -38,7 +38,6 @@ export const ConnectPage = () => {
           shouldPageRefresh={shouldPageRefresh}
           refresh={refresh}
           handleRefresh={handleRefresh}
-          connectInfo={connectInfo}
         />
       </CardContent>
     </Card>

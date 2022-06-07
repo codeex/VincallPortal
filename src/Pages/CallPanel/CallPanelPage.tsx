@@ -8,6 +8,7 @@ import { isEmbeddedMode, log } from "../../Helpers/Index";
 import { Runtime } from "../../Runtime/index";
 import { AgentConsolePanel } from "./AgentConsolePanel";
 import { useIsComm100Connect } from "../../Helpers/useIsComm100Connect";
+import { AgentCallStatusIcon } from "./AgentCallStatusIcon";
 
 export const CallPanelPage = () => {
   const {
@@ -19,6 +20,7 @@ export const CallPanelPage = () => {
     isAgentLoading,
     deviceManager,
     isCallDisabled,
+    agentStatus,
     handleCurrentAgentChange,
     updateDevice,
     handleTabChange,
@@ -81,8 +83,23 @@ export const CallPanelPage = () => {
       <Title title="Call Panel" />
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={tab} onChange={handleTabChange}>
-          <Tab label="Call" />
+        <Tabs
+          value={tab}
+          onChange={handleTabChange}
+          sx={{
+            "& .MuiTab-root": { fontSize: "1rem" },
+            "& .MuiSvgIcon-root": {
+              marginLeft: 0.5,
+              position: "relative",
+              top: "-1px",
+            },
+          }}
+        >
+          <Tab
+            label="Call"
+            iconPosition="end"
+            icon={<AgentCallStatusIcon status={agentStatus} />}
+          />
           {isComm100Connect ? <Tab label="Chat" /> : null}
         </Tabs>
       </Box>

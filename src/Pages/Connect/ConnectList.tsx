@@ -2,10 +2,7 @@ import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import { MappingUserButton } from "./Operations/MappingUserButton";
 import { RemoveMappingButton } from "./Operations/RemoveMappingButton";
 import Divider from "@mui/material/Divider";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { customHttpClient } from "../../DataProvider/customHttpClient";
-import { getServerURL } from "../../App";
-import { useGetList } from "react-admin";
+import { useEffect, useMemo } from "react";
 import { connectListApp } from "./Application/ConnectListApp";
 
 export interface MappingData {
@@ -20,7 +17,6 @@ export interface ConnectListProps {
   shouldPageRefresh: boolean;
   refresh: number;
   handleRefresh: () => void;
-  connectInfo: any;
 }
 
 export const ConnectList = ({
@@ -28,7 +24,6 @@ export const ConnectList = ({
   shouldPageRefresh,
   refresh,
   handleRefresh,
-  connectInfo,
 }: ConnectListProps) => {
   const { isUserLoading, mapping, handleLoad } = connectListApp({});
 
@@ -98,7 +93,6 @@ export const ConnectList = ({
                 row={params.row}
                 allData={mapping}
                 onRefresh={handleRefresh}
-                connectInfo={connectInfo}
               />
               <Divider orientation="vertical" flexItem />
               <RemoveMappingButton
@@ -111,10 +105,9 @@ export const ConnectList = ({
         },
       },
     ],
-    [mapping, connectInfo]
+    [mapping]
   );
 
-  console.log("mapping >>", mapping);
   return (
     <div style={{ height: 635, width: "100%" }}>
       <DataGrid
