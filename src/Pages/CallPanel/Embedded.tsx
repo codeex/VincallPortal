@@ -25,7 +25,6 @@ export const Embedded = ({ title = "", snippet }: EmbeddedProps) => {
       if (elRef.current) {
         elRef.current.removeChild(iframe);
       }
-      elRef.current = null;
     };
   };
 
