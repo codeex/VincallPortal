@@ -23,10 +23,9 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
     innerDoc.write(snippet);
     innerDoc.close();
     return () => {
-      if (elRef.current) {
-        elRef.current.removeChild(iframe);
+      if (iframe && iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
       }
-      elRef.current = null;
     };
   };
 

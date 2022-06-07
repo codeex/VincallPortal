@@ -89,9 +89,11 @@ const install = (arg: GlobalSettings, siteId: number) => {
   };
   document.body.appendChild(s);
   return () => {
-    document.body.removeChild(s);
-    if (s2) {
-      document.body.removeChild(s2);
+    if (s && s.parentNode) {
+      s.parentNode.removeChild(s);
+    }
+    if (s2 && s2.parentNode) {
+      s2.parentNode.removeChild(s2);
     }
   };
 };
