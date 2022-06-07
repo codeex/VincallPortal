@@ -26,15 +26,20 @@ export const defaultRuntime = {
       console.log("Ray: agentconsole.navBar.select", leftTab);
     });
 
+    client.on("agentconsole.chat.request", () => {
+      console.log("Ray: agentconsole.chat.request");
+    });
+
     client.on("agentconsole.chats.chatStarted", (args: any) => {
-      console.log("Ray: chatStarted", args.chat);
+      console.log("Ray: chatStarted", args);
       if (this.eventHandler.busy) {
         this.eventHandler.busy();
       }
+      notification("New chat starts.");
     });
 
     client.on("agentconsole.chats.chatEnded", (args: any) => {
-      console.log("Ray: chatEnded", args.chat);
+      console.log("Ray: chatEnded", args);
       checkIfAgentFree(client, this);
     });
   },
