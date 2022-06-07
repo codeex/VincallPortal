@@ -29,7 +29,9 @@ export const EmbeddedPage = ({
     innerDoc.write(snippet);
     innerDoc.close();
     return () => {
-      elRef.current.removeChild(iframe);
+      if (elRef.current) {
+        elRef.current.removeChild(iframe);
+      }
       elRef.current = null;
     };
   };
