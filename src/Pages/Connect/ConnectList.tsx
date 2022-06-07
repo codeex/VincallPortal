@@ -53,6 +53,7 @@ export const ConnectList = ({
         flex: 1,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "userName",
@@ -60,6 +61,7 @@ export const ConnectList = ({
         flex: 1,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "comm100AgentId",
@@ -67,6 +69,7 @@ export const ConnectList = ({
         flex: 2,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "comm100Email",
@@ -74,6 +77,7 @@ export const ConnectList = ({
         flex: 2,
         sortable: false,
         headerAlign: "center",
+        align: "center",
       },
       {
         field: "operations",
@@ -110,11 +114,12 @@ export const ConnectList = ({
     [mapping, connectInfo]
   );
 
+  console.log("mapping >>", mapping);
   return (
     <div style={{ height: 635, width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={connected ? (mapping as any[]) : []}
+        rows={connected && !!mapping ? (mapping as any[]) : []}
         pageSize={10}
         rowsPerPageOptions={[10, 25, 50]}
         disableColumnMenu

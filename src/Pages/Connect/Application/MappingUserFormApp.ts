@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getServerURL } from "../../../App";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
 export interface MappingUserFormAppProps {
@@ -24,7 +25,7 @@ export const mappingUserFormApp = ({
   const handleLoad = () => {
     setLoading(true);
     customHttpClient(
-      `${connectInfo.domain}/api/global/agents?siteId=${localStorage.getItem(
+      `${getServerURL()}/comm100Agent/agents?siteId=${localStorage.getItem(
         "connectSiteId"
       )}`,
       {
