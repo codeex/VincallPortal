@@ -1,11 +1,13 @@
-import { Box, CircularProgress } from '@mui/material';
-import { useGetIdentity } from 'react-admin';
-import { APPClient } from '@comm100/app-client';
-import { callPanelPageApp } from './CallPanelPageApp';
-import { useEffect, useRef } from 'react';
-import { Runtime } from '../../Runtime/index';
-import { CallScreen } from '../../Components/CallScreen';
-import { toCallTimeString } from '../../Helpers/Index';
+import { Box, CircularProgress } from "@mui/material";
+import { useGetIdentity } from "react-admin";
+import { APPClient } from "@comm100/app-client";
+import { callPanelPageApp } from "./CallPanelPageApp";
+import { useEffect, useRef } from "react";
+import { Runtime } from "../../Runtime/index";
+import { CallScreen } from "../../Components/CallScreen";
+import { toCallTimeString } from "../../Helpers/Index";
+
+let time = 0;
 
 export const PhoneDialer = () => {
   const {
@@ -19,9 +21,10 @@ export const PhoneDialer = () => {
     updateDevice,
     clearCallTimeTask,
     disableCallWhenAgentBusy,
-    enableCallWhenAgentFree
+    enableCallWhenAgentFree,
   } = callPanelPageApp();
   const { identity } = useGetIdentity();
+  const intervalTaskId = useRef<any>(null);
 
   useEffect(() => {
     if (currentAgentId) {
@@ -33,16 +36,16 @@ export const PhoneDialer = () => {
     if (!!agentList.length && identity?.account) {
       const currentAgent = agentList.find(
         (item) => item.userAccount === identity?.account
-      ) || { id: '' };
+      ) || { id: "" };
       handleCurrentAgentChange({
-        target: { value: (currentAgent.id as any) || (agentList[0].id as any) }
+        target: { value: (currentAgent.id as any) || (agentList[0].id as any) },
       });
     }
   }, [!!agentList.length, identity?.account]);
 
   useEffect(() => {
-    Runtime.on('busy', disableCallWhenAgentBusy)
-      .on('free', enableCallWhenAgentFree)
+    Runtime.on("busy", disableCallWhenAgentBusy)
+      .on("free", enableCallWhenAgentFree)
       .init();
 
     return () => {
@@ -54,49 +57,63 @@ export const PhoneDialer = () => {
   }, []);
 
   useEffect(() => {
-    console.log('deviceState.status', deviceState.status);
+    console.log("deviceState.status", deviceState.status);
     const appClient = APPClient.init();
     switch (deviceState.status) {
-      case 'incoming':
-      case 'incomingAccept':
-      case 'outingCallingAccept':
-      case 'outingCalling':
+      case "incoming":
+      case "incomingAccept":
+      case "outingCallingAccept":
+      case "outingCalling":
         {
           const updateInfo = {
-            id: 'vincall-top-bar',
-            icon: './images/calling.png',
-            label: '',
-            tooltip: 'On Call.'
+            id: "vincall-top-bar",
+            icon: "./images/calling.png",
+            label: "",
+            tooltip: "On Call.",
           };
           if (
-            deviceState.status === 'incomingAccept' ||
-            deviceState.status === 'outingCallingAccept'
+            deviceState.status === "incomingAccept" ||
+            deviceState.status === "outingCallingAccept"
           ) {
-            updateInfo.label = toCallTimeString(0);
+            if (intervalTaskId.current) {
+              clearInterval(intervalTaskId.current);
+              intervalTaskId.current = null;
+            }
+            updateInfo.label = toCallTimeString(time);
+            appClient.set("agentconsole.topBar.buttons", updateInfo);
+            intervalTaskId.current = setInterval(() => {
+              updateInfo.label = toCallTimeString(time++);
+              appClient.set("agentconsole.topBar.buttons", updateInfo);
+            }, 1000);
           }
-          appClient.set('agentconsole.topBar.buttons', updateInfo);
-          appClient.do('agentconsole.popper.open', {
-            widgetId: 'vincall-top-bar',
-            url: 'https://wwwtest.vincall.net/#/phonedialer',
+
+          appClient.do("agentconsole.popper.open", {
+            widgetId: "vincall-top-bar",
+            url: "https://wwwtest.vincall.net/#/phonedialer",
             width: 337,
-            height: 585
+            height: 585,
           });
         }
         break;
       default:
-        appClient.set('agentconsole.topBar.buttons', {
-          id: 'vincall-top-bar',
-          icon: './images/default.png',
-          label: '',
-          tooltip: 'Available.'
+        appClient.set("agentconsole.topBar.buttons", {
+          id: "vincall-top-bar",
+          icon: "./images/default.png",
+          label: "",
+          tooltip: "Available.",
         });
+        if (intervalTaskId.current) {
+          clearInterval(intervalTaskId.current);
+          intervalTaskId.current = null;
+        }
+        time = 0;
         break;
     }
   }, [deviceState.status]);
 
-  if (deviceState.status === 'initializing') {
+  if (deviceState.status === "initializing") {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", pt: 4 }}>
         <CircularProgress />
       </Box>
     );
