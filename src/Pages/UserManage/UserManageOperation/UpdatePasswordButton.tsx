@@ -9,6 +9,7 @@ export interface UpdatePasswordButtonProps {
 }
 
 export const UpdatePasswordButton = ({ record }: UpdatePasswordButtonProps) => {
+  console.log("record >>", record);
   const {
     handleOpen,
     handleClose,
