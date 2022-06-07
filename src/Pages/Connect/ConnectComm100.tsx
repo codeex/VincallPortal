@@ -26,6 +26,10 @@ export const ConnectComm100 = ({
       {connected ? (
         <>
           <Typography>You are already connected.</Typography>
+          <Typography>
+            Connected Site ID:{" "}
+            {localStorage.getItem("connectSiteId") || ref.current}
+          </Typography>
           <Button variant="contained" onClick={handleDisconnect}>
             Disconnect Comm100
           </Button>

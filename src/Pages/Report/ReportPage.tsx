@@ -29,7 +29,6 @@ export const ReportPage = () => {
 export const ReportList = ({ children, ...others }: any) => {
   return (
     <ListBase {...others}>
-      <Title title="Reports" />
       <Paper sx={{ p: 3, marginTop: 5 }}>
         <ReportChart />
         <Card sx={{ marginTop: 4 }}>

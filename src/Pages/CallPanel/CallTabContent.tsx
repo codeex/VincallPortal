@@ -31,7 +31,7 @@ export const CallTabContent = ({
     <>
       <Box>
         <TextField
-          label="Current Agent"
+          label="Current Agent (+17058053314)"
           select
           value={currentAgentId}
           placeholder="Select an Agent"
