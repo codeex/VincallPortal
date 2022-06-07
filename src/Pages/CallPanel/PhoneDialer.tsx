@@ -77,7 +77,7 @@ export const PhoneDialer = () => {
           appClient.set('agentconsole.topBar.buttons', updateInfo);
           appClient.do('agentconsole.popper.open', {
             widgetId: 'vincall-top-bar',
-            url: `./integration.html`,
+            url: 'https://wwwtest.vincall.net/#/phonedialer',
             width: 337,
             height: 585
           });
