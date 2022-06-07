@@ -55,3 +55,10 @@ export type AgentCallStatus =
   | "On Call"
   | "Do not disturb"
   | "Offline";
+
+export interface GlobalSettings {
+  agentConsole: string; // domin url
+  controlPanel: string; // domin url
+  agentAppId: string;
+  controlAppId: string;
+}
