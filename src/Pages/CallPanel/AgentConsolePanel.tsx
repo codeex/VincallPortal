@@ -68,7 +68,7 @@ const install = (arg: GlobalSettings, siteId: number) => {
   let s2: any;
 
   const s = document.createElement("script");
-  s.src = `${arg.agentConsole}/sdk/comm100-embedded-client.js`;
+  s.src = `${arg.agentConsole}/sdk/comm100-embeddable-sdk/`;
   s.async = true;
   s.onload = () => {
     s2 = document.createElement("script");
@@ -76,7 +76,8 @@ const install = (arg: GlobalSettings, siteId: number) => {
     var ac = new EmbeddedAgentConsole({
       appId: "${arg.agentAppId}",
       siteId: ${siteId},
-      modules: ["chat"],
+      isShowLogout: false,
+      isShowExit: false,
       container: document.getElementById("comm100-agentconsole"),
     });
     ac.init().then(client=>{
