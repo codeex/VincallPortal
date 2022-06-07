@@ -1,4 +1,5 @@
 import { APPAPI } from "@comm100/app-client/type";
+import { notification } from "../Helpers/Index";
 import { checkIfAgentFree } from "./comm100Runtime";
 import { RuntimeInterface } from "./index";
 
@@ -37,7 +38,7 @@ export const defaultRuntime = {
       checkIfAgentFree(client, this);
     });
   },
-  sendNotify: noop,
+  sendNotify: notification,
   updateAgentStatus(status: "online" | "away") {
     const client = getAppClient();
     if (!client) {
