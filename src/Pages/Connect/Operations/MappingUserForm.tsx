@@ -5,18 +5,13 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
-import {
-  mappingUserFormApp,
-  SelectOption,
-} from "../Application/MappingUserFormApp";
-import { customHttpClient } from "../../../DataProvider/customHttpClient";
-import { useEffect, useState } from "react";
+import { mappingUserFormApp } from "../Application/MappingUserFormApp";
+import { useEffect } from "react";
 
 export interface MappingUserFormProps {
   onSubmit: (values: any) => void;
   row: any;
   onCancel: () => void;
-  connectInfo: any;
 }
 
 const validateSchema = Yup.object().shape({
@@ -27,11 +22,8 @@ export const MappingUserForm = ({
   onSubmit,
   row,
   onCancel,
-  connectInfo,
 }: MappingUserFormProps) => {
-  const { agentOptions, isAgentLoading, handleLoad } = mappingUserFormApp({
-    connectInfo,
-  });
+  const { agentOptions, isAgentLoading, handleLoad } = mappingUserFormApp({});
 
   useEffect(() => {
     handleLoad();

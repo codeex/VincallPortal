@@ -15,6 +15,7 @@
       var search = getSearch(),
         success = search.success,
         errMsg = search.errMsg;
+      localStorage.setItem("connect_accessToken", search.access_token);
 
       if (window.opener && window.opener.__refreshComm100Connect) {
         window.opener.__refreshComm100Connect(!errMsg);

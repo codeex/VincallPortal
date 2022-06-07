@@ -25,9 +25,6 @@ export const connectComm100App = ({
   const handleConnect = () => {
     const siteId = ref.current;
     localStorage.setItem("connectSiteId", siteId || "");
-    // customHttpClient(`${getServerURL()}/sso/connectinfo`, {
-    //   method: "GET",
-    // }).then((res: any) => {
     const redirect_url = `${EnvConfig.serverUrl}/sso/connectcallback?siteId=${siteId}&domain=${connectInfo.domain}`;
     const url = `${
       EnvConfig.routeUrl
@@ -51,9 +48,6 @@ export const connectComm100App = ({
         scrollbars = true
       `
     );
-    // });
-
-    // handleSiteId(ref.current);
   };
 
   const handleDisconnect = () => {
