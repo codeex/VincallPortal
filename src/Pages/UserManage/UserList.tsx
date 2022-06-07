@@ -46,7 +46,7 @@ export const UserList = () => {
           <TextField source="createDate" label="Create Date" sortable={false} />
           <FunctionField
             label="Operations"
-            render={(record: any) => (
+            render={(record: UserRecord) => (
               <TwoOperationsField
                 label="Operations"
                 op1={<UpdatePasswordButton record={record} />}

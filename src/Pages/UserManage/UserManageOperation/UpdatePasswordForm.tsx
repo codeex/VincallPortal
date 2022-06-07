@@ -4,10 +4,10 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
+import { UpdatePasswordValue } from "./UpdatePasswordButtonApp";
 
 export interface BindUserFormProps {
-  onSubmit: (values: any) => void;
-  record?: any;
+  onSubmit: (values: UpdatePasswordValue) => void;
   onCancel: () => void;
 }
 
@@ -17,7 +17,6 @@ const validateSchema = Yup.object().shape({
 
 export const UpdatePasswordForm = ({
   onSubmit,
-  record,
   onCancel,
 }: BindUserFormProps) => {
   return (
