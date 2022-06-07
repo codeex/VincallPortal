@@ -8,7 +8,7 @@ let uninstall: any;
 
 export const AgentConsolePanel = () => {
   useComm100Snippet(getSnippet);
-  return <div id="comm100-agentconsole"></div>;
+  return <div id="comm100-agentconsole" style={{ height: "700px" }}></div>;
   // if (!snippet) {
   //   return null;
   // }
