@@ -8,7 +8,7 @@ let uninstall: any;
 
 export const AgentConsolePanel = () => {
   useComm100Snippet(getSnippet);
-  return <div id="comm100-agentconsole"></div>;
+  return <div id="comm100-agentconsole" style={{ height: "700px" }}></div>;
   // if (!snippet) {
   //   return null;
   // }
@@ -56,7 +56,9 @@ const getSnippet = (arg: GlobalSettings, siteId: number) => {
     ac.init().then(client=>{
       console.log("AgentConsolePanel", client);
       window.top.__comm100_client = client;
-      window.top.Runtime.init();
+      window.top.setTimeout(()=>{
+        window.top.Runtime.init();
+      },200);
     });
   </script>
   `;

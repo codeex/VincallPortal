@@ -121,7 +121,7 @@ export const callPanelPageApp = () => {
       deviceManager.current.clear();
     }
     setIsCallDisabled(true);
-    setAgentStatus("On Call");
+    setAgentStatus("Do not disturb");
   });
 
   const enableCallWhenAgentFree = useEventCallback(() => {

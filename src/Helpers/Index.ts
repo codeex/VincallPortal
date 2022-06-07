@@ -24,3 +24,25 @@ const format = (time: number): string => {
   }
   return String(time);
 };
+
+export const notification = (message: string) => {
+  if (!("Notification" in window)) {
+    console.log("Notification is not supported");
+    return;
+  }
+  if (Notification.permission === "granted") {
+    const instance = new Notification("Vin Call", {
+      body: message,
+    });
+    return;
+  }
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((p) => {
+      if (p === "granted") {
+        const instance = new Notification("Vin Call", {
+          body: message,
+        });
+      }
+    });
+  }
+};
