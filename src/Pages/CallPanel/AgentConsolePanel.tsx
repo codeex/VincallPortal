@@ -58,7 +58,7 @@ const getSnippet = (arg: GlobalSettings, siteId: number) => {
       window.top.__comm100_client = client;
       window.top.setTimeout(()=>{
         window.top.Runtime.init();
-      },0);
+      },200);
     });
   </script>
   `;
