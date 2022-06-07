@@ -110,11 +110,12 @@ export const ConnectList = ({
     [mapping, connectInfo]
   );
 
+  console.log("mapping >>", mapping);
   return (
     <div style={{ height: 635, width: "100%" }}>
       <DataGrid
         columns={columns}
-        rows={connected ? (mapping as any[]) : []}
+        rows={connected && !!mapping ? (mapping as any[]) : []}
         pageSize={10}
         rowsPerPageOptions={[10, 25, 50]}
         disableColumnMenu
