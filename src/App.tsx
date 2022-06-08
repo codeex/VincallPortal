@@ -57,7 +57,24 @@ export const App = function () {
       <CustomRoutes>
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/connect" element={<ConnectPage />} />
-        <Route path="/installcode" element={<ControlPanel />} />
+        <Route
+          path="/installcode"
+          element={
+            <ControlPanel
+              title="Install Code"
+              entry="/livechat/campaign/installation/"
+            />
+          }
+        />
+        <Route
+          path="/chatvolume"
+          element={
+            <ControlPanel
+              title="Chat Volume"
+              entry="/reporting/livechat/chatvolume/chatvolumebytime/"
+            />
+          }
+        />
         <Route path="/phoneDialer" element={<PhoneDialer />} />
       </CustomRoutes>
     </Admin>
