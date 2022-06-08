@@ -14,7 +14,7 @@ export const ControlPanel = ({ title, entry }: ControlPanelProps) => {
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title={title} />
-      <div id={elementId} style={{ width: "100%", height: "100%" }}></div>
+      <div id={elementId} style={{ width: "100%", height: "720px" }}></div>
     </Card>
   );
 };
