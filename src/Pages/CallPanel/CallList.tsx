@@ -12,6 +12,7 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 import { CallTimeField } from "../Report/CallTimeField";
 import CallIcon from "@mui/icons-material/Call";
 import { format } from "date-fns";
+import { toLocalTime } from "../../Helpers/Index";
 
 export interface CallListProps {
   onClick: any;
@@ -25,6 +26,7 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
 
   return (
     <List
+      title=" "
       resource="calllistsForToday"
       actions={<></>}
       empty={
@@ -32,8 +34,8 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
           <Typography>No call record.</Typography>
         </Box>
       }
-      pagination={<CListPagination rowsPerPageOptions={[20, 35, 50]} />}
-      perPage={20}
+      pagination={<CListPagination rowsPerPageOptions={[10, 20, 35]} />}
+      perPage={10}
     >
       <Datagrid size="medium" bulkActionButtons={false}>
         <CallNumberField
@@ -61,7 +63,7 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
 
 const CallNumberField = ({}: any) => {
   const record = useRecordContext();
-  const isIncomingCall = record.extensionNumber === record.to;
+  const isIncomingCall = isCurrentNumber(record.to);
   return isIncomingCall ? (
     <Box component="span" sx={style}>
       <CallReceivedIcon /> {record.from}
@@ -95,11 +97,16 @@ const CallOperation = ({ disabled, onClick }: CallOperationProps) => {
 };
 
 const getToNumber = (record: any) => {
-  const isIncomingCall = record.extensionNumber === record.to;
+  const isIncomingCall = isCurrentNumber(record.to);
   return isIncomingCall ? record.from : record.to;
 };
 
 const TimeField = ({ source }: any) => {
   const record = useRecordContext();
-  return <span>{format(new Date(record[source]), "yyyy-MM-dd HH:mm")}</span>;
+  return <span>{format(toLocalTime(record[source]), "yyyy-MM-dd HH:mm")}</span>;
+};
+
+export const getCurrentNumber = () => "17058053314";
+export const isCurrentNumber = (value: string) => {
+  return String(value).indexOf("17058053314") !== -1;
 };
