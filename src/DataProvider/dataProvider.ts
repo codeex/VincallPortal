@@ -65,6 +65,10 @@ export const dataProvider = (
           ...item,
           id: item.agentId,
         }));
+      } else if (resource === "calllistsForToday") {
+        if (json.callLists) {
+          json.calllistsForToday = json.callLists;
+        }
       }
       return {
         data: json[resource],
