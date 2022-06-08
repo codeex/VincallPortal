@@ -5,7 +5,7 @@ import { ConnectComm100 } from "./ConnectComm100";
 import { ConnectList } from "./ConnectList";
 import { connectPageApp } from "./Application/ConnectPageApp";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { CircularProgressStyled } from "../../StyledComponents/CircularProgressStyled";
 
 export const ConnectPage = () => {
@@ -48,6 +48,9 @@ export const ConnectPage = () => {
           </>
         ) : (
           <CircularProgressStyled>
+            <Typography sx={{ margin: "0 auto" }}>
+              Checking connect state...
+            </Typography>
             <CircularProgress />
           </CircularProgressStyled>
         )}
