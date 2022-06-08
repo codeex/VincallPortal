@@ -29,15 +29,13 @@ function getInstall(entry: string) {
     s.onload = () => {
       s2 = document.createElement("script");
       s2.innerHTML = `
-  <script>
-    var controlPanel = new EmbeddedControlPanel({
-      appId: "${arg.controlAppId}",
-      siteId: ${siteId},
-      entry: "${entry}",
-      container: document.getElementById("${elementId}"),
-    });
-    controlPanel.init();
-  </script>
+        var controlPanel = new EmbeddedControlPanel({
+          appId: "${arg.controlAppId}",
+          siteId: ${siteId},
+          entry: "${entry}",
+          container: document.getElementById("${elementId}"),
+        });
+        controlPanel.init();
   `;
       document.body.appendChild(s2);
     };
