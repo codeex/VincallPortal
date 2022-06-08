@@ -16,6 +16,7 @@ export interface ConnectPageApp {
   triggerPageRefresh: (connected?: boolean) => void;
   handleCheckOauth: () => void;
   handleUpdateIsConnect: (c: boolean) => void;
+  getState: boolean;
 }
 
 export const connectPageApp = ({}: ConnectPageAppProps): ConnectPageApp => {
@@ -25,6 +26,7 @@ export const connectPageApp = ({}: ConnectPageAppProps): ConnectPageApp => {
     false
   );
   const [shouldPageRefresh, setShouldPageRefresh] = useState<boolean>(false);
+  const [getState, setGetState] = useState<boolean>(false);
 
   const [refresh, setRefresh] = useState<number>(0);
   const [connectInfo, setConnectInfo] = useState<any>();
@@ -51,9 +53,14 @@ export const connectPageApp = ({}: ConnectPageAppProps): ConnectPageApp => {
       {
         method: "GET",
       }
-    ).then((res) => {
-      handleUpdateIsConnect(res.json.connected);
-    });
+    )
+      .then((res) => {
+        handleUpdateIsConnect(res.json.connected);
+        setGetState(true);
+      })
+      .catch(() => {
+        handleUpdateIsConnect(false);
+      });
 
     customHttpClient(`${getServerURL()}/sso/connectinfo`, {
       method: "GET",
@@ -69,5 +76,6 @@ export const connectPageApp = ({}: ConnectPageAppProps): ConnectPageApp => {
     triggerPageRefresh,
     handleCheckOauth,
     handleUpdateIsConnect,
+    getState,
   };
 };
