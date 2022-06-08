@@ -26,6 +26,8 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
       if (iframe && iframe.parentNode) {
         iframe.parentNode.removeChild(iframe);
       }
+      // TODO: need fix.
+      elRef.current.isMounted = false;
     };
   };
 
@@ -40,7 +42,7 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title={title} />
-      <div id={"comm100-" + id} ref={elRef}></div>
+      <div id={"vincall-comm100-" + id} ref={elRef}></div>
     </Card>
   );
 };
