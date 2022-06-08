@@ -75,7 +75,7 @@ export const CallTabContent = ({
           </Box>
         )}
       </Box>
-      <Box sx={{ flex: 1, marginLeft: 3 }}>
+      <Box sx={{ flex: 1, marginLeft: 3, marginTop: 1 }}>
         <CallList disabled={!canCall || disabled} onClick={onCallClick} />
       </Box>
     </Box>
