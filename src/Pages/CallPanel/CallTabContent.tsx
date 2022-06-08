@@ -44,7 +44,8 @@ export const CallTabContent = ({
             onChange={handleCurrentAgentChange}
             style={{ width: 200 }}
             variant="standard"
-            disabled={!canSelectAgentWhenCall || disabled}
+            disabled
+            // disabled={!canSelectAgentWhenCall || disabled}
           >
             {isAgentLoading ? (
               <Box sx={{ display: "flex", justifyContent: "center" }}>

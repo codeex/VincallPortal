@@ -1,4 +1,5 @@
 import { isEmbeddedMode } from "../Helpers/Index";
+import { AgentCallStatus } from "../Pages/CallPanel/types";
 import { comm100Runtime } from "./comm100Runtime";
 import { defaultRuntime } from "./defaultRuntime";
 
@@ -13,6 +14,7 @@ export interface RuntimeInterface {
   init: () => void;
   sendNotify: (message: string) => void;
   updateAgentStatus: (status: "online" | "away") => void;
+  updateTopbarStatus: (status: AgentCallStatus) => void;
   on: (eventName: "busy" | "free", callback: () => void) => RuntimeInterface;
 }
 
