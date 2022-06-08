@@ -22,7 +22,7 @@ export const PhoneDialer = () => {
     clearCallTimeTask,
     disableCallWhenAgentBusy,
     enableCallWhenAgentFree,
-  } = callPanelPageApp();
+  } = callPanelPageApp({});
   const { identity } = useGetIdentity();
   const intervalTaskId = useRef<any>(null);
 
