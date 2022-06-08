@@ -14,7 +14,7 @@ import { AgentCallStatus, DeviceState } from "./types";
 import { Runtime } from "../../Runtime/index";
 import { Comm100ChatStatus } from "./AgentCallStatusIcon";
 
-export const callPanelPageApp = () => {
+export const callPanelPageApp = ({ whichPage }: { whichPage?: string }) => {
   const [currentAgentId, setCurrentAgentId] = useState<string>("");
   const [tab, setTab] = useState<number>(0);
   const dataProvider = useDataProvider();
@@ -104,13 +104,18 @@ export const callPanelPageApp = () => {
         setAgentStatus("On Call");
         setChatStatus("Away");
         Runtime.updateAgentStatus("away");
+        if (whichPage === "callpanel") {
+          Runtime.updateTopbarStatus("Do not disturb");
+        }
       } else if (state.status === "end") {
         requestForUpdateStatusToOnline();
         // Agent is out of a call.
         Runtime.updateAgentStatus("online");
         setChatStatus("Online");
-
         setAgentStatus("Available");
+        if (whichPage === "callpanel") {
+          Runtime.updateTopbarStatus("Available");
+        }
       }
     }
   );

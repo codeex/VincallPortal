@@ -53,4 +53,5 @@ export const defaultRuntime = {
     }
     client.set("currentAgent.status", status);
   },
+  updateTopbarStatus: noop,
 } as RuntimeInterface;

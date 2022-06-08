@@ -29,7 +29,7 @@ export const CallPanelPage = () => {
     disableCallWhenAgentBusy,
     enableCallWhenAgentFree,
     handleCall,
-  } = callPanelPageApp();
+  } = callPanelPageApp({ whichPage: "callpanel" });
 
   const { identity } = useGetIdentity();
   const isComm100Connect = useIsComm100Connect();
