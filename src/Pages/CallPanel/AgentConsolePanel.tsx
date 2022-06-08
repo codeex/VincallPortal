@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDataProvider } from "react-admin";
 import { getConnectSiteId, log } from "../../Helpers/Index";
 import { Embedded } from "./Embedded";
 import { GlobalSettings } from "./types";
 
-let uninstall: any;
-
 export const AgentConsolePanel = () => {
-  useComm100Snippet(getSnippet);
-  return <div id="comm100-agentconsole" style={{ height: "700px" }}></div>;
-  // if (!snippet) {
-  //   return null;
-  // }
-  // return <Embedded title="agent console" snippet={snippet} />;
+  const elementId = "comm100-agentconsole";
+  useComm100Snippet(elementId, install);
+  return <div id={elementId} style={{ height: "700px" }}></div>;
 };
 
 export const useComm100Snippet = (
-  getSnippet: (arg: GlobalSettings, siteId: number) => string
+  elementId: string,
+  install: (arg: GlobalSettings, elementId: string, siteId: number) => any
 ) => {
   const dataProvider = useDataProvider();
-  const [snippet, setSnippet] = useState<string>("");
+  const uninstallRef = useRef<any>(null);
   const siteId = getConnectSiteId();
   useEffect(() => {
-    console.log("useComm100Snippet is mounted");
     dataProvider
       .httpGet("globalSetting", { type: "installcode" })
       .then(({ data = [] }: { data: any[] }) => {
@@ -30,41 +25,17 @@ export const useComm100Snippet = (
           pre[current.key] = current.value;
           return pre;
         }, {}) as GlobalSettings;
-        // setSnippet(getSnippet(obj, siteId));
-        uninstall = install(obj, siteId);
+        uninstallRef.current = install(obj, elementId, siteId);
       });
     return () => {
-      if (uninstall) {
-        uninstall();
+      if (uninstallRef.current) {
+        uninstallRef.current();
       }
     };
   }, []);
-  return snippet;
 };
 
-const getSnippet = (arg: GlobalSettings, siteId: number) => {
-  return `
-  <div id="comm100-agentconsole"></div>
-  <script src="${arg.agentConsole}/sdk/comm100-embedded-client.js"></script>
-  <script>
-    var ac = new EmbeddedAgentConsole({
-      appId: "${arg.agentAppId}",
-      siteId: ${siteId},
-      modules: ["chat"],
-      container: document.getElementById("comm100-agentconsole"),
-    });
-    ac.init().then(client=>{
-      console.log("AgentConsolePanel", client);
-      window.top.__comm100_client = client;
-      window.top.setTimeout(()=>{
-        window.top.Runtime.init();
-      },200);
-    });
-  </script>
-  `;
-};
-
-const install = (arg: GlobalSettings, siteId: number) => {
+const install = (arg: GlobalSettings, elementId: string, siteId: number) => {
   let s2: any;
 
   const s = document.createElement("script");
@@ -78,7 +49,7 @@ const install = (arg: GlobalSettings, siteId: number) => {
       siteId: ${siteId},
       isShowLogout: false,
       isShowExit: false,
-      container: document.getElementById("comm100-agentconsole"),
+      container: document.getElementById("${elementId}"),
     });
     ac.init().then(client=>{
       console.log("AgentConsolePanel", client);
