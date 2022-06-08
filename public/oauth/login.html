@@ -11,19 +11,27 @@
     <div>Logining....</div>
     <script src="./util.js"></script>
     <script>
-      var search = getSearch(),
-        redirect_url = encodeURIComponent(
-          `https://apitest.vincall.net/api/sso/callback?domain=${search.domain}&siteId=${search.siteId}`
-        ),
-        url = `${
-          search.domain
-        }/oauth/authorize?response_type=code&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&siteId=${
-          search.siteId
-        }&scope=${encodeURIComponent(
-          "openid offline_access"
-        )}&redirect_uri=${redirect_url}`;
+      // fetch("https://apivincall.comm100dev.io/api/sso/connectinfo")
+      fetch("https://apitest.vincall.net/api/sso/connectinfo")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          var client_id = data.clientId,
+            search = getSearch(),
+            redirect_url = encodeURIComponent(
+              `https://apitest.vincall.net/api/sso/callback?domain=${search.domain}&siteId=${search.siteId}`
+            ),
+            url = `${
+              search.domain
+            }/oauth/authorize?response_type=code&client_id=${client_id}&siteId=${
+              search.siteId
+            }&scope=${encodeURIComponent(
+              "openid offline_access"
+            )}&redirect_uri=${redirect_url}`;
 
-      location.href = url;
+          location.href = url;
+        });
     </script>
   </body>
 </html>
