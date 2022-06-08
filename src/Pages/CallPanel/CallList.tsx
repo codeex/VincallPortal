@@ -12,6 +12,7 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 import { CallTimeField } from "../Report/CallTimeField";
 import CallIcon from "@mui/icons-material/Call";
 import { format } from "date-fns";
+import { toLocalTime } from "../../Helpers/Index";
 
 export interface CallListProps {
   onClick: any;
@@ -25,6 +26,7 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
 
   return (
     <List
+      title=" "
       resource="calllistsForToday"
       actions={<></>}
       empty={
@@ -101,7 +103,7 @@ const getToNumber = (record: any) => {
 
 const TimeField = ({ source }: any) => {
   const record = useRecordContext();
-  return <span>{format(new Date(record[source]), "yyyy-MM-dd HH:mm")}</span>;
+  return <span>{format(toLocalTime(record[source]), "yyyy-MM-dd HH:mm")}</span>;
 };
 
 export const getCurrentNumber = () => "17058053314";
