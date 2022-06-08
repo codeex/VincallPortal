@@ -1,10 +1,32 @@
-import { useComm100Snippet } from "../CallPanel/AgentConsolePanel";
+import { useEffect, useState } from "react";
+import { useDataProvider } from "react-admin";
+import { getConnectSiteId } from "../../Helpers/Index";
 import { GlobalSettings } from "../CallPanel/types";
 import { EmbeddedPage } from "./EmbeddedPage";
 
 export const ControlPanel = () => {
   const snippet = useComm100Snippet(getSnippet);
   return <EmbeddedPage title="Install Code" snippet={snippet} />;
+};
+
+const useComm100Snippet = (
+  getSnippet: (arg: GlobalSettings, siteId: number) => string
+) => {
+  const dataProvider = useDataProvider();
+  const [snippet, setSnippet] = useState<string>("");
+  const siteId = getConnectSiteId();
+  useEffect(() => {
+    dataProvider
+      .httpGet("globalSetting", { type: "installcode" })
+      .then(({ data = [] }: { data: any[] }) => {
+        const obj = data.reduce((pre, current) => {
+          pre[current.key] = current.value;
+          return pre;
+        }, {}) as GlobalSettings;
+        setSnippet(getSnippet(obj, siteId));
+      });
+  }, []);
+  return snippet;
 };
 
 const getSnippet = (arg: GlobalSettings, siteId: number) => {
