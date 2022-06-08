@@ -35,7 +35,7 @@ const useComm100Snippet = (
 const getSnippet = (arg: GlobalSettings, siteId: number) => {
   return `
   <div id="comm100-controlpanel" style="width:100%; height: 100%"></div>
-  <script src="${arg.controlPanel}/sdk/comm100-embedded-client.js"></script>
+  <script src="${arg.controlPanel}/sdk/comm100-embeddable-sdk/"></script>
   <script>
     var controlPanel = new EmbeddedControlPanel({
       appId: "${arg.controlAppId}",
