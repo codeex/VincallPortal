@@ -6,6 +6,9 @@ import { EmbeddedPage } from "./EmbeddedPage";
 
 export const ControlPanel = () => {
   const snippet = useComm100Snippet(getSnippet);
+  if (!snippet) {
+    return null;
+  }
   return <EmbeddedPage title="Install Code" snippet={snippet} />;
 };
 
