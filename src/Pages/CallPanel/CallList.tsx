@@ -36,6 +36,11 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
       }
       pagination={<CListPagination rowsPerPageOptions={[10, 20, 35]} />}
       perPage={10}
+      queryOptions={{
+        enabled: true,
+        refetchInterval: 30 * 1000,
+        refetchOnMount: true,
+      }}
     >
       <Datagrid size="medium" bulkActionButtons={false}>
         <CallNumberField
