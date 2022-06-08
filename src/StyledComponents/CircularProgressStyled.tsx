@@ -5,6 +5,10 @@ const useStyles = makeStyles(() =>
     root: {
       display: "flex",
       justifyContent: "center",
+      flexFlow: "column",
+      "& .MuiCircularProgress-root": {
+        margin: "auto",
+      },
     },
   })
 );

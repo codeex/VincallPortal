@@ -46,21 +46,26 @@ export const connectPageApp = ({}: ConnectPageAppProps): ConnectPageApp => {
   });
 
   const handleCheckOauth = () => {
-    customHttpClient(
-      `${getServerURL()}/connectState?siteId=${localStorage.getItem(
-        "connectSiteId"
-      )}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => {
-        handleUpdateIsConnect(res.json.connected);
-        setGetState(true);
-      })
-      .catch(() => {
-        handleUpdateIsConnect(false);
-      });
+    if (!localStorage.getItem("connectSiteId")) {
+      setGetState(true);
+      handleUpdateIsConnect(false);
+    } else {
+      customHttpClient(
+        `${getServerURL()}/connectState?siteId=${localStorage.getItem(
+          "connectSiteId"
+        )}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((res) => {
+          handleUpdateIsConnect(res.json.connected);
+          setGetState(true);
+        })
+        .catch(() => {
+          handleUpdateIsConnect(false);
+        });
+    }
 
     customHttpClient(`${getServerURL()}/sso/connectinfo`, {
       method: "GET",
