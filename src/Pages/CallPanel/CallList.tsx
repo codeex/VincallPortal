@@ -3,16 +3,26 @@ import {
   FunctionField,
   List,
   TextField,
-  TopToolbar,
   useRecordContext,
 } from "react-admin";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Tooltip, IconButton } from "@mui/material";
 import { CListPagination } from "../../Components/CPagination";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import { CallTimeField } from "../Report/CallTimeField";
+import CallIcon from "@mui/icons-material/Call";
+import { format } from "date-fns";
 
-export const CallList = () => {
+export interface CallListProps {
+  onClick: any;
+  disabled?: boolean;
+}
+
+export const CallList = ({ onClick, disabled }: CallListProps) => {
+  const handleClick = (record: any) => {
+    onClick && onClick(getToNumber(record));
+  };
+
   return (
     <List
       resource="calllistsForToday"
@@ -32,10 +42,17 @@ export const CallList = () => {
           sortable={false}
         />
         <CallTimeField source="callTime" label="Duration" sortable={false} />
-        <TextField source="createDate" label="Time" sortable={false} />
+        <TimeField source="createDate" label="Time" sortable={false} />
         <FunctionField
           label="Operations"
-          render={(record: any) => <span>operation</span>}
+          render={(record: any) => (
+            <CallOperation
+              onClick={() => {
+                handleClick(record);
+              }}
+              disabled={disabled}
+            />
+          )}
         />
       </Datagrid>
     </List>
@@ -60,4 +77,29 @@ const style = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+};
+
+interface CallOperationProps {
+  onClick: any;
+  disabled?: boolean;
+}
+
+const CallOperation = ({ disabled, onClick }: CallOperationProps) => {
+  return (
+    <Tooltip title="Call to">
+      <IconButton color="primary" disabled={disabled} onClick={onClick}>
+        <CallIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+const getToNumber = (record: any) => {
+  const isIncomingCall = record.extensionNumber === record.to;
+  return isIncomingCall ? record.from : record.to;
+};
+
+const TimeField = ({ source }: any) => {
+  const record = useRecordContext();
+  return <span>{format(new Date(record[source]), "yyyy-MM-dd HH:mm")}</span>;
 };
