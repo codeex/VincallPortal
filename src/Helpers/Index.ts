@@ -46,3 +46,8 @@ export const notification = (message: string) => {
     });
   }
 };
+
+export const toLocalTime = (zeroTimeString: string) => {
+  let offset = new Date().getTimezoneOffset() * 60 * 1000;
+  return new Date(new Date(zeroTimeString).getTime() - offset);
+};
