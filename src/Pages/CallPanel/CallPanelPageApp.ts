@@ -163,6 +163,10 @@ export const callPanelPageApp = () => {
     setTab(newValue);
   };
 
+  const handleCall = (number: any) => {
+    deviceManager.current?.makeOutgoingCall(number);
+  };
+
   return {
     tab,
     agentList,
@@ -181,6 +185,7 @@ export const callPanelPageApp = () => {
     clearCallTimeTask,
     disableCallWhenAgentBusy,
     enableCallWhenAgentFree,
+    handleCall,
   };
 };
 
