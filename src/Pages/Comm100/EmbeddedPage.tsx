@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Title, useDataProvider } from "react-admin";
+import { Title } from "react-admin";
 import { Card } from "@mui/material";
 
 export interface EmbeddedPageProps {
@@ -23,10 +23,13 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
     innerDoc.write(snippet);
     innerDoc.close();
     return () => {
-      if (elRef.current) {
-        elRef.current.removeChild(iframe);
+      if (iframe && iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
       }
-      elRef.current = null;
+      // TODO: need fix.
+      if (elRef.current) {
+        elRef.current.isMounted = false;
+      }
     };
   };
 
@@ -41,7 +44,7 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
   return (
     <Card sx={{ p: 3, mt: 3 }}>
       <Title title={title} />
-      <div id={"comm100-" + id} ref={elRef}></div>
+      <div id={"vincall-comm100-" + id} ref={elRef}></div>
     </Card>
   );
 };

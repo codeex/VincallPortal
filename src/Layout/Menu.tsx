@@ -86,11 +86,11 @@ const Menu = ({ dense = false }: MenuProps) => {
             label="Install Code"
             icon={<DisplaySettingsIcon sx={{ fontSize: "24px !important" }} />}
           />
-          {/* <CMenuItem
-            to="/agentconsole"
-            label="Agent Console"
+          <CMenuItem
+            to="/chatvolume"
+            label="Chat Volume"
             icon={<ContactsIcon sx={{ fontSize: "24px !important" }} />}
-          /> */}
+          />
         </div>
       ) : null}
     </Box>
