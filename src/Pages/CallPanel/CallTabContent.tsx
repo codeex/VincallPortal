@@ -14,20 +14,24 @@ export interface CallTabContentProps {
   currentAgentObject: any;
   disabled?: boolean;
   handleCurrentAgentChange: (p: any) => any;
+  onCallClick: any;
 }
 export const CallTabContent = ({
   isAgentLoading,
   currentAgentId,
   currentAgentObject,
-  handleCurrentAgentChange,
   agentList,
   deviceState,
   deviceManager,
   disabled,
+  handleCurrentAgentChange,
+  onCallClick,
 }: CallTabContentProps) => {
   const canSelectAgentWhenCall = useCheckPermission(
     PermissionEnums.canSelectAgentWhenCall
   );
+  const canCall =
+    deviceState.status === "ready" || deviceState.status === "end";
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       <Box sx={{ minWidth: "306px" }}>
@@ -72,7 +76,7 @@ export const CallTabContent = ({
         )}
       </Box>
       <Box sx={{ flex: 1, marginLeft: 3 }}>
-        <CallList />
+        <CallList disabled={!canCall || disabled} onClick={onCallClick} />
       </Box>
     </Box>
   );

@@ -61,6 +61,7 @@ export const App = function () {
           path="/installcode"
           element={
             <ControlPanel
+              key="Install Code"
               title="Install Code"
               entry="/livechat/campaign/installation/"
             />
@@ -70,6 +71,7 @@ export const App = function () {
           path="/chatvolume"
           element={
             <ControlPanel
+              key="Chat Volume"
               title="Chat Volume"
               entry="/reporting/livechat/chatvolume/chatvolumebytime/"
             />
