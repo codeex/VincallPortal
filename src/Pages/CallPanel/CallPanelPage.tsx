@@ -1,10 +1,10 @@
 import { Card, Box, Tabs, Tab } from "@mui/material";
-import { Title, useGetIdentity, useStore } from "react-admin";
+import { Title, useGetIdentity } from "react-admin";
 import { CTabPanel } from "../../Components/Tabs/CTabPanel";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect } from "react";
 import { CallTabContent } from "./CallTabContent";
-import { isEmbeddedMode, log } from "../../Helpers/Index";
+import { isEmbeddedMode } from "../../Helpers/Index";
 import { Runtime } from "../../Runtime/index";
 import { AgentConsolePanel } from "./AgentConsolePanel";
 import { useIsComm100Connect } from "../../Helpers/useIsComm100Connect";
@@ -28,6 +28,7 @@ export const CallPanelPage = () => {
     clearCallTimeTask,
     disableCallWhenAgentBusy,
     enableCallWhenAgentFree,
+    handleCall,
   } = callPanelPageApp();
 
   const { identity } = useGetIdentity();
@@ -75,6 +76,7 @@ export const CallPanelPage = () => {
           deviceManager={deviceManager}
           handleCurrentAgentChange={handleCurrentAgentChange}
           disabled={isCallDisabled}
+          onCallClick={handleCall}
         />
       </Card>
     );
@@ -120,6 +122,7 @@ export const CallPanelPage = () => {
           deviceManager={deviceManager}
           disabled={isCallDisabled}
           handleCurrentAgentChange={handleCurrentAgentChange}
+          onCallClick={handleCall}
         />
       </CTabPanel>
       {isComm100Connect ? (

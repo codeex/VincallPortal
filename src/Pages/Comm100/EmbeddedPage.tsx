@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Title, useDataProvider } from "react-admin";
+import { Title } from "react-admin";
 import { Card } from "@mui/material";
 
 export interface EmbeddedPageProps {
