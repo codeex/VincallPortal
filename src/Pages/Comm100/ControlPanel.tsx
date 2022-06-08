@@ -14,7 +14,7 @@ export const ControlPanel = ({ title, entry }: ControlPanelProps) => {
   if (!snippet) {
     return null;
   }
-  return <EmbeddedPage key={entry} title={title} snippet={snippet} />;
+  return <EmbeddedPage title={title} snippet={snippet} />;
 };
 
 const useComm100Snippet = (

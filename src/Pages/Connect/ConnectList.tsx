@@ -5,6 +5,8 @@ import Divider from "@mui/material/Divider";
 import { useEffect, useMemo } from "react";
 import { connectListApp } from "./Application/ConnectListApp";
 import { ConnectListStyled } from "../../StyledComponents/ConnectListStyled";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 
 export interface MappingData {
   id: number;
@@ -109,7 +111,7 @@ export const ConnectList = ({
     [mapping]
   );
 
-  return (
+  return !!mapping ? (
     <ConnectListStyled>
       <DataGrid
         columns={columns}
@@ -119,5 +121,10 @@ export const ConnectList = ({
         disableColumnMenu
       />
     </ConnectListStyled>
+  ) : (
+    <>
+      <Typography>User Mapping Data is loading...</Typography>
+      <LinearProgress />
+    </>
   );
 };
