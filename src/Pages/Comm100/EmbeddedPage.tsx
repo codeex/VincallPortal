@@ -27,7 +27,9 @@ export const EmbeddedPage = ({ title = "", snippet }: EmbeddedPageProps) => {
         iframe.parentNode.removeChild(iframe);
       }
       // TODO: need fix.
-      elRef.current.isMounted = false;
+      if (elRef.current) {
+        elRef.current.isMounted = false;
+      }
     };
   };
 
