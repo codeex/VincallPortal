@@ -90,7 +90,12 @@ export const CallPanelPage = () => {
           value={tab}
           onChange={handleTabChange}
           sx={{
-            "& .MuiTab-root": { fontSize: "1rem" },
+            "& .MuiTab-root": {
+              fontSize: "1rem",
+              minHeight: "48px",
+              paddingLeft: 6,
+              paddingRight: 6,
+            },
             "& .MuiSvgIcon-root": {
               marginLeft: 0.5,
               position: "relative",

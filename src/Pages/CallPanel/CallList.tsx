@@ -32,8 +32,8 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
           <Typography>No call record.</Typography>
         </Box>
       }
-      pagination={<CListPagination rowsPerPageOptions={[20, 35, 50]} />}
-      perPage={20}
+      pagination={<CListPagination rowsPerPageOptions={[10, 20, 35]} />}
+      perPage={10}
     >
       <Datagrid size="medium" bulkActionButtons={false}>
         <CallNumberField
