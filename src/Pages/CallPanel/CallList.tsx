@@ -61,7 +61,7 @@ export const CallList = ({ onClick, disabled }: CallListProps) => {
 
 const CallNumberField = ({}: any) => {
   const record = useRecordContext();
-  const isIncomingCall = record.extensionNumber === record.to;
+  const isIncomingCall = isCurrentNumber(record.to);
   return isIncomingCall ? (
     <Box component="span" sx={style}>
       <CallReceivedIcon /> {record.from}
@@ -95,11 +95,16 @@ const CallOperation = ({ disabled, onClick }: CallOperationProps) => {
 };
 
 const getToNumber = (record: any) => {
-  const isIncomingCall = record.extensionNumber === record.to;
+  const isIncomingCall = isCurrentNumber(record.to);
   return isIncomingCall ? record.from : record.to;
 };
 
 const TimeField = ({ source }: any) => {
   const record = useRecordContext();
   return <span>{format(new Date(record[source]), "yyyy-MM-dd HH:mm")}</span>;
+};
+
+export const getCurrentNumber = () => "17058053314";
+export const isCurrentNumber = (value: string) => {
+  return String(value).indexOf("17058053314") !== -1;
 };
