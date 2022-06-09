@@ -33,13 +33,14 @@ export const connectComm100App = ({
     }&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=code`;
     // @ts-ignore
     window.__refreshComm100Connect = triggerPageRefresh;
+    console.log("innerWidth >>", window.innerWidth);
     window.open(
       url,
       "ConnectPage",
       `
         width = 500,
         height = 678,
-        left = ${window.innerWidth / 2 - 250},
+        left = ${500},
         top = ${window.innerHeight / 2 - 339},
         menubar = false,
         toolbar = false,
