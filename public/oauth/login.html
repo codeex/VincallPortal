@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/vincall.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Vincall manage system" />
     <title>Vin Call</title>
@@ -11,13 +11,31 @@
     <div>Logining....</div>
     <script src="./util.js"></script>
     <script>
-      var search = getSearch(),
-        redirect_url = encodeURIComponent(
-          `https://apivincall.comm100dev.io/api/sso/callback?domain=${search.domain}&siteId=${search.siteId}`
-        ),
-        url = `${search.domain}/oauth/authorize?response_type=code&client_id=F39DEFBC-FE17-4091-9541-1F39B79ACEDB&siteId=${search.siteId}&redirect_uri=${redirect_url}`;
-
-      location.href = url;
+      fetch(`${__server_url}/api/sso/comm100connectinfo`)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          var client_id = data.clientId,
+            search = getSearch(),
+            returnuri =
+              search.returnuri ||
+              location.protocol +
+                "//" +
+                location.host +
+                "/oauth/logoncallpanel",
+            redirect_url = encodeURIComponent(
+              `${__server_url}/api/sso/callback?domain=${search.domain}&siteId=${search.siteId}&returnuri=${returnuri}`
+            ),
+            url = `${
+              search.domain
+            }/oauth/authorize?response_type=code&client_id=${client_id}&siteId=${
+              search.siteId
+            }&scope=${encodeURIComponent(
+              "openid offline_access"
+            )}&redirect_uri=${redirect_url}`;
+          location.href = url;
+        });
     </script>
   </body>
 </html>

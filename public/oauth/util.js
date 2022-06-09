@@ -7,3 +7,15 @@ function getSearch() {
     }, {});
   return searchObject;
 }
+
+function onlogin(search) {
+  localStorage.setItem("userName", search.userName);
+  localStorage.setItem("userId", search.userId);
+  localStorage.setItem("vincallRole", search.role);
+  localStorage.setItem("userAccount", search.userAccount);
+}
+
+window.__server_url =
+  location.host === "wwwtest.vincall.net"
+    ? "https://apitest.vincall.net"
+    : "https://apivincall.comm100dev.io";
