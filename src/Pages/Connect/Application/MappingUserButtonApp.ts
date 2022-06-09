@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNotify } from "react-admin";
 import { getServerURL } from "../../../App";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 
@@ -23,6 +24,7 @@ export const mappingUserButtonApp = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const notify = useNotify();
   const handleSave = (values: any) => {
     const unchangedData = allData
       .filter((data: { id: any; comm100AgentId: string }) => {
@@ -49,10 +51,19 @@ export const mappingUserButtonApp = ({
         method: "PUT",
         body: JSON.stringify(newData),
       }
-    ).then(() => {
-      setOpen(false);
-      onRefresh();
-    });
+    )
+      .then(() => {
+        setOpen(false);
+        onRefresh();
+        notify("Map user successfully!", {
+          type: "success",
+        });
+      })
+      .catch(() => {
+        notify("Failed to map user!", {
+          type: "warning",
+        });
+      });
   };
 
   return {

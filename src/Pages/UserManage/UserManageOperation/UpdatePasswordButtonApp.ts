@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDataProvider } from "react-admin";
+import { useDataProvider, useNotify } from "react-admin";
 import { UserRecord } from "../UserList";
 
 export interface UpdatePasswordValue {
@@ -22,6 +22,7 @@ export const updatePasswordButtonApp = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const dataProvider = useDataProvider();
+  const notify = useNotify();
 
   const handleClose = () => setOpen(false);
   const handleSave = async (values: UpdatePasswordValue) => {
@@ -30,7 +31,17 @@ export const updatePasswordButtonApp = ({
         id: record.id,
         data: { password: values.password },
       })
-      .then(() => setOpen(false));
+      .then(() => {
+        setOpen(false);
+        notify("Update password successfully!", {
+          type: "success",
+        });
+      })
+      .catch(() => {
+        notify("Failed to update password!", {
+          type: "warning",
+        });
+      });
   };
 
   return {
