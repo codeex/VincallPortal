@@ -25,11 +25,19 @@ export const authProvider: AuthProvider = {
       });
   },
   logout: () => {
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("vincallRole");
-    localStorage.removeItem("userAccount");
-    return Promise.resolve();
+    return customHttpClient(`${getServerURL()}/logout`, {
+      method: "GET",
+    })
+      .then(() => {
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("vincallRole");
+        localStorage.removeItem("userAccount");
+        return Promise.resolve();
+      })
+      .catch(() => {
+        return Promise.reject();
+      });
   },
   checkAuth: () => {
     return Promise.resolve();

@@ -38,9 +38,9 @@ export const connectComm100App = ({
       "ConnectPage",
       `
         width = 500,
-        height = 600,
-        left = 0,
-        top = 0,
+        height = 678,
+        left = ${window.innerWidth / 2 - 250},
+        top = ${window.innerHeight / 2 - 339},
         menubar = false,
         toolbar = false,
         location = false,
