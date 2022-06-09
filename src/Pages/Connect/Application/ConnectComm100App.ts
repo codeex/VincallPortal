@@ -48,10 +48,6 @@ export const connectComm100App = ({
         scrollbars = true
       `
     );
-    window.addEventListener("move", (e) => {
-      win?.moveBy(window.innerWidth / 2 - 250, window.innerHeight / 2 - 339);
-    });
-    // win?.moveTo(window.innerWidth / 2 - 250, window.innerHeight / 2 - 339);
   };
 
   const handleDisconnect = () => {
