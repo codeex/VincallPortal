@@ -66,7 +66,7 @@ export const PhoneDialer = () => {
       case "outingCalling":
         {
           const updateInfo = {
-            id: "vincall-top-bar",
+            id: "vincall-phone",
             icon: "./images/calling.png",
             label: "",
             tooltip: "On Call.",
@@ -88,7 +88,7 @@ export const PhoneDialer = () => {
           }
 
           appClient.do("agentconsole.popper.open", {
-            widgetId: "vincall-top-bar",
+            widgetId: "vincall-phone",
             url: "https://wwwtest.vincall.net/#/phonedialer",
             width: 337,
             height: 585,
@@ -97,7 +97,7 @@ export const PhoneDialer = () => {
         break;
       default:
         appClient.set("agentconsole.topBar.buttons", {
-          id: "vincall-top-bar",
+          id: "vincall-phone",
           icon: "./images/default.png",
           label: "",
           tooltip: "Available.",
