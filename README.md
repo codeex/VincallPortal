@@ -4,6 +4,7 @@ vincall.portal is a frontend project mainly using react-admin and TypeScript. It
 
 Here is a brief description of the project directory:
 
+```bash
 src
   ├─Assets # images and icons
   ├─AuthProvider # authProvider of react-admin
@@ -14,6 +15,7 @@ src
   ├─Layout # layout of UI
   ├─Pages # all pages of the project
   └─StyledComponents # styled React UI component.
+```
 
 
 # Initializing
