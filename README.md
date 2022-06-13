@@ -17,7 +17,6 @@ src
   └─StyledComponents # styled React UI component.
 ```
 
-
 # Initializing
 To install dependencies, run below command in powershell:
   - npm install
@@ -31,6 +30,7 @@ To run project in local, run below command in powershell:
   - You can modify file `setupProxy.js` to set up proxy.
 
 2. Setting Up Domains For APIs
+  - You can modify file `EnvConfig.js` to set up custom domain names.
 
 3. Modifying APIs
   There are two recommended ways to modify APIs in vincall.portal. 
