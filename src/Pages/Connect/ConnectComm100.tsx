@@ -4,12 +4,13 @@ import { Form, Formik } from 'formik';
 import { FormErrorMessageStyled  } from "../../StyledComponents/FormErrorMessageStyled";
 import { connectComm100App } from "./Application/ConnectComm100App";
 import * as Yup from "yup";
+import { ConnectInfo } from "./Application/ConnectPageApp";
 
 export interface ConnectComm100Props {
   connected: boolean;
   setConnected: (c: boolean) => void;
   triggerPageRefresh: (connected?: boolean) => void;
-  connectInfo: any;
+  connectInfo: ConnectInfo;
 }
 
 const validateSchema = Yup.object().shape({

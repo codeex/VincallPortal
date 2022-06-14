@@ -1,15 +1,16 @@
 import { getServerURL } from "../../../App";
 import { customHttpClient } from "../../../DataProvider/customHttpClient";
 import { EnvConfig } from "../../../EnvConfig";
+import { ConnectInfo } from "./ConnectPageApp";
 
 export interface ConnectComm100AppProps {
   setConnected: any;
-  triggerPageRefresh: any;
-  connectInfo: any;
+  triggerPageRefresh: (connected?: boolean) => void;
+  connectInfo: ConnectInfo;
 }
 
 export interface ConnectComm100ButtonApp {
-  handleConnect: (values: any) => void;
+  handleConnect: (values: { siteId: string }) => void;
   handleDisconnect: () => void;
 }
 
