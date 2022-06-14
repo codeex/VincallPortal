@@ -17,10 +17,6 @@ import { ConnectPage } from "./Pages/Connect/ConnectPage";
 import { PhoneDialer } from "./Pages/CallPanel/PhoneDialer";
 
 export const getServerURL = () => {
-  if (process.env.NODE_ENV === "development") {
-    // append /api from proxy.
-    return `http://${location.host}/api`;
-  }
   return EnvConfig.serverUrl;
 };
 
