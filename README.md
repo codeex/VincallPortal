@@ -24,6 +24,7 @@ To install dependencies, run below command in powershell:
 # Running
 To run project in local, run below command in powershell:
   - npm run start
+
 If you want to customize your local server, you can modify file `.env.development`. By default, host is `localhost` and port is `3000`.
 
 # Modifying configuration
