@@ -1,6 +1,9 @@
 import { Button, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
+import { Form, Formik } from 'formik';
+import { FormErrorMessageStyled  } from "../../StyledComponents/FormErrorMessageStyled";
 import { connectComm100App } from "./Application/ConnectComm100App";
+import * as Yup from "yup";
 
 export interface ConnectComm100Props {
   connected: boolean;
@@ -9,13 +12,17 @@ export interface ConnectComm100Props {
   connectInfo: any;
 }
 
+const validateSchema = Yup.object().shape({
+  siteId: Yup.string().required("Site ID cannot be empty."),
+});
+
 export const ConnectComm100 = ({
   connected,
   setConnected,
   triggerPageRefresh,
   connectInfo,
 }: ConnectComm100Props) => {
-  const { handleConnect, handleDisconnect, ref } = connectComm100App({
+  const { handleConnect, handleDisconnect } = connectComm100App({
     setConnected,
     triggerPageRefresh,
     connectInfo,
@@ -28,7 +35,7 @@ export const ConnectComm100 = ({
           <Typography>You are already connected.</Typography>
           <Typography>
             Connected Site ID:{" "}
-            {localStorage.getItem("connectSiteId") || ref.current}
+            {localStorage.getItem("connectSiteId")}
           </Typography>
           <Button variant="contained" onClick={handleDisconnect}>
             Disconnect Comm100
@@ -40,18 +47,38 @@ export const ConnectComm100 = ({
             You must connect to Comm100 to get account mappings, Please click
             the button below.
           </Typography>
-          <div>
-            <TextField
-              label="Site ID"
-              variant="outlined"
-              onChange={(e: any) => (ref.current = e.target.value)}
-            />
-          </div>
-          <div>
-            <Button variant="contained" onClick={handleConnect}>
-              Connect Comm100
-            </Button>
-          </div>
+          <Formik
+            initialValues={{
+              siteId: "",
+            }}
+            onSubmit={(values) => handleConnect(values)}
+            validationSchema={validateSchema}
+          >
+            {({ errors, setFieldValue }) => {
+              return (
+                <Form>
+                  <TextField 
+                    id="siteId"
+                    label="Site ID"
+                    sx={{ width: 300 }}
+                    onChange={(event) => 
+                      setFieldValue("siteId", event.target.value || "")
+                    }
+                    error={!!errors.siteId}
+                    variant="outlined"
+                  />
+                  {errors.siteId ? (
+                    <FormErrorMessageStyled>{`${errors.siteId}`}</FormErrorMessageStyled>
+                  ) : null}
+                  <div>
+                    <Button type="submit" variant="contained">
+                      Connect Comm100
+                    </Button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
         </>
       )}
     </div>
