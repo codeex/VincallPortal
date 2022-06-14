@@ -21,11 +21,10 @@ src
 To install dependencies, run below command in powershell:
   - npm install
 
-By default, we use `frontend.comm100dev.io` as host and `80` as port. So you need to modify your hosts file(C:\Windows\System32\drivers\etc), add `127.0.0.1 frontend.comm100dev.io` in hosts file. You can modify file `.env.development` to set up any host you want. Or just delete the custom configuration, react app will use `localhost:3000` by default.
-
 # Running
 To run project in local, run below command in powershell:
   - npm run start
+If you want to customize your local server, you can modify file `.env.development`. By default, host is `localhost` and port is `3000`.
 
 # Modifying configuration
 1. Setting Up Proxy
