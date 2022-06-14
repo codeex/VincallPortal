@@ -1,5 +1,5 @@
-import { APPClient } from "@comm100/app-client";
-import { APPAPI } from "@comm100/app-client/type";
+import { APPClient } from "comm100-app";
+import { APPAPI } from "comm100-app/type";
 import { AgentCallStatus } from "../Pages/CallPanel/types";
 import { RuntimeInterface } from "./index";
 

@@ -1,4 +1,4 @@
-import { APPAPI } from "@comm100/app-client/type";
+import { APPAPI } from "comm100-app/type";
 import { notification } from "../Helpers/Index";
 import { checkIfAgentFree } from "./comm100Runtime";
 import { RuntimeInterface } from "./index";
@@ -22,11 +22,11 @@ export const defaultRuntime = {
     if (!client) {
       return;
     }
-    client.on("agentconsole.navBar.select", (leftTab) => {
+    client.on("agentconsole.navBar.select", (leftTab: any) => {
       console.log("Ray: agentconsole.navBar.select", leftTab);
     });
 
-    client.on("agentconsole.chat.request", (args) => {
+    client.on("agentconsole.chat.request", (args: any) => {
       console.log("Ray: agentconsole.chat.request", args);
       notification("New chat comes");
     });

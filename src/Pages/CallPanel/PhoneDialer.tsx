@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useGetIdentity } from "react-admin";
-import { APPClient } from "@comm100/app-client";
+import { APPClient } from "comm100-app";
 import { callPanelPageApp } from "./CallPanelPageApp";
 import { useEffect, useRef } from "react";
 import { Runtime } from "../../Runtime/index";
