@@ -18,7 +18,7 @@ export const connectComm100App = ({
   triggerPageRefresh,
   connectInfo,
 }: ConnectComm100AppProps): ConnectComm100ButtonApp => {
-  const handleConnect = (values: any) => {
+  const handleConnect = (values: { siteId: string }) => {
     const siteId = values.siteId;
     localStorage.setItem("connectSiteId", siteId || "");
     const redirect_url = `${EnvConfig.serverUrl}/sso/connectcallback?siteId=${siteId}&domain=${connectInfo.domain}`;

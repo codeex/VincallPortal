@@ -7,8 +7,8 @@ import * as Yup from "yup";
 
 export interface ConnectComm100Props {
   connected: boolean;
-  setConnected: any;
-  triggerPageRefresh: any;
+  setConnected: (c: boolean) => void;
+  triggerPageRefresh: (connected?: boolean) => void;
   connectInfo: any;
 }
 

@@ -6,10 +6,11 @@ import { bindUserFormApp } from "./Application/BindUserFormApp";
 import * as Yup from "yup";
 import { FormErrorMessageStyled } from "../../../StyledComponents/FormErrorMessageStyled";
 import { FormButtonStyled } from "../../../StyledComponents/FormButtonStyled";
+import { AgentRecord } from "./BindUserButton";
 
 export interface BindUserFormProps {
-  onSubmit: (values: any) => void;
-  record: any;
+  onSubmit: (values: { userAccount: string }) => void;
+  record: AgentRecord;
   onCancel: () => void;
 }
 

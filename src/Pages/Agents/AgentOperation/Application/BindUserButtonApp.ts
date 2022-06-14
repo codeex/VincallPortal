@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useNotify, useUpdate } from "react-admin";
+import { AgentRecord } from "../BindUserButton";
 
 export interface BindUserButtonAppProps {
-  record: any;
+  record: AgentRecord;
 }
 
 export interface BindUserButtonApp {
   handleOpen: () => void;
   handleClose: () => void;
-  handleSave: (values: any) => void;
+  handleSave: (values: { userAccount: string }) => void;
   open: boolean;
 }
 
@@ -21,7 +22,7 @@ export const bindUserButtonApp = ({
   const notify = useNotify();
 
   const handleClose = () => setOpen(false);
-  const handleSave = (values: any) => {
+  const handleSave = (values: { userAccount: string }) => {
     update("agents", {
       id: record.id,
       data: { ...record, userAccount: values.userAccount },

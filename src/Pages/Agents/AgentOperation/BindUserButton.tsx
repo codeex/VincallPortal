@@ -3,8 +3,17 @@ import { DrawerPage } from "../../DrawerPage";
 import { bindUserButtonApp } from "./Application/BindUserButtonApp";
 import { BindUserForm } from "./BindUserForm";
 
+export interface AgentRecord {
+  createDate: any;
+  deviceNumber: string;
+  id: number;
+  remark: string;
+  state: number;
+  userAccount: any;
+}
+
 export interface BindUserButtonProps {
-  record: any;
+  record: AgentRecord;
 }
 
 export const BindUserButton = ({ record }: BindUserButtonProps) => {
